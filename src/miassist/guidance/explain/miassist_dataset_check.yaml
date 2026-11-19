@@ -1,0 +1,29 @@
+# Explanations for miassist_dataset_check (004; FR-004.20: only beginners see them).
+version: 1
+outcomes:
+  awaiting_publish_checks:
+    what_happened: miAssist built the version's files and read the reports that exist.
+    why_it_matters: The full [[publish-check]] run is the operator's step; until it runs, every check
+      without a result counts as amber.
+    what_good_looks_like: The operator's check run, then every check explained.
+    next_step: Ask the operator to run the checks in miDataworks, then pass the run id.
+  checking:
+    what_happened: The version's files or the checks are still running.
+    why_it_matters: The verdict is complete only when they finish.
+    what_good_looks_like: Every check with a result.
+    next_step: Check again in a little while.
+  checked:
+    what_happened: Every check of the operator's run is explained.
+    why_it_matters: Amber blocks a public publish only; refused blocks every publish.
+    what_good_looks_like: Green checks, or notes you understand.
+    next_step: Publish with miassist_dataset_publish, if you choose.
+  version_ready:
+    what_happened: The version is built; its checks come next.
+    why_it_matters: Checks show leakage, shortcuts and licence problems before anyone sees the data.
+    what_good_looks_like: Every check with a result.
+    next_step: Check it.
+  unavailable:
+    what_happened: miDataworks is not answering, so nothing was asked of it.
+    why_it_matters: No change was made anywhere.
+    what_good_looks_like: miDataworks answering its health check again.
+    next_step: Check the status again later.

@@ -1,0 +1,169 @@
+{
+ "$id": "miassist.eval-bar/v1",
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "additionalProperties": false,
+ "if": {
+  "properties": {
+   "status": {
+    "const": "confirmed"
+   }
+  }
+ },
+ "properties": {
+  "baseline_goal_set_sha256": {
+   "oneOf": [
+    {
+     "type": "null"
+    },
+    {
+     "pattern": "^[0-9a-f]{64}$",
+     "type": "string"
+    }
+   ]
+  },
+  "baseline_report": {
+   "type": [
+    "string",
+    "null"
+   ]
+  },
+  "cells": {
+   "items": {
+    "additionalProperties": false,
+    "properties": {
+     "client": {
+      "minLength": 1,
+      "type": "string"
+     },
+     "playbook": {
+      "minLength": 1,
+      "type": "string"
+     },
+     "tier": {
+      "minLength": 1,
+      "type": "string"
+     }
+    },
+    "required": [
+     "playbook",
+     "client",
+     "tier"
+    ],
+    "type": "object"
+   },
+   "minItems": 1,
+   "type": "array"
+  },
+  "confirmed_on": {
+   "type": [
+    "string",
+    "null"
+   ]
+  },
+  "criteria": {
+   "additionalProperties": false,
+   "properties": {
+    "calls_reduction": {
+     "additionalProperties": false,
+     "properties": {
+      "min": {
+       "type": "number"
+      }
+     },
+     "required": [
+      "min"
+     ],
+     "type": "object"
+    },
+    "first_useful_active": {
+     "additionalProperties": false,
+     "properties": {
+      "k": {
+       "type": "integer"
+      },
+      "of": {
+       "type": "integer"
+      },
+      "seconds": {
+       "type": "integer"
+      }
+     },
+     "required": [
+      "seconds",
+      "k",
+      "of"
+     ],
+     "type": "object"
+    },
+    "success": {
+     "additionalProperties": false,
+     "properties": {
+      "k": {
+       "type": "integer"
+      },
+      "of": {
+       "type": "integer"
+      }
+     },
+     "required": [
+      "k",
+      "of"
+     ],
+     "type": "object"
+    }
+   },
+   "required": [
+    "success",
+    "calls_reduction",
+    "first_useful_active"
+   ],
+   "type": "object"
+  },
+  "schema": {
+   "const": "miassist.eval-bar/v1"
+  },
+  "status": {
+   "enum": [
+    "provisional",
+    "confirmed",
+    "deferred"
+   ]
+  },
+  "words": {
+   "type": [
+    "string",
+    "null"
+   ]
+  }
+ },
+ "required": [
+  "schema",
+  "status",
+  "criteria",
+  "cells",
+  "confirmed_on",
+  "words",
+  "baseline_report",
+  "baseline_goal_set_sha256"
+ ],
+ "then": {
+  "properties": {
+   "baseline_goal_set_sha256": {
+    "type": "string"
+   },
+   "baseline_report": {
+    "minLength": 1,
+    "type": "string"
+   },
+   "confirmed_on": {
+    "minLength": 1,
+    "type": "string"
+   },
+   "words": {
+    "minLength": 1,
+    "type": "string"
+   }
+  }
+ },
+ "type": "object"
+}

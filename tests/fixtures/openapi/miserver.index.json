@@ -1,0 +1,1040 @@
+{
+ "app": "miserver",
+ "commit": "3309a0f1",
+ "ref": "3309a0f1",
+ "routes": [
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/approvals"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/approvals/actions"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/approvals/approve-batch"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/approvals/{approval_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/approvals/{approval_id}/approve"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/approvals/{approval_id}/reject"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/circuit-sensing/events"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/circuit-sensing/events"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/circuit-sensing/events/{event_id}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/circuit-sensing/status"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/circuit-sensing/{circuit_id}/disable"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/circuit-sensing/{circuit_id}/enable"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/circuits"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/circuits/active"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PUT",
+   "path": "/api/circuits/active/intensity"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/circuits/claims"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/circuits/claims/release"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/circuits/import"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/circuits/{circuit_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/circuits/{circuit_id}/activate"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/circuits/{circuit_id}/deactivate"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/circuits/{circuit_id}/export"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/clusters"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PUT",
+   "path": "/api/clusters/active/intensity"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/clusters/hub/import"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/clusters/hub/search"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/clusters/hub/{repo_id}/definitions"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/clusters/import"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/clusters/{cluster_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/clusters/{cluster_id}/activate"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/clusters/{cluster_id}/deactivate"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/clusters/{cluster_id}/export"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PUT",
+   "path": "/api/clusters/{cluster_id}/intensity"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/environment"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PUT",
+   "path": "/api/environment",
+   "x-approval-action": "telemetry_write"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/environment/history"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PUT",
+   "path": "/api/environment/{key}",
+   "x-approval-action": "telemetry_write"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/environment/{key}",
+   "x-approval-action": "telemetry_write"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/health"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/health/circuits"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/health/circuits/{name}/reset"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/health/detailed"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/health/gpus"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/health/inference"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/health/metrics"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/health/metrics/prometheus"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/health/ready"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/health/version"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/models"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/models"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/models/preview"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/models/{model_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/models/{model_id}",
+   "x-approval-action": "model_delete"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/models/{model_id}/cancel"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/models/{model_id}/lease"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/models/{model_id}/lease"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/models/{model_id}/lease"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/models/{model_id}/lease/renew"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/models/{model_id}/load",
+   "x-approval-action": "model_load"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/models/{model_id}/lock"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/models/{model_id}/probe-capacity"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/models/{model_id}/probe-capacity/measure",
+   "x-approval-action": "capacity_measure"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PUT",
+   "path": "/api/models/{model_id}/probe-limits",
+   "x-approval-action": "probe_limits_write"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/models/{model_id}/probe-limits/recommendation"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/models/{model_id}/unload",
+   "x-approval-action": "model_unload"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/models/{model_id}/unlock"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/monitoring"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/monitoring/configure"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/monitoring/enable"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/monitoring/history"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/monitoring/history"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/monitoring/statistics"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/monitoring/statistics"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/monitoring/statistics/top"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/probes"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/probes/behaviours"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/probes/behaviours/{key}/arm"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/probes/behaviours/{key}/disarm"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/probes/behaviours/{key}/rule-signals"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PUT",
+   "path": "/api/probes/behaviours/{key}/rule-signals"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/probes/behaviours/{key}/rule-signals"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/probes/behaviours/{key}/verdict"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PUT",
+   "path": "/api/probes/behaviours/{key}/verdict"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/probes/behaviours/{key}/verdict"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/probes/events"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/probes/events"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/probes/events/{event_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/probes/hub/import"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/probes/hub/search"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/probes/hub/{repo_id}/definitions"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/probes/import"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/probes/score"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/probes/sessions"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/probes/sessions/sample"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/probes/sessions/{session_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/probes/sessions/{session_id}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/probes/sessions/{session_id}/transcript"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/probes/status"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/probes/{probe_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/probes/{probe_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/probes/{probe_id}/arm"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/probes/{probe_id}/disarm"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/probes/{probe_id}/parity"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/probes/{probe_id}/recalibrate"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/profiles"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/profiles"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/profiles/active"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/profiles/import"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/profiles/save-current"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/profiles/{profile_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PATCH",
+   "path": "/api/profiles/{profile_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/profiles/{profile_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/profiles/{profile_id}/activate"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/profiles/{profile_id}/deactivate"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/profiles/{profile_id}/export"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/rule-sets"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/rule-sets/import",
+   "x-approval-action": "code_rule_import"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/rule-sets/validate"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/rule-sets/validators"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/rule-sets/{rule_set_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/rule-sets/{rule_set_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/rule-sets/{rule_set_id}/evaluate"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/saes"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/saes/attach-set"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/saes/attachment"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/saes/attachments"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/saes/download"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/saes/monitoring"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/saes/preview"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/saes/steering"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/saes/steering"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/saes/steering"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/saes/steering/batch"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/saes/steering/disable"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/saes/steering/enable"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/saes/steering/{feature_idx}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/saes/{sae_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/saes/{sae_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/saes/{sae_id}/attach"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/saes/{sae_id}/cancel"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/saes/{sae_id}/compatibility"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/saes/{sae_id}/detach"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/sensing/events"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/sensing/events"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/sensing/events/{event_id}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/sensing/status"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PUT",
+   "path": "/api/sensing/{profile_id}/config"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/sensing/{profile_id}/disable"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/sensing/{profile_id}/enable"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/settings/hf-token"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PUT",
+   "path": "/api/settings/hf-token"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/settings/hf-token"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/settings/hf-token/test"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/weights/adapter"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/weights/adapter/load"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/weights/adapter/unload"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/weights/attach"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/weights/clear-stale"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/weights/commit-begin"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/weights/commit-end"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/weights/detach"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/weights/heartbeat"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/weights/lineage"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/weights/load"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/weights/quiesce"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/weights/resume"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/weights/save"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/weights/status"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/v1/batches"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/v1/batches"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/v1/batches/{batch_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/v1/batches/{batch_id}/cancel"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/v1/batches/{batch_id}/lease"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/v1/chat/completions"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/v1/completions"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/v1/embeddings"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/v1/files"
+  },
+  {
+   "content_types": [
+    "multipart/form-data"
+   ],
+   "method": "POST",
+   "path": "/v1/files"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/v1/files/{file_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/v1/files/{file_id}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/v1/files/{file_id}/content"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/v1/models"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/v1/models/{model_id}"
+  }
+ ],
+ "taken": "2026-11-17"
+}

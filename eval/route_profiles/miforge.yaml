@@ -1,0 +1,207 @@
+# Route profile for miforge (FTDD §4.3), written by eval/scripts/write_route_profiles.py from
+# the reference OpenAPI; edit the script, not this file. No GPU route is listed here (R2M-14):
+# the guarded list is derived from the vendored payload vectors at suite start.
+schema: miassist.eval-route-profile/v1
+app: miforge
+agent_header:
+  name: X-Miforge-Agent
+  value: agent:miassist
+default_match:
+- query
+- body
+routes:
+- method: GET
+  route: /api/health
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/adapters
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/approvals
+  list:
+    items: approvals
+    id: id
+    counts:
+    - count
+- method: GET
+  route: /api/v1/approvals/actions
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/approvals/{approval_id}
+  poll_of: approval
+  state_field: status
+  open_states:
+  - pending
+  closed_states:
+  - rejected
+  - expired
+  run_states:
+  - executing
+  done_states:
+  - executed
+  - failed
+- method: GET
+  route: /api/v1/attachment
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/chains
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/checkpoints
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/gpus
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/host/resources
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/hub/revision
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/merges
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/midataworks/available-parts
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/midataworks/status
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/models/local
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/models/sources
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/pack-drafts
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/packs
+  list:
+    items: packs
+    id: id
+- method: GET
+  route: /api/v1/parts
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/providers
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/purges
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/refresh-modes
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/run-types
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/runs
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/selectors
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/settings
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/settings/history
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/signal-sources
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/stop-conditions
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/tokenizers/local
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/tree
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/wsp/bundles
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/wsp/endpoints
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/wsp/providers
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/wsp/runs
+  list:
+    items: '*'
+    id: id
+- method: POST
+  route: /api/v1/chains
+  creates: true
+- method: POST
+  route: /api/v1/pack-drafts
+  creates: true
+- method: POST
+  route: /api/v1/packs
+  creates: true

@@ -1,0 +1,53 @@
+# Origin: miForge (Onegaishimas/miForge) .github/workflows/deploy-manual.yml @ e4251e4
+# Mode: adapt (docs/REUSE.md). Builds and publishes the manual to GitHub Pages FROM THE MIRROR ONLY,
+# least-privilege tokens per job (Foundation 7.3).
+name: Deploy Manual to GitHub Pages
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'manual/**'
+      - '.github/workflows/deploy-manual.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+jobs:
+  build:
+    if: github.repository == 'hitsainet/miAssist'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: manual/package-lock.json
+      - name: Install dependencies
+        working-directory: manual
+        run: npm ci
+      - name: Build Docusaurus site
+        working-directory: manual
+        run: npm run build
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: manual/build
+  deploy:
+    if: github.repository == 'hitsainet/miAssist'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

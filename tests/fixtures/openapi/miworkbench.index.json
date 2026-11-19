@@ -1,0 +1,2511 @@
+{
+ "app": "miworkbench",
+ "commit": "06ab2ee30",
+ "ref": "06ab2ee30",
+ "routes": [
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/health"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/internal/steering/reconcile-worker"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/internal/ws/emit"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/analysis/cleanup"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/circuit-capture"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/circuit-capture"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/circuit-capture/{run_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/circuit-capture/{run_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/circuit-capture/{run_id}/cancel"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/circuit-capture/{run_id}/confirm"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/circuit-discovery"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/circuit-discovery"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/circuit-discovery/refine-cluster-edge"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/circuit-discovery/{run_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/circuit-discovery/{run_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/circuit-discovery/{run_id}/attribution"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/circuit-discovery/{run_id}/attribution/cancel"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/circuit-discovery/{run_id}/build-circuit"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/circuit-discovery/{run_id}/cancel"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/circuit-discovery/{run_id}/validate"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/circuit-discovery/{run_id}/validate/cancel"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/circuits"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/circuits"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/circuits/calibration-manifests/{manifest_id}/reproduce"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/circuits/import"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/circuits/steering-samples"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/circuits/steering-samples/{run_id}/cancel"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/circuits/{circuit_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PATCH",
+   "path": "/api/v1/circuits/{circuit_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/circuits/{circuit_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/circuits/{circuit_id}/calibration"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/circuits/{circuit_id}/calibration/cancel"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/circuits/{circuit_id}/export"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/circuits/{circuit_id}/export-slices"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/circuits/{circuit_id}/faithfulness"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/circuits/{circuit_id}/faithfulness/cancel"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/circuits/{circuit_id}/promote"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/cluster-profiles"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/cluster-profiles"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/cluster-profiles/export-bundle"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/cluster-profiles/import"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/cluster-profiles/{profile_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PATCH",
+   "path": "/api/v1/cluster-profiles/{profile_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/cluster-profiles/{profile_id}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/cluster-profiles/{profile_id}/export"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/code-rules/{code_sha256}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/code-rules/{code_sha256}/approval-requests"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/code-rules/{code_sha256}/approve"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/code-rules/{code_sha256}/revoke"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/datasets"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/datasets"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/datasets/download"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/datasets/tokenize-preview"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/datasets/{dataset_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PATCH",
+   "path": "/api/v1/datasets/{dataset_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/datasets/{dataset_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/datasets/{dataset_id}/cancel"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/datasets/{dataset_id}/samples"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/datasets/{dataset_id}/task-status"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/datasets/{dataset_id}/tokenization"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/datasets/{dataset_id}/tokenizations"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/datasets/{dataset_id}/tokenizations/{model_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/datasets/{dataset_id}/tokenizations/{tokenization_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/datasets/{dataset_id}/tokenizations/{tokenization_id}/cancel"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/datasets/{dataset_id}/tokenize"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/enhanced-labeling/{job_id}/cancel"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/environment"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/environment/history"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PUT",
+   "path": "/api/v1/environment/{key}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/environment/{key}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/extraction-templates"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/extraction-templates"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/extraction-templates/export"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/extraction-templates/favorites"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/extraction-templates/import"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/extraction-templates/{template_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PATCH",
+   "path": "/api/v1/extraction-templates/{template_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/extraction-templates/{template_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/extraction-templates/{template_id}/favorite"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/extractions"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/extractions/{extraction_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/extractions/{extraction_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/extractions/{extraction_id}/analyze-nlp"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/extractions/{extraction_id}/cancel-nlp"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/extractions/{extraction_id}/feature-groups"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/extractions/{extraction_id}/feature-groups/compute"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/extractions/{extraction_id}/feature-groups/status"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/extractions/{extraction_id}/feature-groups/{group_id}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/extractions/{extraction_id}/features"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/extractions/{extraction_id}/features/by-token"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/extractions/{extraction_id}/label"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/extractions/{extraction_id}/label/enhanced/batch"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/extractions/{extraction_id}/reset-nlp"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/feature-groups/runs/{run_id}/cancel"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/features/{feature_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PATCH",
+   "path": "/api/v1/features/{feature_id}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/features/{feature_id}/ablation"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/features/{feature_id}/analyze-nlp"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/features/{feature_id}/correlations"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/features/{feature_id}/examples"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/features/{feature_id}/favorite"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/features/{feature_id}/label/enhanced"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/features/{feature_id}/label/enhanced/latest"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/features/{feature_id}/logit-lens"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/features/{feature_id}/nlp-analysis"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/features/{feature_id}/related"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/features/{feature_id}/star"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/features/{feature_id}/token-analysis"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/jlens/acquire"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/jlens/acquire/preview"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/jlens/annotate"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/jlens/annotation-sweeps"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/jlens/annotations"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/jlens/artifacts"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/jlens/artifacts/revalidate"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/jlens/artifacts/{slug}/band-report"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/jlens/artifacts/{slug}/document"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/jlens/artifacts/{slug}/gate"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/jlens/artifacts/{slug}/interventions"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/jlens/artifacts/{slug}/restore-superseded"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/jlens/artifacts/{slug}/validate"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/jlens/attention-readout"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/jlens/band-report"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/jlens/cost-estimate"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/jlens/decompose"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/jlens/decompose/{task_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/jlens/documents/validate"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/jlens/fit"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/jlens/gate"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/jlens/interventions"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/jlens/probe"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/jlens/probe/{task_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/jlens/publish"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/jlens/readout"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/jlens/readout/{task_id}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/jlens/reports/replication"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/jlens/tasks/{task_id}/cancel"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/jlens/template-lens"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/jlens/template-lens/{task_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/jlens/token-check"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/jlens/watchlists"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/labeling"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/labeling"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/labeling-prompt-templates"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/labeling-prompt-templates"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/labeling-prompt-templates/default"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/labeling-prompt-templates/export"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/labeling-prompt-templates/import"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/labeling-prompt-templates/{template_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PATCH",
+   "path": "/api/v1/labeling-prompt-templates/{template_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/labeling-prompt-templates/{template_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/labeling-prompt-templates/{template_id}/clone"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/labeling-prompt-templates/{template_id}/set-default"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/labeling-prompt-templates/{template_id}/usage-count"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/labeling/models/available"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/labeling/models/openai"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/labeling/panel"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/labeling/resume-sweeps/{sweep_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/labeling/resume-sweeps/{sweep_id}/cancel"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/labeling/trials"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/labeling/trials"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/labeling/trials/compare/{run_a}/{run_b}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/labeling/trials/{trial_run_id}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/labeling/{extraction_job_id}/coverage"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/labeling/{extraction_job_id}/resume-sweep"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/labeling/{labeling_job_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/labeling/{labeling_job_id}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/labeling/{labeling_job_id}/available-judges"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/labeling/{labeling_job_id}/cancel"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/mcp/approvals"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/mcp/approvals"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/mcp/approvals/approve-batch"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/mcp/approvals/{request_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/mcp/approvals/{request_id}/approve"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/mcp/approvals/{request_id}/consume"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/mcp/approvals/{request_id}/deny"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/models"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/models/download"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/models/local-cache/list"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/models/tasks/{task_id}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/models/{model_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PATCH",
+   "path": "/api/v1/models/{model_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/models/{model_id}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/models/{model_id}/architecture"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/models/{model_id}/cancel"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/models/{model_id}/estimate-extraction"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/models/{model_id}/extract-activations"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/models/{model_id}/extractions"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "DELETE",
+   "path": "/api/v1/models/{model_id}/extractions"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/models/{model_id}/extractions/active"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/models/{model_id}/extractions/{extraction_id}/cancel"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/models/{model_id}/extractions/{extraction_id}/retry"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/models/{model_id}/redownload"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/neuronpedia/compute-dashboard-data"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/neuronpedia/export"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/neuronpedia/export/{job_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/neuronpedia/export/{job_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/neuronpedia/export/{job_id}/cancel"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/neuronpedia/export/{job_id}/download"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/neuronpedia/exports"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/neuronpedia/local-status"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/neuronpedia/push-local"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/neuronpedia/push-local"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/neuronpedia/push-local/{push_job_id}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/operations/active-jobs"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/operations/gpu-status"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/behaviours"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/behaviours"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/behaviours/{key}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/probe-monitors/behaviours/{key}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/behaviours/{key}/archive"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/behaviours/{key}/behaviour-verdict/export"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/behaviours/{key}/checklist"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/behaviours/{key}/family"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/behaviours/{key}/family/export"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/behaviours/{key}/family/export-index"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/behaviours/{key}/family/publish"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/behaviours/{key}/family/score-batch"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/behaviours/{key}/family/score/{task_id}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/behaviours/{key}/history"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/behaviours/{key}/model-comparison"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PUT",
+   "path": "/api/v1/probe-monitors/behaviours/{key}/probes/{probe_id}/role"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/behaviours/{key}/rules-evaluations"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/behaviours/{key}/success-reports"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/behaviours/{key}/success-reports"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/behaviours/{key}/suggested-blend"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PUT",
+   "path": "/api/v1/probe-monitors/behaviours/{key}/suggested-blend"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/behaviours/{key}/suggested-blend/history"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/behaviours/{key}/unarchive"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/behaviours/{key}/versions"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/behaviours/{key}/versions"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/behaviours/{key}/views/{dataset_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/probe-monitors/behaviours/{key}/views/{dataset_id}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/blend-reports"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/blend-reports"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/blend-reports/{report_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/blend-reports/{report_id}/cancel"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/blend-reports/{report_id}/prune-rows"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/blend-reports/{report_id}/report.json"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/blend-reports/{report_id}/rerun"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/blend-reports/{report_id}/scores"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/dataset-purges"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/datasets"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/datasets"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/datasets-page"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/datasets/purge"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/datasets/purge/plan"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/datasets/{dataset_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/probe-monitors/datasets/{dataset_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/datasets/{dataset_id}/archive"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PATCH",
+   "path": "/api/v1/probe-monitors/datasets/{dataset_id}/columns"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/datasets/{dataset_id}/confirm-positive"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/datasets/{dataset_id}/rows"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/datasets/{dataset_id}/rule-recommendation"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/datasets/{dataset_id}/unarchive"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/judge-prompts"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/judge-prompts"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/judge-prompts/import"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/judge-prompts/import-rubric"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/judge-prompts/midataworks/rubrics"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/judge-prompts/preview"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/judge-prompts/try"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/judge-prompts/{prompt_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PATCH",
+   "path": "/api/v1/probe-monitors/judge-prompts/{prompt_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/probe-monitors/judge-prompts/{prompt_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/judge-prompts/{prompt_id}/archive"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/judge-prompts/{prompt_id}/clone"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/judge-prompts/{prompt_id}/export"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/judge-prompts/{prompt_id}/unarchive"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/judge-prompts/{prompt_id}/versions"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/judge-runs"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/judge-runs"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/judge-runs/{judge_run_id}/cancel"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/nonsense-text"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/probes"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/probes/{probe_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PATCH",
+   "path": "/api/v1/probe-monitors/probes/{probe_id}/behaviour"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/probes/{probe_id}/decision"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/probes/{probe_id}/definition"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/probes/{probe_id}/definition"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/probes/{probe_id}/evaluate"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/probes/{probe_id}/evaluations/{evaluation_id}/backfill-truncation"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/probes/{probe_id}/evaluations/{evaluation_id}/breakdown"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/probes/{probe_id}/evaluations/{evaluation_id}/scores"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/probes/{probe_id}/export"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/probes/{probe_id}/publish"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/probes/{probe_id}/recalibrate"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/probes/{probe_id}/rules-evaluations"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/probes/{probe_id}/score"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/probes/{probe_id}/score-batch"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/probes/{probe_id}/score/{task_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/rule-sets/validate"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/rule-signals/evaluate"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/rules-evaluations/{evaluation_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/rules-evaluations/{evaluation_id}/cancel"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/runs"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/runs"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/runs-page"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/runs/forecast"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/runs/{run_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/probe-monitors/runs/{run_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/runs/{run_id}/cancel"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/spot-checks"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/spot-checks"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/spot-checks/availability"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/spot-checks/{check_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/probe-monitors/spot-checks/{check_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/spot-checks/{check_id}/cancel"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/spot-checks/{check_id}/disagreements.jsonl"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/spot-checks/{check_id}/items"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/probe-monitors/spot-checks/{check_id}/pin"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/probe-monitors/success-reports/{report_id}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/prompt-templates"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/prompt-templates"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/prompt-templates/export"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/prompt-templates/favorites"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/prompt-templates/import"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/prompt-templates/{template_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PATCH",
+   "path": "/api/v1/prompt-templates/{template_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/prompt-templates/{template_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/prompt-templates/{template_id}/duplicate"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/prompt-templates/{template_id}/favorite"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/saes"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/saes/batch-extract-features"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/saes/delete"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/saes/download"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/saes/hf/preview"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/saes/import/file"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/saes/import/training"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/saes/training/{training_id}/available"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/saes/upload"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/saes/{sae_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/saes/{sae_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/saes/{sae_id}/cancel-extraction"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/saes/{sae_id}/extract-features"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/saes/{sae_id}/extraction-status"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/saes/{sae_id}/features"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/saes/{sae_id}/features/by-index/{feature_idx}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/settings"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PUT",
+   "path": "/api/v1/settings"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PUT",
+   "path": "/api/v1/settings/bulk"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/settings/pin/remove"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/settings/pin/set"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/settings/pin/status"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/settings/pin/verify"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/settings/{key}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/settings/{key}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/steering/async/combined"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/steering/async/compare"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/steering/async/result/{task_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/steering/async/sweep"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/steering/async/task/{task_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/steering/cleanup"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/steering/cluster-allocation"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/steering/compare"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/steering/enter-mode"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/steering/exit-mode"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/steering/experiments"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/steering/experiments"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/steering/experiments/delete"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/steering/experiments/{experiment_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/steering/experiments/{experiment_id}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/steering/mode"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/steering/reset"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/steering/status"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/steering/sweep"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/system/all"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/system/disk-rates"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/system/disk-usage"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/system/gpu-info"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/system/gpu-list"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/system/gpu-metrics"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/system/gpu-metrics/all"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/system/gpu-processes"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/system/health"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/system/legacy-names"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/system/metrics"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/system/network-rates"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/system/resource-estimate"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/system/restart"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/task-queue"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/task-queue/active"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/task-queue/failed"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/task-queue/failed/dismiss-all"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/task-queue/failed/{task_type}/{source_id}/dismiss"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/task-queue/failed/{task_type}/{source_id}/dismiss"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/task-queue/lookup/{task_id}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/task-queue/{task_queue_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/task-queue/{task_queue_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/task-queue/{task_queue_id}/retry"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/training-templates"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/training-templates"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/training-templates/export"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/training-templates/favorites"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/training-templates/import"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/training-templates/{template_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PATCH",
+   "path": "/api/v1/training-templates/{template_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/training-templates/{template_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/training-templates/{template_id}/favorite"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/trainings"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/trainings"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/trainings/checkpoints/prune-all"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/trainings/checkpoints/prune-preview-all"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/trainings/{training_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/trainings/{training_id}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/trainings/{training_id}/checkpoints"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/trainings/{training_id}/checkpoints/best"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/trainings/{training_id}/checkpoints/prune"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/trainings/{training_id}/checkpoints/prune-preview"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/trainings/{training_id}/checkpoints/{checkpoint_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/trainings/{training_id}/control"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/trainings/{training_id}/evaluate"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/trainings/{training_id}/evaluation"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/trainings/{training_id}/features"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/trainings/{training_id}/features/by-index/{feature_idx}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/trainings/{training_id}/finalize"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/trainings/{training_id}/metrics"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/validation-manifests"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/validation-manifests/{manifest_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/validation-manifests/{manifest_id}/reproduce"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/version"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/workers/active"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/workers/health"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/workers/queues"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/workers/stats"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/wsp/bundles"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/wsp/bundles/{bundle_id}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/wsp/bundles/{bundle_id}/files/{name}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/wsp/bundles/{bundle_id}/sensitivity"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/wsp/bundles/{bundle_id}/summary"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/wsp/candidates/import"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/wsp/captures"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/wsp/captures"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/wsp/score"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/wsp/sensitivity"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/wsp/sensitivity-marks"
+  }
+ ],
+ "taken": "2026-11-17"
+}

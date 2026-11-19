@@ -1,0 +1,7 @@
+# Display names, purposes and where each app's operator decides (001 FTDD §4.4).
+version: 1
+apps:
+  miworkbench: {name: miWorkbench, purpose: "the interpretability workbench: SAEs, features, circuits and probes", approvals_page: "miWorkbench → Approvals"}
+  miserver: {name: miServer, purpose: "the inference server: the served model, steering and probes at runtime", approvals_page: "miServer → Approvals"}
+  midataworks: {name: miDataworks, purpose: "datasets: sources, recipes, labels and versions", approvals_page: "miDataworks → Approvals"}
+  miforge: {name: miForge, purpose: "training: packs, runs and checkpoints", approvals_page: "miForge → Approvals"}

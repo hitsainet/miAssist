@@ -1,0 +1,549 @@
+{
+  "_comment": [
+    "001 FR-5 offering vectors (AC-5.2, AC-5.7; FTID \u00a77): a definition x an installed set -> offered, skipped steps (not_in_this_installation) and needs (the absent apps the absent answer names). Steps use app-independent tools so only the offering rule decides."
+  ],
+  "vectors": [
+    {
+      "id": "ac-5.7-workbench-alone",
+      "definition": {
+        "kind": "mistudio.playbook/v1",
+        "id": "fixture-pb",
+        "version": 1,
+        "title": "playbook.title",
+        "goal": "playbook.goal",
+        "requires_apps": [
+          "miserver",
+          "miworkbench"
+        ],
+        "steps": [
+          {
+            "id": "one",
+            "title": "one.title",
+            "tool": "miassist_glossary",
+            "args": {},
+            "explain_beginner": "one.beginner",
+            "explain_expert": "one.expert",
+            "done_when": {
+              "description": "one.done",
+              "pointer": "/entries",
+              "op": "exists"
+            },
+            "entry": true,
+            "requires_apps": [
+              "miworkbench"
+            ]
+          },
+          {
+            "id": "two",
+            "title": "two.title",
+            "tool": "miassist_guide",
+            "args": {},
+            "explain_beginner": "two.beginner",
+            "explain_expert": "two.expert",
+            "done_when": {
+              "description": "two.done",
+              "pointer": "/entries",
+              "op": "exists"
+            },
+            "requires_apps": [
+              "miserver"
+            ]
+          }
+        ]
+      },
+      "installed": [
+        "miworkbench"
+      ],
+      "offered": true,
+      "skipped": [
+        "two"
+      ],
+      "needs": []
+    },
+    {
+      "id": "ac-5.7-server-alone",
+      "definition": {
+        "kind": "mistudio.playbook/v1",
+        "id": "fixture-pb",
+        "version": 1,
+        "title": "playbook.title",
+        "goal": "playbook.goal",
+        "requires_apps": [
+          "miserver",
+          "miworkbench"
+        ],
+        "steps": [
+          {
+            "id": "one",
+            "title": "one.title",
+            "tool": "miassist_glossary",
+            "args": {},
+            "explain_beginner": "one.beginner",
+            "explain_expert": "one.expert",
+            "done_when": {
+              "description": "one.done",
+              "pointer": "/entries",
+              "op": "exists"
+            },
+            "entry": true,
+            "requires_apps": [
+              "miworkbench"
+            ]
+          },
+          {
+            "id": "two",
+            "title": "two.title",
+            "tool": "miassist_guide",
+            "args": {},
+            "explain_beginner": "two.beginner",
+            "explain_expert": "two.expert",
+            "done_when": {
+              "description": "two.done",
+              "pointer": "/entries",
+              "op": "exists"
+            },
+            "requires_apps": [
+              "miserver"
+            ]
+          }
+        ]
+      },
+      "installed": [
+        "miserver"
+      ],
+      "offered": false,
+      "skipped": [
+        "one"
+      ],
+      "needs": [
+        "miworkbench"
+      ]
+    },
+    {
+      "id": "ac-5.7-both",
+      "definition": {
+        "kind": "mistudio.playbook/v1",
+        "id": "fixture-pb",
+        "version": 1,
+        "title": "playbook.title",
+        "goal": "playbook.goal",
+        "requires_apps": [
+          "miserver",
+          "miworkbench"
+        ],
+        "steps": [
+          {
+            "id": "one",
+            "title": "one.title",
+            "tool": "miassist_glossary",
+            "args": {},
+            "explain_beginner": "one.beginner",
+            "explain_expert": "one.expert",
+            "done_when": {
+              "description": "one.done",
+              "pointer": "/entries",
+              "op": "exists"
+            },
+            "entry": true,
+            "requires_apps": [
+              "miworkbench"
+            ]
+          },
+          {
+            "id": "two",
+            "title": "two.title",
+            "tool": "miassist_guide",
+            "args": {},
+            "explain_beginner": "two.beginner",
+            "explain_expert": "two.expert",
+            "done_when": {
+              "description": "two.done",
+              "pointer": "/entries",
+              "op": "exists"
+            },
+            "requires_apps": [
+              "miserver"
+            ]
+          }
+        ]
+      },
+      "installed": [
+        "miserver",
+        "miworkbench"
+      ],
+      "offered": true,
+      "skipped": [],
+      "needs": []
+    },
+    {
+      "id": "ac-5.7-neither",
+      "definition": {
+        "kind": "mistudio.playbook/v1",
+        "id": "fixture-pb",
+        "version": 1,
+        "title": "playbook.title",
+        "goal": "playbook.goal",
+        "requires_apps": [
+          "miserver",
+          "miworkbench"
+        ],
+        "steps": [
+          {
+            "id": "one",
+            "title": "one.title",
+            "tool": "miassist_glossary",
+            "args": {},
+            "explain_beginner": "one.beginner",
+            "explain_expert": "one.expert",
+            "done_when": {
+              "description": "one.done",
+              "pointer": "/entries",
+              "op": "exists"
+            },
+            "entry": true,
+            "requires_apps": [
+              "miworkbench"
+            ]
+          },
+          {
+            "id": "two",
+            "title": "two.title",
+            "tool": "miassist_guide",
+            "args": {},
+            "explain_beginner": "two.beginner",
+            "explain_expert": "two.expert",
+            "done_when": {
+              "description": "two.done",
+              "pointer": "/entries",
+              "op": "exists"
+            },
+            "requires_apps": [
+              "miserver"
+            ]
+          }
+        ]
+      },
+      "installed": [
+        "miforge"
+      ],
+      "offered": false,
+      "skipped": [
+        "one",
+        "two"
+      ],
+      "needs": [
+        "miworkbench",
+        "miserver"
+      ]
+    },
+    {
+      "id": "single-installed",
+      "definition": {
+        "kind": "mistudio.playbook/v1",
+        "id": "fixture-pb",
+        "version": 1,
+        "title": "playbook.title",
+        "goal": "playbook.goal",
+        "requires_apps": [
+          "miforge"
+        ],
+        "steps": [
+          {
+            "id": "one",
+            "title": "one.title",
+            "tool": "miassist_glossary",
+            "args": {},
+            "explain_beginner": "one.beginner",
+            "explain_expert": "one.expert",
+            "done_when": {
+              "description": "one.done",
+              "pointer": "/entries",
+              "op": "exists"
+            },
+            "entry": true
+          },
+          {
+            "id": "two",
+            "title": "two.title",
+            "tool": "miassist_guide",
+            "args": {},
+            "explain_beginner": "two.beginner",
+            "explain_expert": "two.expert",
+            "done_when": {
+              "description": "two.done",
+              "pointer": "/entries",
+              "op": "exists"
+            }
+          }
+        ]
+      },
+      "installed": [
+        "miforge"
+      ],
+      "offered": true,
+      "skipped": [],
+      "needs": []
+    },
+    {
+      "id": "single-absent",
+      "definition": {
+        "kind": "mistudio.playbook/v1",
+        "id": "fixture-pb",
+        "version": 1,
+        "title": "playbook.title",
+        "goal": "playbook.goal",
+        "requires_apps": [
+          "miforge"
+        ],
+        "steps": [
+          {
+            "id": "one",
+            "title": "one.title",
+            "tool": "miassist_glossary",
+            "args": {},
+            "explain_beginner": "one.beginner",
+            "explain_expert": "one.expert",
+            "done_when": {
+              "description": "one.done",
+              "pointer": "/entries",
+              "op": "exists"
+            },
+            "entry": true
+          },
+          {
+            "id": "two",
+            "title": "two.title",
+            "tool": "miassist_guide",
+            "args": {},
+            "explain_beginner": "two.beginner",
+            "explain_expert": "two.expert",
+            "done_when": {
+              "description": "two.done",
+              "pointer": "/entries",
+              "op": "exists"
+            }
+          }
+        ]
+      },
+      "installed": [
+        "miserver"
+      ],
+      "offered": false,
+      "skipped": [
+        "one",
+        "two"
+      ],
+      "needs": [
+        "miforge"
+      ]
+    },
+    {
+      "id": "single-empty-set",
+      "definition": {
+        "kind": "mistudio.playbook/v1",
+        "id": "fixture-pb",
+        "version": 1,
+        "title": "playbook.title",
+        "goal": "playbook.goal",
+        "requires_apps": [
+          "miforge"
+        ],
+        "steps": [
+          {
+            "id": "one",
+            "title": "one.title",
+            "tool": "miassist_glossary",
+            "args": {},
+            "explain_beginner": "one.beginner",
+            "explain_expert": "one.expert",
+            "done_when": {
+              "description": "one.done",
+              "pointer": "/entries",
+              "op": "exists"
+            },
+            "entry": true
+          },
+          {
+            "id": "two",
+            "title": "two.title",
+            "tool": "miassist_guide",
+            "args": {},
+            "explain_beginner": "two.beginner",
+            "explain_expert": "two.expert",
+            "done_when": {
+              "description": "two.done",
+              "pointer": "/entries",
+              "op": "exists"
+            }
+          }
+        ]
+      },
+      "installed": [],
+      "offered": false,
+      "skipped": [
+        "one",
+        "two"
+      ],
+      "needs": [
+        "miforge"
+      ]
+    },
+    {
+      "id": "any-of-one-installed",
+      "definition": {
+        "kind": "mistudio.playbook/v1",
+        "id": "fixture-pb",
+        "version": 1,
+        "title": "playbook.title",
+        "goal": "playbook.goal",
+        "requires_apps": [
+          "midataworks",
+          "miforge"
+        ],
+        "steps": [
+          {
+            "id": "one",
+            "title": "one.title",
+            "tool": "miassist_glossary",
+            "args": {},
+            "explain_beginner": "one.beginner",
+            "explain_expert": "one.expert",
+            "done_when": {
+              "description": "one.done",
+              "pointer": "/entries",
+              "op": "exists"
+            },
+            "entry": true
+          },
+          {
+            "id": "two",
+            "title": "two.title",
+            "tool": "miassist_guide",
+            "args": {},
+            "explain_beginner": "two.beginner",
+            "explain_expert": "two.expert",
+            "done_when": {
+              "description": "two.done",
+              "pointer": "/entries",
+              "op": "exists"
+            }
+          }
+        ]
+      },
+      "installed": [
+        "miforge"
+      ],
+      "offered": true,
+      "skipped": [],
+      "needs": []
+    },
+    {
+      "id": "any-of-other-installed",
+      "definition": {
+        "kind": "mistudio.playbook/v1",
+        "id": "fixture-pb",
+        "version": 1,
+        "title": "playbook.title",
+        "goal": "playbook.goal",
+        "requires_apps": [
+          "midataworks",
+          "miforge"
+        ],
+        "steps": [
+          {
+            "id": "one",
+            "title": "one.title",
+            "tool": "miassist_glossary",
+            "args": {},
+            "explain_beginner": "one.beginner",
+            "explain_expert": "one.expert",
+            "done_when": {
+              "description": "one.done",
+              "pointer": "/entries",
+              "op": "exists"
+            },
+            "entry": true
+          },
+          {
+            "id": "two",
+            "title": "two.title",
+            "tool": "miassist_guide",
+            "args": {},
+            "explain_beginner": "two.beginner",
+            "explain_expert": "two.expert",
+            "done_when": {
+              "description": "two.done",
+              "pointer": "/entries",
+              "op": "exists"
+            }
+          }
+        ]
+      },
+      "installed": [
+        "midataworks"
+      ],
+      "offered": true,
+      "skipped": [],
+      "needs": []
+    },
+    {
+      "id": "entry-step-app-absent",
+      "definition": {
+        "kind": "mistudio.playbook/v1",
+        "id": "fixture-pb",
+        "version": 1,
+        "title": "playbook.title",
+        "goal": "playbook.goal",
+        "requires_apps": [
+          "miserver",
+          "miforge"
+        ],
+        "steps": [
+          {
+            "id": "one",
+            "title": "one.title",
+            "tool": "miassist_glossary",
+            "args": {},
+            "explain_beginner": "one.beginner",
+            "explain_expert": "one.expert",
+            "done_when": {
+              "description": "one.done",
+              "pointer": "/entries",
+              "op": "exists"
+            },
+            "entry": true,
+            "requires_apps": [
+              "miserver"
+            ]
+          },
+          {
+            "id": "two",
+            "title": "two.title",
+            "tool": "miassist_guide",
+            "args": {},
+            "explain_beginner": "two.beginner",
+            "explain_expert": "two.expert",
+            "done_when": {
+              "description": "two.done",
+              "pointer": "/entries",
+              "op": "exists"
+            },
+            "requires_apps": [
+              "miforge"
+            ]
+          }
+        ]
+      },
+      "installed": [
+        "miforge"
+      ],
+      "offered": false,
+      "skipped": [
+        "one"
+      ],
+      "needs": [
+        "miserver"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6419 @@
+{
+ "app": "miserver",
+ "commit": "3309a0f1",
+ "paths": {
+  "/api/approvals": {
+   "get": {
+    "parameters": [
+     {
+      "in": "query",
+      "name": "status",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "maxLength": 16,
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Status"
+      }
+     },
+     {
+      "in": "query",
+      "name": "limit",
+      "required": false,
+      "schema": {
+       "default": 200,
+       "maximum": 500,
+       "minimum": 1,
+       "title": "Limit",
+       "type": "integer"
+      }
+     },
+     {
+      "in": "query",
+      "name": "offset",
+      "required": false,
+      "schema": {
+       "default": 0,
+       "maximum": 1000000,
+       "minimum": 0,
+       "title": "Offset",
+       "type": "integer"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "description": "Standard API response wrapper.\n\nAll API endpoints return this format for consistency.\n\nSuccess response:\n    {\n        \"success\": true,\n        \"data\": <response data>\n    }\n\nError response:\n    {\n        \"success\": false,\n        \"error\": {\n            \"code\": \"ERROR_CODE\",\n            \"message\": \"Human readable message\",\n            \"details\": {}\n        }\n    }",
+         "examples": [
+          {
+           "data": {},
+           "success": true
+          }
+         ],
+         "properties": {
+          "data": {
+           "anyOf": [
+            {},
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Response data (on success)",
+           "title": "Data"
+          },
+          "error": {
+           "anyOf": [
+            {
+             "description": "Error details for failed API responses.",
+             "properties": {
+              "code": {
+               "description": "Machine-readable error code",
+               "title": "Code",
+               "type": "string"
+              },
+              "details": {
+               "additionalProperties": true,
+               "description": "Additional error context",
+               "title": "Details",
+               "type": "object"
+              },
+              "message": {
+               "description": "Human-readable error message",
+               "title": "Message",
+               "type": "string"
+              }
+             },
+             "required": [
+              "code",
+              "message"
+             ],
+             "title": "ErrorDetails",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Error details (on failure)"
+          },
+          "success": {
+           "description": "Whether the request succeeded",
+           "title": "Success",
+           "type": "boolean"
+          }
+         },
+         "required": [
+          "success"
+         ],
+         "title": "ApiResponse",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "properties": {
+          "detail": {
+           "items": {
+            "properties": {
+             "ctx": {
+              "title": "Context",
+              "type": "object"
+             },
+             "input": {
+              "title": "Input"
+             },
+             "loc": {
+              "items": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "integer"
+                }
+               ]
+              },
+              "title": "Location",
+              "type": "array"
+             },
+             "msg": {
+              "title": "Message",
+              "type": "string"
+             },
+             "type": {
+              "title": "Error Type",
+              "type": "string"
+             }
+            },
+            "required": [
+             "loc",
+             "msg",
+             "type"
+            ],
+            "title": "ValidationError",
+            "type": "object"
+           },
+           "title": "Detail",
+           "type": "array"
+          }
+         },
+         "title": "HTTPValidationError",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    }
+   }
+  },
+  "/api/approvals/{approval_id}": {
+   "get": {
+    "parameters": [
+     {
+      "description": "The approval request id",
+      "in": "path",
+      "name": "approval_id",
+      "required": true,
+      "schema": {
+       "description": "The approval request id",
+       "pattern": "^apr_[0-9a-f]{32}$",
+       "title": "Approval Id",
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "description": "Standard API response wrapper.\n\nAll API endpoints return this format for consistency.\n\nSuccess response:\n    {\n        \"success\": true,\n        \"data\": <response data>\n    }\n\nError response:\n    {\n        \"success\": false,\n        \"error\": {\n            \"code\": \"ERROR_CODE\",\n            \"message\": \"Human readable message\",\n            \"details\": {}\n        }\n    }",
+         "examples": [
+          {
+           "data": {},
+           "success": true
+          }
+         ],
+         "properties": {
+          "data": {
+           "anyOf": [
+            {},
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Response data (on success)",
+           "title": "Data"
+          },
+          "error": {
+           "anyOf": [
+            {
+             "description": "Error details for failed API responses.",
+             "properties": {
+              "code": {
+               "description": "Machine-readable error code",
+               "title": "Code",
+               "type": "string"
+              },
+              "details": {
+               "additionalProperties": true,
+               "description": "Additional error context",
+               "title": "Details",
+               "type": "object"
+              },
+              "message": {
+               "description": "Human-readable error message",
+               "title": "Message",
+               "type": "string"
+              }
+             },
+             "required": [
+              "code",
+              "message"
+             ],
+             "title": "ErrorDetails",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Error details (on failure)"
+          },
+          "success": {
+           "description": "Whether the request succeeded",
+           "title": "Success",
+           "type": "boolean"
+          }
+         },
+         "required": [
+          "success"
+         ],
+         "title": "ApiResponse",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "properties": {
+          "detail": {
+           "items": {
+            "properties": {
+             "ctx": {
+              "title": "Context",
+              "type": "object"
+             },
+             "input": {
+              "title": "Input"
+             },
+             "loc": {
+              "items": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "integer"
+                }
+               ]
+              },
+              "title": "Location",
+              "type": "array"
+             },
+             "msg": {
+              "title": "Message",
+              "type": "string"
+             },
+             "type": {
+              "title": "Error Type",
+              "type": "string"
+             }
+            },
+            "required": [
+             "loc",
+             "msg",
+             "type"
+            ],
+            "title": "ValidationError",
+            "type": "object"
+           },
+           "title": "Detail",
+           "type": "array"
+          }
+         },
+         "title": "HTTPValidationError",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    }
+   }
+  },
+  "/api/circuits": {
+   "get": {
+    "parameters": [
+     {
+      "description": "Only rung >= this",
+      "in": "query",
+      "name": "min_rung",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "maximum": 3,
+         "minimum": 0,
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "Only rung >= this",
+       "title": "Min Rung"
+      }
+     },
+     {
+      "description": "Only fully-serveable circuits",
+      "in": "query",
+      "name": "serveable",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "boolean"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "Only fully-serveable circuits",
+       "title": "Serveable"
+      }
+     },
+     {
+      "in": "query",
+      "name": "limit",
+      "required": false,
+      "schema": {
+       "default": 50,
+       "maximum": 200,
+       "minimum": 1,
+       "title": "Limit",
+       "type": "integer"
+      }
+     },
+     {
+      "in": "query",
+      "name": "offset",
+      "required": false,
+      "schema": {
+       "default": 0,
+       "minimum": 0,
+       "title": "Offset",
+       "type": "integer"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "examples": [
+          {
+           "data": {},
+           "success": true
+          }
+         ],
+         "properties": {
+          "data": {
+           "anyOf": [
+            {
+             "properties": {
+              "active_circuit_id": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "title": "Active Circuit Id"
+              },
+              "circuits": {
+               "items": {
+                "description": "List/detail row. Rung language is ALWAYS server-rendered.",
+                "properties": {
+                 "authored_intensity": {
+                  "anyOf": [
+                   {
+                    "type": "number"
+                   },
+                   {
+                    "type": "null"
+                   }
+                  ],
+                  "description": "The document's own `budget.intensity` (the author's or calibration's choice); differs from `intensity` after `PUT /api/circuits/active/intensity`.",
+                  "title": "Authored Intensity"
+                 },
+                 "created_at": {
+                  "title": "Created At"
+                 },
+                 "description": {
+                  "anyOf": [
+                   {
+                    "type": "string"
+                   },
+                   {
+                    "type": "null"
+                   }
+                  ],
+                  "title": "Description"
+                 },
+                 "dial_range": {
+                  "anyOf": [
+                   {
+                    "items": {
+                     "type": "number"
+                    },
+                    "type": "array"
+                   },
+                   {
+                    "type": "null"
+                   }
+                  ],
+                  "description": "[min, max]: what a per-request dial's \"min\" and \"max\" resolve to on this circuit (its authored range intersected with the configured envelope). min == 0 means \"min\" is the same as \"off\". Null when not resolvable.",
+                  "title": "Dial Range"
+                 },
+                 "edge_count": {
+                  "title": "Edge Count",
+                  "type": "integer"
+                 },
+                 "id": {
+                  "title": "Id",
+                  "type": "string"
+                 },
+                 "intensity": {
+                  "description": "The \u03bb this circuit serves at: the authored value at activation, then the operator's dial (held to `dial_range`). Equals what `X-miLLM-Steering` reports.",
+                  "title": "Intensity",
+                  "type": "number"
+                 },
+                 "is_active": {
+                  "title": "Is Active",
+                  "type": "boolean"
+                 },
+                 "layers": {
+                  "items": {
+                   "type": "integer"
+                  },
+                  "title": "Layers",
+                  "type": "array"
+                 },
+                 "name": {
+                  "title": "Name",
+                  "type": "string"
+                 },
+                 "per_sae_warnings": {
+                  "items": {
+                   "description": "One layer's compatibility verdict from import/activation.",
+                   "properties": {
+                    "layer": {
+                     "title": "Layer",
+                     "type": "integer"
+                    },
+                    "reason": {
+                     "anyOf": [
+                      {
+                       "type": "string"
+                      },
+                      {
+                       "type": "null"
+                      }
+                     ],
+                     "title": "Reason"
+                    },
+                    "sae_id": {
+                     "anyOf": [
+                      {
+                       "type": "string"
+                      },
+                      {
+                       "type": "null"
+                      }
+                     ],
+                     "title": "Sae Id"
+                    },
+                    "verdict": {
+                     "enum": [
+                      "bind",
+                      "warn",
+                      "block",
+                      "unbound"
+                     ],
+                     "title": "Verdict",
+                     "type": "string"
+                    }
+                   },
+                   "required": [
+                    "layer",
+                    "verdict"
+                   ],
+                   "title": "PerSAEVerdict",
+                   "type": "object"
+                  },
+                  "title": "Per Sae Warnings",
+                  "type": "array"
+                 },
+                 "rung": {
+                  "maximum": 3.0,
+                  "minimum": 0.0,
+                  "title": "Rung",
+                  "type": "integer"
+                 },
+                 "rung_language": {
+                  "description": "Server-rendered evidence phrase \u2014 never re-phrase client-side",
+                  "title": "Rung Language",
+                  "type": "string"
+                 },
+                 "rung_next_step": {
+                  "title": "Rung Next Step",
+                  "type": "string"
+                 },
+                 "serveable": {
+                  "title": "Serveable",
+                  "type": "boolean"
+                 },
+                 "serving_mode": {
+                  "anyOf": [
+                   {
+                    "type": "string"
+                   },
+                   {
+                    "type": "null"
+                   }
+                  ],
+                  "title": "Serving Mode"
+                 },
+                 "steering": {
+                  "anyOf": [
+                   {
+                    "type": "boolean"
+                   },
+                   {
+                    "type": "null"
+                   }
+                  ],
+                  "description": "Whether this circuit is ACTUALLY steering generation right now \u2014 is_active only says a row is marked active. Answered by the server's own predicate so clients never re-derive it (a client deriving it from is_active will overclaim on a slice-fallback, unparseable, or unattached circuit). Null when not evaluated.",
+                  "title": "Steering"
+                 },
+                 "updated_at": {
+                  "title": "Updated At"
+                 },
+                 "validated": {
+                  "description": "rung >= 2; below this the circuit is not causally validated",
+                  "title": "Validated",
+                  "type": "boolean"
+                 }
+                },
+                "required": [
+                 "id",
+                 "name",
+                 "rung",
+                 "rung_language",
+                 "rung_next_step",
+                 "validated",
+                 "edge_count",
+                 "layers",
+                 "serveable",
+                 "is_active",
+                 "intensity"
+                ],
+                "title": "CircuitSummary",
+                "type": "object"
+               },
+               "title": "Circuits",
+               "type": "array"
+              },
+              "total": {
+               "default": 0,
+               "title": "Total",
+               "type": "integer"
+              }
+             },
+             "required": [
+              "circuits"
+             ],
+             "title": "CircuitListResponse",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Response data (on success)"
+          },
+          "error": {
+           "anyOf": [
+            {
+             "description": "Error details for failed API responses.",
+             "properties": {
+              "code": {
+               "description": "Machine-readable error code",
+               "title": "Code",
+               "type": "string"
+              },
+              "details": {
+               "additionalProperties": true,
+               "description": "Additional error context",
+               "title": "Details",
+               "type": "object"
+              },
+              "message": {
+               "description": "Human-readable error message",
+               "title": "Message",
+               "type": "string"
+              }
+             },
+             "required": [
+              "code",
+              "message"
+             ],
+             "title": "ErrorDetails",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Error details (on failure)"
+          },
+          "success": {
+           "description": "Whether the request succeeded",
+           "title": "Success",
+           "type": "boolean"
+          }
+         },
+         "required": [
+          "success"
+         ],
+         "title": "ApiResponse[CircuitListResponse]",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "properties": {
+          "detail": {
+           "items": {
+            "properties": {
+             "ctx": {
+              "title": "Context",
+              "type": "object"
+             },
+             "input": {
+              "title": "Input"
+             },
+             "loc": {
+              "items": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "integer"
+                }
+               ]
+              },
+              "title": "Location",
+              "type": "array"
+             },
+             "msg": {
+              "title": "Message",
+              "type": "string"
+             },
+             "type": {
+              "title": "Error Type",
+              "type": "string"
+             }
+            },
+            "required": [
+             "loc",
+             "msg",
+             "type"
+            ],
+            "title": "ValidationError",
+            "type": "object"
+           },
+           "title": "Detail",
+           "type": "array"
+          }
+         },
+         "title": "HTTPValidationError",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    }
+   }
+  },
+  "/api/circuits/active": {
+   "get": {
+    "parameters": [
+     {
+      "description": "Pre-F19 shape: return the most recently activated circuit as a single object instead of a list. Under-reports when several circuits serve.",
+      "in": "query",
+      "name": "single",
+      "required": false,
+      "schema": {
+       "default": false,
+       "description": "Pre-F19 shape: return the most recently activated circuit as a single object instead of a list. Under-reports when several circuits serve.",
+       "title": "Single",
+       "type": "boolean"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "examples": [
+          {
+           "data": {},
+           "success": true
+          }
+         ],
+         "properties": {
+          "data": {
+           "description": "Response data (on success)",
+           "title": "Data"
+          },
+          "error": {
+           "anyOf": [
+            {
+             "description": "Error details for failed API responses.",
+             "properties": {
+              "code": {
+               "description": "Machine-readable error code",
+               "title": "Code",
+               "type": "string"
+              },
+              "details": {
+               "additionalProperties": true,
+               "description": "Additional error context",
+               "title": "Details",
+               "type": "object"
+              },
+              "message": {
+               "description": "Human-readable error message",
+               "title": "Message",
+               "type": "string"
+              }
+             },
+             "required": [
+              "code",
+              "message"
+             ],
+             "title": "ErrorDetails",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Error details (on failure)"
+          },
+          "success": {
+           "description": "Whether the request succeeded",
+           "title": "Success",
+           "type": "boolean"
+          }
+         },
+         "required": [
+          "success"
+         ],
+         "title": "ApiResponse[Any]",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "properties": {
+          "detail": {
+           "items": {
+            "properties": {
+             "ctx": {
+              "title": "Context",
+              "type": "object"
+             },
+             "input": {
+              "title": "Input"
+             },
+             "loc": {
+              "items": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "integer"
+                }
+               ]
+              },
+              "title": "Location",
+              "type": "array"
+             },
+             "msg": {
+              "title": "Message",
+              "type": "string"
+             },
+             "type": {
+              "title": "Error Type",
+              "type": "string"
+             }
+            },
+            "required": [
+             "loc",
+             "msg",
+             "type"
+            ],
+            "title": "ValidationError",
+            "type": "object"
+           },
+           "title": "Detail",
+           "type": "array"
+          }
+         },
+         "title": "HTTPValidationError",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    }
+   }
+  },
+  "/api/circuits/import": {
+   "post": {
+    "parameters": [
+     {
+      "in": "query",
+      "name": "on_conflict",
+      "required": false,
+      "schema": {
+       "default": "rename",
+       "pattern": "^(rename|fail)$",
+       "title": "On Conflict",
+       "type": "string"
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "additionalProperties": true,
+        "description": "circuit-definition/v1 JSON",
+        "title": "Payload",
+        "type": "object"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "examples": [
+          {
+           "data": {},
+           "success": true
+          }
+         ],
+         "properties": {
+          "data": {
+           "anyOf": [
+            {
+             "description": "List/detail row. Rung language is ALWAYS server-rendered.",
+             "properties": {
+              "authored_intensity": {
+               "anyOf": [
+                {
+                 "type": "number"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "description": "The document's own `budget.intensity` (the author's or calibration's choice); differs from `intensity` after `PUT /api/circuits/active/intensity`.",
+               "title": "Authored Intensity"
+              },
+              "created_at": {
+               "title": "Created At"
+              },
+              "description": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "title": "Description"
+              },
+              "dial_range": {
+               "anyOf": [
+                {
+                 "items": {
+                  "type": "number"
+                 },
+                 "type": "array"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "description": "[min, max]: what a per-request dial's \"min\" and \"max\" resolve to on this circuit (its authored range intersected with the configured envelope). min == 0 means \"min\" is the same as \"off\". Null when not resolvable.",
+               "title": "Dial Range"
+              },
+              "edge_count": {
+               "title": "Edge Count",
+               "type": "integer"
+              },
+              "id": {
+               "title": "Id",
+               "type": "string"
+              },
+              "intensity": {
+               "description": "The \u03bb this circuit serves at: the authored value at activation, then the operator's dial (held to `dial_range`). Equals what `X-miLLM-Steering` reports.",
+               "title": "Intensity",
+               "type": "number"
+              },
+              "is_active": {
+               "title": "Is Active",
+               "type": "boolean"
+              },
+              "layers": {
+               "items": {
+                "type": "integer"
+               },
+               "title": "Layers",
+               "type": "array"
+              },
+              "name": {
+               "title": "Name",
+               "type": "string"
+              },
+              "per_sae_warnings": {
+               "items": {
+                "description": "One layer's compatibility verdict from import/activation.",
+                "properties": {
+                 "layer": {
+                  "title": "Layer",
+                  "type": "integer"
+                 },
+                 "reason": {
+                  "anyOf": [
+                   {
+                    "type": "string"
+                   },
+                   {
+                    "type": "null"
+                   }
+                  ],
+                  "title": "Reason"
+                 },
+                 "sae_id": {
+                  "anyOf": [
+                   {
+                    "type": "string"
+                   },
+                   {
+                    "type": "null"
+                   }
+                  ],
+                  "title": "Sae Id"
+                 },
+                 "verdict": {
+                  "enum": [
+                   "bind",
+                   "warn",
+                   "block",
+                   "unbound"
+                  ],
+                  "title": "Verdict",
+                  "type": "string"
+                 }
+                },
+                "required": [
+                 "layer",
+                 "verdict"
+                ],
+                "title": "PerSAEVerdict",
+                "type": "object"
+               },
+               "title": "Per Sae Warnings",
+               "type": "array"
+              },
+              "rung": {
+               "maximum": 3.0,
+               "minimum": 0.0,
+               "title": "Rung",
+               "type": "integer"
+              },
+              "rung_language": {
+               "description": "Server-rendered evidence phrase \u2014 never re-phrase client-side",
+               "title": "Rung Language",
+               "type": "string"
+              },
+              "rung_next_step": {
+               "title": "Rung Next Step",
+               "type": "string"
+              },
+              "serveable": {
+               "title": "Serveable",
+               "type": "boolean"
+              },
+              "serving_mode": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "title": "Serving Mode"
+              },
+              "steering": {
+               "anyOf": [
+                {
+                 "type": "boolean"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "description": "Whether this circuit is ACTUALLY steering generation right now \u2014 is_active only says a row is marked active. Answered by the server's own predicate so clients never re-derive it (a client deriving it from is_active will overclaim on a slice-fallback, unparseable, or unattached circuit). Null when not evaluated.",
+               "title": "Steering"
+              },
+              "updated_at": {
+               "title": "Updated At"
+              },
+              "validated": {
+               "description": "rung >= 2; below this the circuit is not causally validated",
+               "title": "Validated",
+               "type": "boolean"
+              }
+             },
+             "required": [
+              "id",
+              "name",
+              "rung",
+              "rung_language",
+              "rung_next_step",
+              "validated",
+              "edge_count",
+              "layers",
+              "serveable",
+              "is_active",
+              "intensity"
+             ],
+             "title": "CircuitSummary",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Response data (on success)"
+          },
+          "error": {
+           "anyOf": [
+            {
+             "description": "Error details for failed API responses.",
+             "properties": {
+              "code": {
+               "description": "Machine-readable error code",
+               "title": "Code",
+               "type": "string"
+              },
+              "details": {
+               "additionalProperties": true,
+               "description": "Additional error context",
+               "title": "Details",
+               "type": "object"
+              },
+              "message": {
+               "description": "Human-readable error message",
+               "title": "Message",
+               "type": "string"
+              }
+             },
+             "required": [
+              "code",
+              "message"
+             ],
+             "title": "ErrorDetails",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Error details (on failure)"
+          },
+          "success": {
+           "description": "Whether the request succeeded",
+           "title": "Success",
+           "type": "boolean"
+          }
+         },
+         "required": [
+          "success"
+         ],
+         "title": "ApiResponse[CircuitSummary]",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "properties": {
+          "detail": {
+           "items": {
+            "properties": {
+             "ctx": {
+              "title": "Context",
+              "type": "object"
+             },
+             "input": {
+              "title": "Input"
+             },
+             "loc": {
+              "items": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "integer"
+                }
+               ]
+              },
+              "title": "Location",
+              "type": "array"
+             },
+             "msg": {
+              "title": "Message",
+              "type": "string"
+             },
+             "type": {
+              "title": "Error Type",
+              "type": "string"
+             }
+            },
+            "required": [
+             "loc",
+             "msg",
+             "type"
+            ],
+            "title": "ValidationError",
+            "type": "object"
+           },
+           "title": "Detail",
+           "type": "array"
+          }
+         },
+         "title": "HTTPValidationError",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    }
+   }
+  },
+  "/api/clusters": {
+   "get": {
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "examples": [
+          {
+           "data": {},
+           "success": true
+          }
+         ],
+         "properties": {
+          "data": {
+           "anyOf": [
+            {
+             "properties": {
+              "active_cluster_id": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "title": "Active Cluster Id"
+              },
+              "clusters": {
+               "items": {
+                "description": "One cluster-typed profile row for the Clusters page.\n\nBuilt manually by ClusterService._summarize (member_count/bound/warnings\nare derived, not ORM attributes) \u2014 deliberately NOT from_attributes.",
+                "properties": {
+                 "bound": {
+                  "default": false,
+                  "title": "Bound",
+                  "type": "boolean"
+                 },
+                 "budget_b": {
+                  "anyOf": [
+                   {
+                    "type": "number"
+                   },
+                   {
+                    "type": "null"
+                   }
+                  ],
+                  "title": "Budget B"
+                 },
+                 "created_at": {
+                  "format": "date-time",
+                  "title": "Created At",
+                  "type": "string"
+                 },
+                 "description": {
+                  "anyOf": [
+                   {
+                    "type": "string"
+                   },
+                   {
+                    "type": "null"
+                   }
+                  ],
+                  "title": "Description"
+                 },
+                 "display_token": {
+                  "anyOf": [
+                   {
+                    "type": "string"
+                   },
+                   {
+                    "type": "null"
+                   }
+                  ],
+                  "title": "Display Token"
+                 },
+                 "formula_id": {
+                  "anyOf": [
+                   {
+                    "type": "string"
+                   },
+                   {
+                    "type": "null"
+                   }
+                  ],
+                  "title": "Formula Id"
+                 },
+                 "hub_ref": {
+                  "anyOf": [
+                   {
+                    "additionalProperties": true,
+                    "type": "object"
+                   },
+                   {
+                    "type": "null"
+                   }
+                  ],
+                  "title": "Hub Ref"
+                 },
+                 "id": {
+                  "title": "Id",
+                  "type": "string"
+                 },
+                 "intensity": {
+                  "title": "Intensity",
+                  "type": "number"
+                 },
+                 "intensity_range": {
+                  "anyOf": [
+                   {
+                    "items": {
+                     "type": "number"
+                    },
+                    "type": "array"
+                   },
+                   {
+                    "type": "null"
+                   }
+                  ],
+                  "title": "Intensity Range"
+                 },
+                 "is_active": {
+                  "title": "Is Active",
+                  "type": "boolean"
+                 },
+                 "layer": {
+                  "anyOf": [
+                   {
+                    "type": "integer"
+                   },
+                   {
+                    "type": "null"
+                   }
+                  ],
+                  "title": "Layer"
+                 },
+                 "member_count": {
+                  "default": 0,
+                  "title": "Member Count",
+                  "type": "integer"
+                 },
+                 "members": {
+                  "items": {
+                   "maxItems": 3,
+                   "minItems": 3,
+                   "prefixItems": [
+                    {
+                     "type": "integer"
+                    },
+                    {
+                     "anyOf": [
+                      {
+                       "type": "string"
+                      },
+                      {
+                       "type": "null"
+                      }
+                     ]
+                    },
+                    {
+                     "type": "number"
+                    }
+                   ],
+                   "type": "array"
+                  },
+                  "title": "Members",
+                  "type": "array"
+                 },
+                 "model_id": {
+                  "anyOf": [
+                   {
+                    "type": "string"
+                   },
+                   {
+                    "type": "null"
+                   }
+                  ],
+                  "title": "Model Id"
+                 },
+                 "name": {
+                  "title": "Name",
+                  "type": "string"
+                 },
+                 "sae_id": {
+                  "anyOf": [
+                   {
+                    "type": "string"
+                   },
+                   {
+                    "type": "null"
+                   }
+                  ],
+                  "title": "Sae Id"
+                 },
+                 "sensing_enabled": {
+                  "title": "Sensing Enabled",
+                  "type": "boolean"
+                 },
+                 "updated_at": {
+                  "format": "date-time",
+                  "title": "Updated At",
+                  "type": "string"
+                 },
+                 "warnings": {
+                  "items": {
+                   "type": "string"
+                  },
+                  "title": "Warnings",
+                  "type": "array"
+                 }
+                },
+                "required": [
+                 "id",
+                 "name",
+                 "is_active",
+                 "intensity",
+                 "sensing_enabled",
+                 "created_at",
+                 "updated_at"
+                ],
+                "title": "ClusterSummary",
+                "type": "object"
+               },
+               "title": "Clusters",
+               "type": "array"
+              }
+             },
+             "required": [
+              "clusters"
+             ],
+             "title": "ClusterListResponse",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Response data (on success)"
+          },
+          "error": {
+           "anyOf": [
+            {
+             "description": "Error details for failed API responses.",
+             "properties": {
+              "code": {
+               "description": "Machine-readable error code",
+               "title": "Code",
+               "type": "string"
+              },
+              "details": {
+               "additionalProperties": true,
+               "description": "Additional error context",
+               "title": "Details",
+               "type": "object"
+              },
+              "message": {
+               "description": "Human-readable error message",
+               "title": "Message",
+               "type": "string"
+              }
+             },
+             "required": [
+              "code",
+              "message"
+             ],
+             "title": "ErrorDetails",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Error details (on failure)"
+          },
+          "success": {
+           "description": "Whether the request succeeded",
+           "title": "Success",
+           "type": "boolean"
+          }
+         },
+         "required": [
+          "success"
+         ],
+         "title": "ApiResponse[ClusterListResponse]",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     }
+    }
+   }
+  },
+  "/api/clusters/import": {
+   "post": {
+    "parameters": [
+     {
+      "in": "query",
+      "name": "on_conflict",
+      "required": false,
+      "schema": {
+       "default": "rename",
+       "pattern": "^(rename|fail)$",
+       "title": "On Conflict",
+       "type": "string"
+      }
+     },
+     {
+      "description": "Activate after import (single definition only)",
+      "in": "query",
+      "name": "activate",
+      "required": false,
+      "schema": {
+       "default": false,
+       "description": "Activate after import (single definition only)",
+       "title": "Activate",
+       "type": "boolean"
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "additionalProperties": true,
+        "description": "Definition or bundle JSON",
+        "title": "Payload",
+        "type": "object"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "examples": [
+          {
+           "data": {},
+           "success": true
+          }
+         ],
+         "properties": {
+          "data": {
+           "anyOf": [
+            {
+             "properties": {
+              "blocked": {
+               "title": "Blocked",
+               "type": "integer"
+              },
+              "errors": {
+               "title": "Errors",
+               "type": "integer"
+              },
+              "imported": {
+               "title": "Imported",
+               "type": "integer"
+              },
+              "results": {
+               "items": {
+                "description": "Per-definition import outcome (bundle imports aggregate these).",
+                "properties": {
+                 "error": {
+                  "anyOf": [
+                   {
+                    "type": "string"
+                   },
+                   {
+                    "type": "null"
+                   }
+                  ],
+                  "title": "Error"
+                 },
+                 "name": {
+                  "title": "Name",
+                  "type": "string"
+                 },
+                 "profile_id": {
+                  "anyOf": [
+                   {
+                    "type": "string"
+                   },
+                   {
+                    "type": "null"
+                   }
+                  ],
+                  "title": "Profile Id"
+                 },
+                 "status": {
+                  "enum": [
+                   "imported",
+                   "imported_unbound",
+                   "blocked",
+                   "error"
+                  ],
+                  "title": "Status",
+                  "type": "string"
+                 },
+                 "warnings": {
+                  "items": {
+                   "type": "string"
+                  },
+                  "title": "Warnings",
+                  "type": "array"
+                 }
+                },
+                "required": [
+                 "name",
+                 "status"
+                ],
+                "title": "ClusterImportItem",
+                "type": "object"
+               },
+               "title": "Results",
+               "type": "array"
+              }
+             },
+             "required": [
+              "results",
+              "imported",
+              "blocked",
+              "errors"
+             ],
+             "title": "ClusterImportResult",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Response data (on success)"
+          },
+          "error": {
+           "anyOf": [
+            {
+             "description": "Error details for failed API responses.",
+             "properties": {
+              "code": {
+               "description": "Machine-readable error code",
+               "title": "Code",
+               "type": "string"
+              },
+              "details": {
+               "additionalProperties": true,
+               "description": "Additional error context",
+               "title": "Details",
+               "type": "object"
+              },
+              "message": {
+               "description": "Human-readable error message",
+               "title": "Message",
+               "type": "string"
+              }
+             },
+             "required": [
+              "code",
+              "message"
+             ],
+             "title": "ErrorDetails",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Error details (on failure)"
+          },
+          "success": {
+           "description": "Whether the request succeeded",
+           "title": "Success",
+           "type": "boolean"
+          }
+         },
+         "required": [
+          "success"
+         ],
+         "title": "ApiResponse[ClusterImportResult]",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "properties": {
+          "detail": {
+           "items": {
+            "properties": {
+             "ctx": {
+              "title": "Context",
+              "type": "object"
+             },
+             "input": {
+              "title": "Input"
+             },
+             "loc": {
+              "items": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "integer"
+                }
+               ]
+              },
+              "title": "Location",
+              "type": "array"
+             },
+             "msg": {
+              "title": "Message",
+              "type": "string"
+             },
+             "type": {
+              "title": "Error Type",
+              "type": "string"
+             }
+            },
+            "required": [
+             "loc",
+             "msg",
+             "type"
+            ],
+            "title": "ValidationError",
+            "type": "object"
+           },
+           "title": "Detail",
+           "type": "array"
+          }
+         },
+         "title": "HTTPValidationError",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    }
+   }
+  },
+  "/api/health": {
+   "get": {
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "description": "Response schema for health check.",
+         "properties": {
+          "status": {
+           "description": "Overall health status",
+           "enum": [
+            "healthy",
+            "degraded",
+            "unhealthy"
+           ],
+           "title": "HealthStatus",
+           "type": "string"
+          },
+          "timestamp": {
+           "description": "Current server time (UTC)",
+           "format": "date-time",
+           "title": "Timestamp",
+           "type": "string"
+          },
+          "uptime_seconds": {
+           "anyOf": [
+            {
+             "type": "number"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Server uptime in seconds",
+           "title": "Uptime Seconds"
+          },
+          "version": {
+           "description": "Application version",
+           "title": "Version",
+           "type": "string"
+          }
+         },
+         "required": [
+          "status",
+          "version",
+          "timestamp"
+         ],
+         "title": "HealthResponse",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     }
+    }
+   }
+  },
+  "/api/health/detailed": {
+   "get": {
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "description": "Detailed health response with all system information.",
+         "properties": {
+          "active_profile": {
+           "anyOf": [
+            {
+             "description": "The active steering profile, surfaced for the unified MCP server\n(Feature 9): agents answer 'what is steering right now?' from one\ndetailed-health call instead of a second round-trip.",
+             "properties": {
+              "id": {
+               "description": "Profile ID",
+               "title": "Id",
+               "type": "string"
+              },
+              "intensity": {
+               "default": 1.0,
+               "description": "Current lambda dial (clusters)",
+               "title": "Intensity",
+               "type": "number"
+              },
+              "name": {
+               "description": "Profile display name",
+               "title": "Name",
+               "type": "string"
+              },
+              "sensing_enabled": {
+               "default": false,
+               "description": "Sensing intent (Feature 11)",
+               "title": "Sensing Enabled",
+               "type": "boolean"
+              },
+              "source_kind": {
+               "default": "manual",
+               "description": "'manual' or 'cluster'",
+               "title": "Source Kind",
+               "type": "string"
+              }
+             },
+             "required": [
+              "id",
+              "name"
+             ],
+             "title": "ActiveProfileInfo",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Currently active steering profile (null when none)"
+          },
+          "circuit_breakers": {
+           "description": "Circuit breaker statuses",
+           "items": {
+            "description": "Status of a circuit breaker.",
+            "properties": {
+             "failure_count": {
+              "description": "Current failure count",
+              "title": "Failure Count",
+              "type": "integer"
+             },
+             "is_open": {
+              "description": "Whether circuit is currently blocking requests",
+              "title": "Is Open",
+              "type": "boolean"
+             },
+             "name": {
+              "description": "Circuit breaker name",
+              "title": "Name",
+              "type": "string"
+             },
+             "state": {
+              "description": "Current state (closed, open, half_open)",
+              "title": "State",
+              "type": "string"
+             }
+            },
+            "required": [
+             "name",
+             "state",
+             "failure_count",
+             "is_open"
+            ],
+            "title": "CircuitBreakerStatus",
+            "type": "object"
+           },
+           "title": "Circuit Breakers",
+           "type": "array"
+          },
+          "components": {
+           "description": "Health status of individual components",
+           "items": {
+            "description": "Health status of a single component.",
+            "properties": {
+             "latency_ms": {
+              "anyOf": [
+               {
+                "type": "number"
+               },
+               {
+                "type": "null"
+               }
+              ],
+              "description": "Check latency in milliseconds",
+              "title": "Latency Ms"
+             },
+             "message": {
+              "anyOf": [
+               {
+                "type": "string"
+               },
+               {
+                "type": "null"
+               }
+              ],
+              "description": "Additional status message",
+              "title": "Message"
+             },
+             "name": {
+              "description": "Component name",
+              "title": "Name",
+              "type": "string"
+             },
+             "status": {
+              "description": "Component status",
+              "enum": [
+               "healthy",
+               "degraded",
+               "unhealthy"
+              ],
+              "title": "HealthStatus",
+              "type": "string"
+             }
+            },
+            "required": [
+             "name",
+             "status"
+            ],
+            "title": "ComponentHealth",
+            "type": "object"
+           },
+           "title": "Components",
+           "type": "array"
+          },
+          "inference": {
+           "additionalProperties": false,
+           "description": "Request queue and backend state (typed contract, Feature 29)",
+           "properties": {
+            "backend": {
+             "anyOf": [
+              {
+               "type": "string"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "description": "'queue' (serial) or 'cbm'",
+             "title": "Backend"
+            },
+            "batch_backlog_rows": {
+             "anyOf": [
+              {
+               "type": "integer"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "description": "Rows not yet run across in-progress batches; null with no batch API",
+             "title": "Batch Backlog Rows"
+            },
+            "cbm_enabled": {
+             "anyOf": [
+              {
+               "type": "boolean"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "description": "Continuous batching configured",
+             "title": "Cbm Enabled"
+            },
+            "cbm_running": {
+             "anyOf": [
+              {
+               "type": "boolean"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "description": "Continuous batching serving now",
+             "title": "Cbm Running"
+            },
+            "error": {
+             "anyOf": [
+              {
+               "type": "string"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "description": "Set when the block could not be read; the other fields are then null",
+             "title": "Error"
+            },
+            "estimated_wait_seconds": {
+             "anyOf": [
+              {
+               "type": "number"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "description": "ESTIMATE of a new request's wait for a slot: median recent slot-holding time x (queue_waiting + in_flight) / queue_max_concurrent; null below 3 samples or under CBM",
+             "title": "Estimated Wait Seconds"
+            },
+            "in_flight": {
+             "anyOf": [
+              {
+               "type": "integer"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "description": "Slots held now, the idle cache release included (T-90), plus batch chunks once Feature 26 ships; null while continuous batching runs",
+             "title": "In Flight"
+            },
+            "queue_max_concurrent": {
+             "anyOf": [
+              {
+               "type": "integer"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "description": "Slots (MAX_CONCURRENT_REQUESTS)",
+             "title": "Queue Max Concurrent"
+            },
+            "queue_max_pending": {
+             "anyOf": [
+              {
+               "type": "integer"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "description": "MAX_PENDING_REQUESTS",
+             "title": "Queue Max Pending"
+            },
+            "queue_pending": {
+             "anyOf": [
+              {
+               "type": "integer"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "description": "Interactive requests waiting PLUS holding a slot",
+             "title": "Queue Pending"
+            },
+            "queue_waiting": {
+             "anyOf": [
+              {
+               "type": "integer"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "description": "Interactive requests waiting: queue_pending - holding; null under CBM",
+             "title": "Queue Waiting"
+            }
+           },
+           "title": "InferenceState",
+           "type": "object"
+          },
+          "lease": {
+           "anyOf": [
+            {
+             "additionalProperties": false,
+             "description": "A live lease, as every read reports it. Never carries the lease ID.",
+             "properties": {
+              "acquired_at": {
+               "format": "date-time",
+               "title": "Acquired At",
+               "type": "string"
+              },
+              "expires_at": {
+               "format": "date-time",
+               "title": "Expires At",
+               "type": "string"
+              },
+              "holder": {
+               "title": "Holder",
+               "type": "string"
+              },
+              "model_id": {
+               "title": "Model Id",
+               "type": "integer"
+              },
+              "model_name": {
+               "title": "Model Name",
+               "type": "string"
+              },
+              "reason": {
+               "title": "Reason",
+               "type": "string"
+              },
+              "renewed_at": {
+               "anyOf": [
+                {
+                 "format": "date-time",
+                 "type": "string"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "title": "Renewed At"
+              },
+              "seconds_remaining": {
+               "title": "Seconds Remaining",
+               "type": "integer"
+              },
+              "ttl_seconds": {
+               "title": "Ttl Seconds",
+               "type": "integer"
+              }
+             },
+             "required": [
+              "model_id",
+              "model_name",
+              "holder",
+              "reason",
+              "acquired_at",
+              "expires_at",
+              "ttl_seconds",
+              "seconds_remaining"
+             ],
+             "title": "LeaseStatusResponse",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "The live lease on the resident model (holder, reason, expiry), or null. Never the lease ID (Feature 29)."
+          },
+          "legacy_names": {
+           "anyOf": [
+            {
+             "additionalProperties": false,
+             "description": "The suite's one `legacy_names` block (BR-023): exactly these four keys in every app.",
+             "properties": {
+              "also_set": {
+               "items": {
+                "additionalProperties": false,
+                "properties": {
+                 "new": {
+                  "title": "New",
+                  "type": "string"
+                 },
+                 "old": {
+                  "title": "Old",
+                  "type": "string"
+                 }
+                },
+                "required": [
+                 "old",
+                 "new"
+                ],
+                "title": "LegacyNamePair",
+                "type": "object"
+               },
+               "title": "Also Set",
+               "type": "array"
+              },
+              "conflicts": {
+               "items": {
+                "additionalProperties": false,
+                "properties": {
+                 "new": {
+                  "title": "New",
+                  "type": "string"
+                 },
+                 "old": {
+                  "title": "Old",
+                  "type": "string"
+                 }
+                },
+                "required": [
+                 "old",
+                 "new"
+                ],
+                "title": "LegacyNamePair",
+                "type": "object"
+               },
+               "title": "Conflicts",
+               "type": "array"
+              },
+              "in_use": {
+               "items": {
+                "additionalProperties": false,
+                "description": "One old name set now or used within `in_use_window_hours`. Names only, never a value.",
+                "properties": {
+                 "kind": {
+                  "enum": [
+                   "env",
+                   "host"
+                  ],
+                  "title": "Kind",
+                  "type": "string"
+                 },
+                 "last_seen": {
+                  "format": "date-time",
+                  "title": "Last Seen",
+                  "type": "string"
+                 },
+                 "new": {
+                  "title": "New",
+                  "type": "string"
+                 },
+                 "old": {
+                  "title": "Old",
+                  "type": "string"
+                 }
+                },
+                "required": [
+                 "kind",
+                 "old",
+                 "new",
+                 "last_seen"
+                ],
+                "title": "LegacyNameInUse",
+                "type": "object"
+               },
+               "title": "In Use",
+               "type": "array"
+              },
+              "retired_but_set": {
+               "items": {
+                "type": "string"
+               },
+               "title": "Retired But Set",
+               "type": "array"
+              }
+             },
+             "required": [
+              "in_use",
+              "also_set",
+              "conflicts",
+              "retired_but_set"
+             ],
+             "title": "LegacyNamesHealth",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Environment names and hosts from before the rename that are still in use (040, BR-023): in_use, also_set, conflicts, retired_but_set. Names only, never values."
+          },
+          "legacy_names_meta": {
+           "additionalProperties": false,
+           "description": "Diagnostics for legacy_names: observing_since, last_flush_at, watching, the window, the transition and unobserved hosts, each one's new host, retire_on, and error (null when the read worked).",
+           "properties": {
+            "error": {
+             "anyOf": [
+              {
+               "type": "string"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "title": "Error"
+            },
+            "in_use_window_hours": {
+             "title": "In Use Window Hours",
+             "type": "integer"
+            },
+            "last_flush_at": {
+             "anyOf": [
+              {
+               "format": "date-time",
+               "type": "string"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "title": "Last Flush At"
+            },
+            "new_host_for": {
+             "additionalProperties": {
+              "type": "string"
+             },
+             "title": "New Host For",
+             "type": "object"
+            },
+            "observing_since": {
+             "anyOf": [
+              {
+               "format": "date-time",
+               "type": "string"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "title": "Observing Since"
+            },
+            "retire_on": {
+             "anyOf": [
+              {
+               "format": "date",
+               "type": "string"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "title": "Retire On"
+            },
+            "transition_hosts": {
+             "items": {
+              "type": "string"
+             },
+             "title": "Transition Hosts",
+             "type": "array"
+            },
+            "unobserved_hosts": {
+             "items": {
+              "type": "string"
+             },
+             "title": "Unobserved Hosts",
+             "type": "array"
+            },
+            "watching": {
+             "additionalProperties": {
+              "type": "integer"
+             },
+             "title": "Watching",
+             "type": "object"
+            }
+           },
+           "required": [
+            "observing_since",
+            "last_flush_at",
+            "watching",
+            "in_use_window_hours",
+            "transition_hosts",
+            "unobserved_hosts",
+            "new_host_for",
+            "retire_on",
+            "error"
+           ],
+           "title": "LegacyNamesMeta",
+           "type": "object"
+          },
+          "model_loaded": {
+           "default": false,
+           "description": "Whether a model is currently loaded",
+           "title": "Model Loaded",
+           "type": "boolean"
+          },
+          "model_name": {
+           "anyOf": [
+            {
+             "type": "string"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Name of loaded model",
+           "title": "Model Name"
+          },
+          "model_placement": {
+           "anyOf": [
+            {
+             "additionalProperties": true,
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Card(s) the loaded model is on: mode, reason, devices, gpu_indices and memory_by_device_mb",
+           "title": "Model Placement"
+          },
+          "sae_attached": {
+           "default": false,
+           "description": "Whether an SAE is currently attached",
+           "title": "Sae Attached",
+           "type": "boolean"
+          },
+          "sae_count": {
+           "default": 0,
+           "description": "Number of attached (sae_id, layer) entries (Feature 12)",
+           "title": "Sae Count",
+           "type": "integer"
+          },
+          "sae_id": {
+           "anyOf": [
+            {
+             "type": "string"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "ID of the FIRST attached SAE (back-compat singular view). With a multi-SAE circuit attached, see sae_count/sae_ids for the full set.",
+           "title": "Sae Id"
+          },
+          "sae_ids": {
+           "description": "Every attached SAE id, in attachment order (Feature 12)",
+           "items": {
+            "type": "string"
+           },
+           "title": "Sae Ids",
+           "type": "array"
+          },
+          "status": {
+           "description": "Overall health status",
+           "enum": [
+            "healthy",
+            "degraded",
+            "unhealthy"
+           ],
+           "title": "HealthStatus",
+           "type": "string"
+          },
+          "telemetry": {
+           "anyOf": [
+            {
+             "description": "038 FR-38.13: OpenTelemetry export state. Every signal reads `disabled` unless the operator\nswitched it on. `error` (a class name) only when the snapshot itself failed.",
+             "properties": {
+              "attributes_dropped": {
+               "anyOf": [
+                {
+                 "type": "integer"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "title": "Attributes Dropped"
+              },
+              "config": {
+               "anyOf": [
+                {
+                 "description": "The effective, NON-SECRET configuration: credentials only as set/not set; the endpoint with\nuserinfo, query and fragment stripped.",
+                 "properties": {
+                  "batch_size": {
+                   "anyOf": [
+                    {
+                     "type": "integer"
+                    },
+                    {
+                     "type": "null"
+                    }
+                   ],
+                   "title": "Batch Size"
+                  },
+                  "deployment_environment": {
+                   "anyOf": [
+                    {
+                     "type": "string"
+                    },
+                    {
+                     "type": "null"
+                    }
+                   ],
+                   "title": "Deployment Environment"
+                  },
+                  "drain_deadline_s": {
+                   "anyOf": [
+                    {
+                     "type": "number"
+                    },
+                    {
+                     "type": "null"
+                    }
+                   ],
+                   "title": "Drain Deadline S"
+                  },
+                  "endpoint": {
+                   "anyOf": [
+                    {
+                     "type": "string"
+                    },
+                    {
+                     "type": "null"
+                    }
+                   ],
+                   "title": "Endpoint"
+                  },
+                  "export_timeout_s": {
+                   "anyOf": [
+                    {
+                     "type": "number"
+                    },
+                    {
+                     "type": "null"
+                    }
+                   ],
+                   "title": "Export Timeout S"
+                  },
+                  "headers_set": {
+                   "default": false,
+                   "title": "Headers Set",
+                   "type": "boolean"
+                  },
+                  "metric_interval_s": {
+                   "anyOf": [
+                    {
+                     "type": "number"
+                    },
+                    {
+                     "type": "null"
+                    }
+                   ],
+                   "title": "Metric Interval S"
+                  },
+                  "protocol": {
+                   "default": "http/protobuf",
+                   "title": "Protocol",
+                   "type": "string"
+                  },
+                  "queue_size": {
+                   "anyOf": [
+                    {
+                     "type": "integer"
+                    },
+                    {
+                     "type": "null"
+                    }
+                   ],
+                   "title": "Queue Size"
+                  },
+                  "result_log_filter": {
+                   "anyOf": [
+                    {
+                     "properties": {
+                      "origins": {
+                       "items": {
+                        "type": "string"
+                       },
+                       "title": "Origins",
+                       "type": "array"
+                      }
+                     },
+                     "title": "TelemetryLogFilterView",
+                     "type": "object"
+                    },
+                    {
+                     "type": "null"
+                    }
+                   ]
+                  },
+                  "retry_horizon_s": {
+                   "anyOf": [
+                    {
+                     "type": "number"
+                    },
+                    {
+                     "type": "null"
+                    }
+                   ],
+                   "title": "Retry Horizon S"
+                  },
+                  "sampler": {
+                   "anyOf": [
+                    {
+                     "properties": {
+                      "kind": {
+                       "title": "Kind",
+                       "type": "string"
+                      },
+                      "ratio": {
+                       "title": "Ratio",
+                       "type": "number"
+                      }
+                     },
+                     "required": [
+                      "kind",
+                      "ratio"
+                     ],
+                     "title": "TelemetrySamplerView",
+                     "type": "object"
+                    },
+                    {
+                     "type": "null"
+                    }
+                   ]
+                  },
+                  "sdk_disabled": {
+                   "default": false,
+                   "title": "Sdk Disabled",
+                   "type": "boolean"
+                  },
+                  "sdk_version": {
+                   "anyOf": [
+                    {
+                     "type": "string"
+                    },
+                    {
+                     "type": "null"
+                    }
+                   ],
+                   "title": "Sdk Version"
+                  },
+                  "semconv_schema_url": {
+                   "anyOf": [
+                    {
+                     "type": "string"
+                    },
+                    {
+                     "type": "null"
+                    }
+                   ],
+                   "title": "Semconv Schema Url"
+                  },
+                  "series_cap": {
+                   "anyOf": [
+                    {
+                     "type": "integer"
+                    },
+                    {
+                     "type": "null"
+                    }
+                   ],
+                   "title": "Series Cap"
+                  },
+                  "service_instance_id": {
+                   "anyOf": [
+                    {
+                     "type": "string"
+                    },
+                    {
+                     "type": "null"
+                    }
+                   ],
+                   "title": "Service Instance Id"
+                  },
+                  "service_name": {
+                   "anyOf": [
+                    {
+                     "type": "string"
+                    },
+                    {
+                     "type": "null"
+                    }
+                   ],
+                   "title": "Service Name"
+                  },
+                  "stateless_export_permitted": {
+                   "default": false,
+                   "title": "Stateless Export Permitted",
+                   "type": "boolean"
+                  },
+                  "tls_ca_file_set": {
+                   "default": false,
+                   "title": "Tls Ca File Set",
+                   "type": "boolean"
+                  },
+                  "tls_client_cert_set": {
+                   "default": false,
+                   "title": "Tls Client Cert Set",
+                   "type": "boolean"
+                  },
+                  "tls_client_key_set": {
+                   "default": false,
+                   "title": "Tls Client Key Set",
+                   "type": "boolean"
+                  },
+                  "transport": {
+                   "anyOf": [
+                    {
+                     "type": "string"
+                    },
+                    {
+                     "type": "null"
+                    }
+                   ],
+                   "title": "Transport"
+                  }
+                 },
+                 "title": "TelemetryConfigView",
+                 "type": "object"
+                },
+                {
+                 "type": "null"
+                }
+               ]
+              },
+              "deletion_note": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "title": "Deletion Note"
+              },
+              "enabled": {
+               "anyOf": [
+                {
+                 "type": "boolean"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "title": "Enabled"
+              },
+              "error": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "title": "Error"
+              },
+              "series_overflow": {
+               "anyOf": [
+                {
+                 "type": "integer"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "title": "Series Overflow"
+              },
+              "signals": {
+               "anyOf": [
+                {
+                 "additionalProperties": {
+                  "properties": {
+                   "dropped": {
+                    "default": 0,
+                    "title": "Dropped",
+                    "type": "integer"
+                   },
+                   "exported": {
+                    "default": 0,
+                    "title": "Exported",
+                    "type": "integer"
+                   },
+                   "failed": {
+                    "default": 0,
+                    "title": "Failed",
+                    "type": "integer"
+                   },
+                   "last_error": {
+                    "anyOf": [
+                     {
+                      "properties": {
+                       "at": {
+                        "anyOf": [
+                         {
+                          "type": "string"
+                         },
+                         {
+                          "type": "null"
+                         }
+                        ],
+                        "title": "At"
+                       },
+                       "type": {
+                        "description": "The error's CLASS (or HTTPnnn) \u2014 never its message",
+                        "title": "Type",
+                        "type": "string"
+                       }
+                      },
+                      "required": [
+                       "type"
+                      ],
+                      "title": "TelemetryErrorView",
+                      "type": "object"
+                     },
+                     {
+                      "type": "null"
+                     }
+                    ]
+                   },
+                   "last_success_at": {
+                    "anyOf": [
+                     {
+                      "type": "string"
+                     },
+                     {
+                      "type": "null"
+                     }
+                    ],
+                    "title": "Last Success At"
+                   },
+                   "queue": {
+                    "properties": {
+                     "capacity": {
+                      "default": 0,
+                      "title": "Capacity",
+                      "type": "integer"
+                     },
+                     "used": {
+                      "default": 0,
+                      "title": "Used",
+                      "type": "integer"
+                     }
+                    },
+                    "title": "TelemetryQueueView",
+                    "type": "object"
+                   },
+                   "state": {
+                    "description": "disabled | healthy | degraded | unavailable",
+                    "title": "State",
+                    "type": "string"
+                   }
+                  },
+                  "required": [
+                   "state"
+                  ],
+                  "title": "TelemetrySignalHealth",
+                  "type": "object"
+                 },
+                 "type": "object"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "title": "Signals"
+              }
+             },
+             "title": "TelemetryHealth",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "OpenTelemetry export (Feature 38): per-signal state (disabled unless switched on), counters, the non-secret effective configuration and the deletion note."
+          },
+          "timestamp": {
+           "description": "Current server time (UTC)",
+           "format": "date-time",
+           "title": "Timestamp",
+           "type": "string"
+          },
+          "version": {
+           "description": "Application version",
+           "title": "Version",
+           "type": "string"
+          },
+          "weights": {
+           "anyOf": [
+            {
+             "description": "The `weights` block of `/api/health/detailed` (FR-31.16.3). `error` replaces the facts\nwhen the barrier or the attachment could not be read; the endpoint itself never fails.",
+             "properties": {
+              "attached": {
+               "anyOf": [
+                {
+                 "type": "boolean"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "title": "Attached"
+              },
+              "attachment_state": {
+               "anyOf": [
+                {
+                 "enum": [
+                  "active",
+                  "stale"
+                 ],
+                 "type": "string"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "title": "Attachment State"
+              },
+              "barrier": {
+               "anyOf": [
+                {
+                 "enum": [
+                  "serving",
+                  "quiesced"
+                 ],
+                 "type": "string"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "title": "Barrier"
+              },
+              "error": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "title": "Error"
+              },
+              "weights_state": {
+               "anyOf": [
+                {
+                 "enum": [
+                  "clean",
+                  "writing",
+                  "torn"
+                 ],
+                 "type": "string"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "title": "Weights State"
+              }
+             },
+             "title": "WeightsHealthSummary",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Weight state and attachment (Feature 31): weights_state, barrier, attached, attachment_state; `error` when they could not be read. Never the attachment ID."
+          }
+         },
+         "required": [
+          "status",
+          "version",
+          "timestamp",
+          "inference",
+          "legacy_names_meta"
+         ],
+         "title": "DetailedHealthResponse",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     }
+    }
+   }
+  },
+  "/api/models": {
+   "get": {
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "examples": [
+          {
+           "data": {},
+           "success": true
+          }
+         ],
+         "properties": {
+          "data": {
+           "anyOf": [
+            {
+             "items": {
+              "description": "Response schema for a single model.",
+              "properties": {
+               "architecture": {
+                "anyOf": [
+                 {
+                  "type": "string"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "description": "Model architecture",
+                "title": "Architecture"
+               },
+               "created_at": {
+                "description": "When the model was added",
+                "format": "date-time",
+                "title": "Created At",
+                "type": "string"
+               },
+               "device": {
+                "anyOf": [
+                 {
+                  "type": "string"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "description": "Device the model is loaded on (only available when loaded)",
+                "title": "Device"
+               },
+               "disk_size_mb": {
+                "anyOf": [
+                 {
+                  "type": "integer"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "description": "Size on disk in MB",
+                "title": "Disk Size Mb"
+               },
+               "download_progress": {
+                "anyOf": [
+                 {
+                  "type": "integer"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "description": "Download progress percentage (0-100) when status is DOWNLOADING",
+                "title": "Download Progress"
+               },
+               "dtype": {
+                "anyOf": [
+                 {
+                  "type": "string"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "description": "Data type of model weights (only available when loaded)",
+                "title": "Dtype"
+               },
+               "error_message": {
+                "anyOf": [
+                 {
+                  "type": "string"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "description": "Error message if status is ERROR",
+                "title": "Error Message"
+               },
+               "estimated_memory_mb": {
+                "anyOf": [
+                 {
+                  "type": "integer"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "description": "Estimated VRAM requirement in MB",
+                "title": "Estimated Memory Mb"
+               },
+               "gguf_label": {
+                "anyOf": [
+                 {
+                  "type": "string"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "description": "The EXACT GGUF quantization (Q5_K_M, IQ4_XS), when this model is a single GGUF file. '' or null for an ordinary model. Prefer this over `quantization` for display: the coarse enum has five members and cannot tell Q4_K_M from Q4_0, so a card showing only the bucket reports a quantization that was never chosen.",
+                "title": "Gguf Label"
+               },
+               "id": {
+                "description": "Unique model identifier",
+                "title": "Id",
+                "type": "integer"
+               },
+               "lease": {
+                "anyOf": [
+                 {
+                  "additionalProperties": false,
+                  "description": "A live lease, as every read reports it. Never carries the lease ID.",
+                  "properties": {
+                   "acquired_at": {
+                    "format": "date-time",
+                    "title": "Acquired At",
+                    "type": "string"
+                   },
+                   "expires_at": {
+                    "format": "date-time",
+                    "title": "Expires At",
+                    "type": "string"
+                   },
+                   "holder": {
+                    "title": "Holder",
+                    "type": "string"
+                   },
+                   "model_id": {
+                    "title": "Model Id",
+                    "type": "integer"
+                   },
+                   "model_name": {
+                    "title": "Model Name",
+                    "type": "string"
+                   },
+                   "reason": {
+                    "title": "Reason",
+                    "type": "string"
+                   },
+                   "renewed_at": {
+                    "anyOf": [
+                     {
+                      "format": "date-time",
+                      "type": "string"
+                     },
+                     {
+                      "type": "null"
+                     }
+                    ],
+                    "title": "Renewed At"
+                   },
+                   "seconds_remaining": {
+                    "title": "Seconds Remaining",
+                    "type": "integer"
+                   },
+                   "ttl_seconds": {
+                    "title": "Ttl Seconds",
+                    "type": "integer"
+                   }
+                  },
+                  "required": [
+                   "model_id",
+                   "model_name",
+                   "holder",
+                   "reason",
+                   "acquired_at",
+                   "expires_at",
+                   "ttl_seconds",
+                   "seconds_remaining"
+                  ],
+                  "title": "LeaseStatusResponse",
+                  "type": "object"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "description": "The live lease on this model (Feature 29): holder, reason, expiry. Never the lease ID. Null when the model is not leased."
+               },
+               "loaded_at": {
+                "anyOf": [
+                 {
+                  "format": "date-time",
+                  "type": "string"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "description": "When the model was loaded into memory",
+                "title": "Loaded At"
+               },
+               "local_path": {
+                "anyOf": [
+                 {
+                  "type": "string"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "description": "Path to local model directory",
+                "title": "Local Path"
+               },
+               "locked": {
+                "default": false,
+                "description": "Whether the model is locked for steering (prevents auto-unload)",
+                "title": "Locked",
+                "type": "boolean"
+               },
+               "memory_footprint": {
+                "anyOf": [
+                 {
+                  "type": "integer"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "description": "Actual memory usage in bytes (only available when loaded)",
+                "title": "Memory Footprint"
+               },
+               "name": {
+                "description": "Display name for the model",
+                "title": "Name",
+                "type": "string"
+               },
+               "num_parameters": {
+                "anyOf": [
+                 {
+                  "type": "integer"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "description": "Number of model parameters (only available when loaded)",
+                "title": "Num Parameters"
+               },
+               "params": {
+                "anyOf": [
+                 {
+                  "type": "string"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "description": "Parameter count (e.g., '2.5B')",
+                "title": "Params"
+               },
+               "placement": {
+                "anyOf": [
+                 {
+                  "description": "Where the loaded model lives and how that was decided.",
+                  "properties": {
+                   "budget_mb_by_device": {
+                    "additionalProperties": {
+                     "type": "integer"
+                    },
+                    "description": "What each card of a split could hold after its runtime reserve, in MB; empty for one card",
+                    "title": "Budget Mb By Device",
+                    "type": "object"
+                   },
+                   "capacity_mb": {
+                    "default": 0,
+                    "description": "Free memory of the card(s) used, at decision time",
+                    "title": "Capacity Mb",
+                    "type": "integer"
+                   },
+                   "devices": {
+                    "description": "Devices the model holds tensors on",
+                    "items": {
+                     "type": "string"
+                    },
+                    "title": "Devices",
+                    "type": "array"
+                   },
+                   "gpu_indices": {
+                    "description": "CUDA indices the model uses",
+                    "items": {
+                     "type": "integer"
+                    },
+                    "title": "Gpu Indices",
+                    "type": "array"
+                   },
+                   "memory_by_device_mb": {
+                    "additionalProperties": {
+                     "type": "integer"
+                    },
+                    "description": "Memory the load consumed on each card, in MB",
+                    "title": "Memory By Device Mb",
+                    "type": "object"
+                   },
+                   "mode": {
+                    "description": "'single' (one card), 'shard' (split across GPUs, never the CPU for a transformers model), or 'cpu' (GGUF only). Servers before 2026-09-14 reported an unplanned split as 'all'.",
+                    "title": "Mode",
+                    "type": "string"
+                   },
+                   "planned_mb_by_device": {
+                    "additionalProperties": {
+                     "type": "integer"
+                    },
+                    "description": "A split's planned share on each card, in MB; empty for one card",
+                    "title": "Planned Mb By Device",
+                    "type": "object"
+                   },
+                   "reason": {
+                    "description": "most_free_card_fits | requested_card | requested_all_cards | no_single_card_fits | size_unknown | no_gpu",
+                    "title": "Reason",
+                    "type": "string"
+                   },
+                   "requested": {
+                    "anyOf": [
+                     {
+                      "type": "integer"
+                     },
+                     {
+                      "type": "string"
+                     },
+                     {
+                      "type": "null"
+                     }
+                    ],
+                    "description": "The card asked for ('all' for every card), if any",
+                    "title": "Requested"
+                   },
+                   "required_mb": {
+                    "default": 0,
+                    "description": "Memory the placement was sized for",
+                    "title": "Required Mb",
+                    "type": "integer"
+                   }
+                  },
+                  "required": [
+                   "mode",
+                   "reason"
+                  ],
+                  "title": "ModelPlacement",
+                  "type": "object"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "description": "Card(s) the model is on and per-card memory (only available when loaded)"
+               },
+               "probe_capacity": {
+                "anyOf": [
+                 {
+                  "additionalProperties": true,
+                  "type": "object"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "description": "Per-model probe limits (single-model GET only): measured step time and probe cost lines, configured and effective limits, the limits they imply, and the armed set against each budget when this model is resident",
+                "title": "Probe Capacity"
+               },
+               "quantization": {
+                "description": "Quantization level (coarse bucket)",
+                "enum": [
+                 "FP32",
+                 "FP16",
+                 "Q8",
+                 "Q4",
+                 "Q2",
+                 "GPTQ",
+                 "AWQ",
+                 "BITNET"
+                ],
+                "title": "QuantizationType",
+                "type": "string"
+               },
+               "repo_id": {
+                "anyOf": [
+                 {
+                  "type": "string"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "description": "HuggingFace repository ID",
+                "title": "Repo Id"
+               },
+               "revision": {
+                "anyOf": [
+                 {
+                  "type": "string"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "description": "The pinned commit this model was downloaded from",
+                "title": "Revision"
+               },
+               "source": {
+                "description": "Source of the model",
+                "enum": [
+                 "huggingface",
+                 "local"
+                ],
+                "title": "ModelSource",
+                "type": "string"
+               },
+               "status": {
+                "description": "Current model status",
+                "enum": [
+                 "downloading",
+                 "ready",
+                 "loading",
+                 "loaded",
+                 "error"
+                ],
+                "title": "ModelStatus",
+                "type": "string"
+               },
+               "updated_at": {
+                "description": "When the model was last updated",
+                "format": "date-time",
+                "title": "Updated At",
+                "type": "string"
+               }
+              },
+              "required": [
+               "id",
+               "name",
+               "source",
+               "quantization",
+               "status",
+               "created_at",
+               "updated_at"
+              ],
+              "title": "ModelResponse",
+              "type": "object"
+             },
+             "type": "array"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Response data (on success)",
+           "title": "Data"
+          },
+          "error": {
+           "anyOf": [
+            {
+             "description": "Error details for failed API responses.",
+             "properties": {
+              "code": {
+               "description": "Machine-readable error code",
+               "title": "Code",
+               "type": "string"
+              },
+              "details": {
+               "additionalProperties": true,
+               "description": "Additional error context",
+               "title": "Details",
+               "type": "object"
+              },
+              "message": {
+               "description": "Human-readable error message",
+               "title": "Message",
+               "type": "string"
+              }
+             },
+             "required": [
+              "code",
+              "message"
+             ],
+             "title": "ErrorDetails",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Error details (on failure)"
+          },
+          "success": {
+           "description": "Whether the request succeeded",
+           "title": "Success",
+           "type": "boolean"
+          }
+         },
+         "required": [
+          "success"
+         ],
+         "title": "ApiResponse[list[ModelResponse]]",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     }
+    }
+   }
+  },
+  "/api/models/{model_id}/load": {
+   "post": {
+    "parameters": [
+     {
+      "description": "Model ID",
+      "in": "path",
+      "name": "model_id",
+      "required": true,
+      "schema": {
+       "description": "Model ID",
+       "minimum": 1,
+       "title": "Model Id",
+       "type": "integer"
+      }
+     },
+     {
+      "description": "The lease ID returned by the grant",
+      "in": "header",
+      "name": "X-miLLM-Lease",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "The lease ID returned by the grant",
+       "title": "X-Millm-Lease"
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "anyOf": [
+         {
+          "description": "Optional body for POST /api/models/{id}/load.",
+          "properties": {
+           "gpu": {
+            "anyOf": [
+             {
+              "type": "integer"
+             },
+             {
+              "type": "string"
+             },
+             {
+              "type": "null"
+             }
+            ],
+            "description": "Which GPU to load on: null or 'auto' for the card with the most free memory that fits (split across the fewest cards when none does), 'all' to split across every visible card, a CUDA index (0, 1, ...), or a GPU UUID as nvidia-smi prints it (GPU-...). A named card, or 'all', that lacks the memory is refused, never swapped for other cards or the CPU.",
+            "examples": [
+             null,
+             "auto",
+             "all",
+             1,
+             "GPU-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+            ],
+            "title": "Gpu"
+           }
+          },
+          "title": "ModelLoadRequest",
+          "type": "object"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Request"
+       }
+      }
+     }
+    },
+    "responses": {
+     "202": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "examples": [
+          {
+           "data": {},
+           "success": true
+          }
+         ],
+         "properties": {
+          "data": {
+           "anyOf": [
+            {
+             "description": "Response schema for a single model.",
+             "properties": {
+              "architecture": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "description": "Model architecture",
+               "title": "Architecture"
+              },
+              "created_at": {
+               "description": "When the model was added",
+               "format": "date-time",
+               "title": "Created At",
+               "type": "string"
+              },
+              "device": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "description": "Device the model is loaded on (only available when loaded)",
+               "title": "Device"
+              },
+              "disk_size_mb": {
+               "anyOf": [
+                {
+                 "type": "integer"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "description": "Size on disk in MB",
+               "title": "Disk Size Mb"
+              },
+              "download_progress": {
+               "anyOf": [
+                {
+                 "type": "integer"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "description": "Download progress percentage (0-100) when status is DOWNLOADING",
+               "title": "Download Progress"
+              },
+              "dtype": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "description": "Data type of model weights (only available when loaded)",
+               "title": "Dtype"
+              },
+              "error_message": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "description": "Error message if status is ERROR",
+               "title": "Error Message"
+              },
+              "estimated_memory_mb": {
+               "anyOf": [
+                {
+                 "type": "integer"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "description": "Estimated VRAM requirement in MB",
+               "title": "Estimated Memory Mb"
+              },
+              "gguf_label": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "description": "The EXACT GGUF quantization (Q5_K_M, IQ4_XS), when this model is a single GGUF file. '' or null for an ordinary model. Prefer this over `quantization` for display: the coarse enum has five members and cannot tell Q4_K_M from Q4_0, so a card showing only the bucket reports a quantization that was never chosen.",
+               "title": "Gguf Label"
+              },
+              "id": {
+               "description": "Unique model identifier",
+               "title": "Id",
+               "type": "integer"
+              },
+              "lease": {
+               "anyOf": [
+                {
+                 "additionalProperties": false,
+                 "description": "A live lease, as every read reports it. Never carries the lease ID.",
+                 "properties": {
+                  "acquired_at": {
+                   "format": "date-time",
+                   "title": "Acquired At",
+                   "type": "string"
+                  },
+                  "expires_at": {
+                   "format": "date-time",
+                   "title": "Expires At",
+                   "type": "string"
+                  },
+                  "holder": {
+                   "title": "Holder",
+                   "type": "string"
+                  },
+                  "model_id": {
+                   "title": "Model Id",
+                   "type": "integer"
+                  },
+                  "model_name": {
+                   "title": "Model Name",
+                   "type": "string"
+                  },
+                  "reason": {
+                   "title": "Reason",
+                   "type": "string"
+                  },
+                  "renewed_at": {
+                   "anyOf": [
+                    {
+                     "format": "date-time",
+                     "type": "string"
+                    },
+                    {
+                     "type": "null"
+                    }
+                   ],
+                   "title": "Renewed At"
+                  },
+                  "seconds_remaining": {
+                   "title": "Seconds Remaining",
+                   "type": "integer"
+                  },
+                  "ttl_seconds": {
+                   "title": "Ttl Seconds",
+                   "type": "integer"
+                  }
+                 },
+                 "required": [
+                  "model_id",
+                  "model_name",
+                  "holder",
+                  "reason",
+                  "acquired_at",
+                  "expires_at",
+                  "ttl_seconds",
+                  "seconds_remaining"
+                 ],
+                 "title": "LeaseStatusResponse",
+                 "type": "object"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "description": "The live lease on this model (Feature 29): holder, reason, expiry. Never the lease ID. Null when the model is not leased."
+              },
+              "loaded_at": {
+               "anyOf": [
+                {
+                 "format": "date-time",
+                 "type": "string"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "description": "When the model was loaded into memory",
+               "title": "Loaded At"
+              },
+              "local_path": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "description": "Path to local model directory",
+               "title": "Local Path"
+              },
+              "locked": {
+               "default": false,
+               "description": "Whether the model is locked for steering (prevents auto-unload)",
+               "title": "Locked",
+               "type": "boolean"
+              },
+              "memory_footprint": {
+               "anyOf": [
+                {
+                 "type": "integer"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "description": "Actual memory usage in bytes (only available when loaded)",
+               "title": "Memory Footprint"
+              },
+              "name": {
+               "description": "Display name for the model",
+               "title": "Name",
+               "type": "string"
+              },
+              "num_parameters": {
+               "anyOf": [
+                {
+                 "type": "integer"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "description": "Number of model parameters (only available when loaded)",
+               "title": "Num Parameters"
+              },
+              "params": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "description": "Parameter count (e.g., '2.5B')",
+               "title": "Params"
+              },
+              "placement": {
+               "anyOf": [
+                {
+                 "description": "Where the loaded model lives and how that was decided.",
+                 "properties": {
+                  "budget_mb_by_device": {
+                   "additionalProperties": {
+                    "type": "integer"
+                   },
+                   "description": "What each card of a split could hold after its runtime reserve, in MB; empty for one card",
+                   "title": "Budget Mb By Device",
+                   "type": "object"
+                  },
+                  "capacity_mb": {
+                   "default": 0,
+                   "description": "Free memory of the card(s) used, at decision time",
+                   "title": "Capacity Mb",
+                   "type": "integer"
+                  },
+                  "devices": {
+                   "description": "Devices the model holds tensors on",
+                   "items": {
+                    "type": "string"
+                   },
+                   "title": "Devices",
+                   "type": "array"
+                  },
+                  "gpu_indices": {
+                   "description": "CUDA indices the model uses",
+                   "items": {
+                    "type": "integer"
+                   },
+                   "title": "Gpu Indices",
+                   "type": "array"
+                  },
+                  "memory_by_device_mb": {
+                   "additionalProperties": {
+                    "type": "integer"
+                   },
+                   "description": "Memory the load consumed on each card, in MB",
+                   "title": "Memory By Device Mb",
+                   "type": "object"
+                  },
+                  "mode": {
+                   "description": "'single' (one card), 'shard' (split across GPUs, never the CPU for a transformers model), or 'cpu' (GGUF only). Servers before 2026-09-14 reported an unplanned split as 'all'.",
+                   "title": "Mode",
+                   "type": "string"
+                  },
+                  "planned_mb_by_device": {
+                   "additionalProperties": {
+                    "type": "integer"
+                   },
+                   "description": "A split's planned share on each card, in MB; empty for one card",
+                   "title": "Planned Mb By Device",
+                   "type": "object"
+                  },
+                  "reason": {
+                   "description": "most_free_card_fits | requested_card | requested_all_cards | no_single_card_fits | size_unknown | no_gpu",
+                   "title": "Reason",
+                   "type": "string"
+                  },
+                  "requested": {
+                   "anyOf": [
+                    {
+                     "type": "integer"
+                    },
+                    {
+                     "type": "string"
+                    },
+                    {
+                     "type": "null"
+                    }
+                   ],
+                   "description": "The card asked for ('all' for every card), if any",
+                   "title": "Requested"
+                  },
+                  "required_mb": {
+                   "default": 0,
+                   "description": "Memory the placement was sized for",
+                   "title": "Required Mb",
+                   "type": "integer"
+                  }
+                 },
+                 "required": [
+                  "mode",
+                  "reason"
+                 ],
+                 "title": "ModelPlacement",
+                 "type": "object"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "description": "Card(s) the model is on and per-card memory (only available when loaded)"
+              },
+              "probe_capacity": {
+               "anyOf": [
+                {
+                 "additionalProperties": true,
+                 "type": "object"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "description": "Per-model probe limits (single-model GET only): measured step time and probe cost lines, configured and effective limits, the limits they imply, and the armed set against each budget when this model is resident",
+               "title": "Probe Capacity"
+              },
+              "quantization": {
+               "description": "Quantization level (coarse bucket)",
+               "enum": [
+                "FP32",
+                "FP16",
+                "Q8",
+                "Q4",
+                "Q2",
+                "GPTQ",
+                "AWQ",
+                "BITNET"
+               ],
+               "title": "QuantizationType",
+               "type": "string"
+              },
+              "repo_id": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "description": "HuggingFace repository ID",
+               "title": "Repo Id"
+              },
+              "revision": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "null"
+                }
+               ],
+               "description": "The pinned commit this model was downloaded from",
+               "title": "Revision"
+              },
+              "source": {
+               "description": "Source of the model",
+               "enum": [
+                "huggingface",
+                "local"
+               ],
+               "title": "ModelSource",
+               "type": "string"
+              },
+              "status": {
+               "description": "Current model status",
+               "enum": [
+                "downloading",
+                "ready",
+                "loading",
+                "loaded",
+                "error"
+               ],
+               "title": "ModelStatus",
+               "type": "string"
+              },
+              "updated_at": {
+               "description": "When the model was last updated",
+               "format": "date-time",
+               "title": "Updated At",
+               "type": "string"
+              }
+             },
+             "required": [
+              "id",
+              "name",
+              "source",
+              "quantization",
+              "status",
+              "created_at",
+              "updated_at"
+             ],
+             "title": "ModelResponse",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Response data (on success)"
+          },
+          "error": {
+           "anyOf": [
+            {
+             "description": "Error details for failed API responses.",
+             "properties": {
+              "code": {
+               "description": "Machine-readable error code",
+               "title": "Code",
+               "type": "string"
+              },
+              "details": {
+               "additionalProperties": true,
+               "description": "Additional error context",
+               "title": "Details",
+               "type": "object"
+              },
+              "message": {
+               "description": "Human-readable error message",
+               "title": "Message",
+               "type": "string"
+              }
+             },
+             "required": [
+              "code",
+              "message"
+             ],
+             "title": "ErrorDetails",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Error details (on failure)"
+          },
+          "success": {
+           "description": "Whether the request succeeded",
+           "title": "Success",
+           "type": "boolean"
+          }
+         },
+         "required": [
+          "success"
+         ],
+         "title": "ApiResponse[ModelResponse]",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "properties": {
+          "detail": {
+           "items": {
+            "properties": {
+             "ctx": {
+              "title": "Context",
+              "type": "object"
+             },
+             "input": {
+              "title": "Input"
+             },
+             "loc": {
+              "items": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "integer"
+                }
+               ]
+              },
+              "title": "Location",
+              "type": "array"
+             },
+             "msg": {
+              "title": "Message",
+              "type": "string"
+             },
+             "type": {
+              "title": "Error Type",
+              "type": "string"
+             }
+            },
+            "required": [
+             "loc",
+             "msg",
+             "type"
+            ],
+            "title": "ValidationError",
+            "type": "object"
+           },
+           "title": "Detail",
+           "type": "array"
+          }
+         },
+         "title": "HTTPValidationError",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "x-approval-action": "model_load"
+   }
+  },
+  "/api/probes": {
+   "get": {
+    "parameters": [
+     {
+      "in": "query",
+      "name": "armed",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "boolean"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Armed"
+      }
+     },
+     {
+      "in": "query",
+      "name": "behaviour",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "maxLength": 64,
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Behaviour"
+      }
+     },
+     {
+      "in": "query",
+      "name": "cursor",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "maxLength": 2048,
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Cursor"
+      }
+     },
+     {
+      "in": "query",
+      "name": "limit",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "maximum": 1000,
+         "minimum": 1,
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Limit"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "description": "`ApiResponse` plus `meta` \u2014 the paginated lists only (039 FR-39.15, FTID I-4).\n\n`meta` is `{\"next\": cursor | None, \"limit\": n}`. A SUBCLASS, not a field on `ApiResponse`:\nthe shared envelope's generated schema is vendored by other repos (the weights API contract),\nand every unpaginated route keeps its exact bytes. Each item's shape is unchanged.",
+         "examples": [
+          {
+           "data": {},
+           "success": true
+          }
+         ],
+         "properties": {
+          "data": {
+           "anyOf": [
+            {},
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Response data (on success)",
+           "title": "Data"
+          },
+          "error": {
+           "anyOf": [
+            {
+             "description": "Error details for failed API responses.",
+             "properties": {
+              "code": {
+               "description": "Machine-readable error code",
+               "title": "Code",
+               "type": "string"
+              },
+              "details": {
+               "additionalProperties": true,
+               "description": "Additional error context",
+               "title": "Details",
+               "type": "object"
+              },
+              "message": {
+               "description": "Human-readable error message",
+               "title": "Message",
+               "type": "string"
+              }
+             },
+             "required": [
+              "code",
+              "message"
+             ],
+             "title": "ErrorDetails",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Error details (on failure)"
+          },
+          "meta": {
+           "anyOf": [
+            {
+             "additionalProperties": true,
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Pagination: next cursor, limit",
+           "title": "Meta"
+          },
+          "success": {
+           "description": "Whether the request succeeded",
+           "title": "Success",
+           "type": "boolean"
+          }
+         },
+         "required": [
+          "success"
+         ],
+         "title": "PageResponse",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "properties": {
+          "detail": {
+           "items": {
+            "properties": {
+             "ctx": {
+              "title": "Context",
+              "type": "object"
+             },
+             "input": {
+              "title": "Input"
+             },
+             "loc": {
+              "items": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "integer"
+                }
+               ]
+              },
+              "title": "Location",
+              "type": "array"
+             },
+             "msg": {
+              "title": "Message",
+              "type": "string"
+             },
+             "type": {
+              "title": "Error Type",
+              "type": "string"
+             }
+            },
+            "required": [
+             "loc",
+             "msg",
+             "type"
+            ],
+            "title": "ValidationError",
+            "type": "object"
+           },
+           "title": "Detail",
+           "type": "array"
+          }
+         },
+         "title": "HTTPValidationError",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    }
+   }
+  },
+  "/api/probes/events": {
+   "get": {
+    "parameters": [
+     {
+      "in": "query",
+      "name": "probe_id",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Probe Id"
+      }
+     },
+     {
+      "in": "query",
+      "name": "request_id",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Request Id"
+      }
+     },
+     {
+      "in": "query",
+      "name": "session_id",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "maxLength": 24,
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Session Id"
+      }
+     },
+     {
+      "description": "ISO 8601",
+      "in": "query",
+      "name": "since",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "format": "date-time",
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "ISO 8601",
+       "title": "Since"
+      }
+     },
+     {
+      "description": "ISO 8601",
+      "in": "query",
+      "name": "until",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "format": "date-time",
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "ISO 8601",
+       "title": "Until"
+      }
+     },
+     {
+      "in": "query",
+      "name": "verdict",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "enum": [
+          "fired",
+          "not_fired",
+          "not_scored"
+         ],
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Verdict"
+      }
+     },
+     {
+      "in": "query",
+      "name": "window",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "maxLength": 16,
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Window"
+      }
+     },
+     {
+      "in": "query",
+      "name": "origin",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "maxLength": 8,
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Origin"
+      }
+     },
+     {
+      "in": "query",
+      "name": "behaviour",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "maxLength": 64,
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Behaviour"
+      }
+     },
+     {
+      "in": "query",
+      "name": "score_min",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Score Min"
+      }
+     },
+     {
+      "in": "query",
+      "name": "score_max",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Score Max"
+      }
+     },
+     {
+      "in": "query",
+      "name": "result_id",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "maxLength": 36,
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Result Id"
+      }
+     },
+     {
+      "in": "query",
+      "name": "trace_id",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "pattern": "^[0-9a-f]{32}$",
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Trace Id"
+      }
+     },
+     {
+      "in": "query",
+      "name": "limit",
+      "required": false,
+      "schema": {
+       "default": 100,
+       "maximum": 500,
+       "minimum": 1,
+       "title": "Limit",
+       "type": "integer"
+      }
+     },
+     {
+      "description": "DEPRECATED (039): use cursor",
+      "in": "query",
+      "name": "offset",
+      "required": false,
+      "schema": {
+       "default": 0,
+       "description": "DEPRECATED (039): use cursor",
+       "minimum": 0,
+       "title": "Offset",
+       "type": "integer"
+      }
+     },
+     {
+      "in": "query",
+      "name": "cursor",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "maxLength": 2048,
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Cursor"
+      }
+     },
+     {
+      "in": "query",
+      "name": "kind",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "enum": [
+          "probe",
+          "rule"
+         ],
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Kind"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "description": "`ApiResponse` plus `meta` \u2014 the paginated lists only (039 FR-39.15, FTID I-4).\n\n`meta` is `{\"next\": cursor | None, \"limit\": n}`. A SUBCLASS, not a field on `ApiResponse`:\nthe shared envelope's generated schema is vendored by other repos (the weights API contract),\nand every unpaginated route keeps its exact bytes. Each item's shape is unchanged.",
+         "examples": [
+          {
+           "data": {},
+           "success": true
+          }
+         ],
+         "properties": {
+          "data": {
+           "anyOf": [
+            {},
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Response data (on success)",
+           "title": "Data"
+          },
+          "error": {
+           "anyOf": [
+            {
+             "description": "Error details for failed API responses.",
+             "properties": {
+              "code": {
+               "description": "Machine-readable error code",
+               "title": "Code",
+               "type": "string"
+              },
+              "details": {
+               "additionalProperties": true,
+               "description": "Additional error context",
+               "title": "Details",
+               "type": "object"
+              },
+              "message": {
+               "description": "Human-readable error message",
+               "title": "Message",
+               "type": "string"
+              }
+             },
+             "required": [
+              "code",
+              "message"
+             ],
+             "title": "ErrorDetails",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Error details (on failure)"
+          },
+          "meta": {
+           "anyOf": [
+            {
+             "additionalProperties": true,
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Pagination: next cursor, limit",
+           "title": "Meta"
+          },
+          "success": {
+           "description": "Whether the request succeeded",
+           "title": "Success",
+           "type": "boolean"
+          }
+         },
+         "required": [
+          "success"
+         ],
+         "title": "PageResponse",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "properties": {
+          "detail": {
+           "items": {
+            "properties": {
+             "ctx": {
+              "title": "Context",
+              "type": "object"
+             },
+             "input": {
+              "title": "Input"
+             },
+             "loc": {
+              "items": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "integer"
+                }
+               ]
+              },
+              "title": "Location",
+              "type": "array"
+             },
+             "msg": {
+              "title": "Message",
+              "type": "string"
+             },
+             "type": {
+              "title": "Error Type",
+              "type": "string"
+             }
+            },
+            "required": [
+             "loc",
+             "msg",
+             "type"
+            ],
+            "title": "ValidationError",
+            "type": "object"
+           },
+           "title": "Detail",
+           "type": "array"
+          }
+         },
+         "title": "HTTPValidationError",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    }
+   }
+  },
+  "/api/probes/import": {
+   "post": {
+    "parameters": [
+     {
+      "in": "query",
+      "name": "on_conflict",
+      "required": false,
+      "schema": {
+       "default": "rename",
+       "pattern": "^(rename|fail)$",
+       "title": "On Conflict",
+       "type": "string"
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "additionalProperties": true,
+        "title": "Payload",
+        "type": "object"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "description": "Standard API response wrapper.\n\nAll API endpoints return this format for consistency.\n\nSuccess response:\n    {\n        \"success\": true,\n        \"data\": <response data>\n    }\n\nError response:\n    {\n        \"success\": false,\n        \"error\": {\n            \"code\": \"ERROR_CODE\",\n            \"message\": \"Human readable message\",\n            \"details\": {}\n        }\n    }",
+         "examples": [
+          {
+           "data": {},
+           "success": true
+          }
+         ],
+         "properties": {
+          "data": {
+           "anyOf": [
+            {},
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Response data (on success)",
+           "title": "Data"
+          },
+          "error": {
+           "anyOf": [
+            {
+             "description": "Error details for failed API responses.",
+             "properties": {
+              "code": {
+               "description": "Machine-readable error code",
+               "title": "Code",
+               "type": "string"
+              },
+              "details": {
+               "additionalProperties": true,
+               "description": "Additional error context",
+               "title": "Details",
+               "type": "object"
+              },
+              "message": {
+               "description": "Human-readable error message",
+               "title": "Message",
+               "type": "string"
+              }
+             },
+             "required": [
+              "code",
+              "message"
+             ],
+             "title": "ErrorDetails",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Error details (on failure)"
+          },
+          "success": {
+           "description": "Whether the request succeeded",
+           "title": "Success",
+           "type": "boolean"
+          }
+         },
+         "required": [
+          "success"
+         ],
+         "title": "ApiResponse",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "properties": {
+          "detail": {
+           "items": {
+            "properties": {
+             "ctx": {
+              "title": "Context",
+              "type": "object"
+             },
+             "input": {
+              "title": "Input"
+             },
+             "loc": {
+              "items": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "integer"
+                }
+               ]
+              },
+              "title": "Location",
+              "type": "array"
+             },
+             "msg": {
+              "title": "Message",
+              "type": "string"
+             },
+             "type": {
+              "title": "Error Type",
+              "type": "string"
+             }
+            },
+            "required": [
+             "loc",
+             "msg",
+             "type"
+            ],
+            "title": "ValidationError",
+            "type": "object"
+           },
+           "title": "Detail",
+           "type": "array"
+          }
+         },
+         "title": "HTTPValidationError",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    }
+   }
+  },
+  "/api/probes/status": {
+   "get": {
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "description": "Standard API response wrapper.\n\nAll API endpoints return this format for consistency.\n\nSuccess response:\n    {\n        \"success\": true,\n        \"data\": <response data>\n    }\n\nError response:\n    {\n        \"success\": false,\n        \"error\": {\n            \"code\": \"ERROR_CODE\",\n            \"message\": \"Human readable message\",\n            \"details\": {}\n        }\n    }",
+         "examples": [
+          {
+           "data": {},
+           "success": true
+          }
+         ],
+         "properties": {
+          "data": {
+           "anyOf": [
+            {},
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Response data (on success)",
+           "title": "Data"
+          },
+          "error": {
+           "anyOf": [
+            {
+             "description": "Error details for failed API responses.",
+             "properties": {
+              "code": {
+               "description": "Machine-readable error code",
+               "title": "Code",
+               "type": "string"
+              },
+              "details": {
+               "additionalProperties": true,
+               "description": "Additional error context",
+               "title": "Details",
+               "type": "object"
+              },
+              "message": {
+               "description": "Human-readable error message",
+               "title": "Message",
+               "type": "string"
+              }
+             },
+             "required": [
+              "code",
+              "message"
+             ],
+             "title": "ErrorDetails",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "description": "Error details (on failure)"
+          },
+          "success": {
+           "description": "Whether the request succeeded",
+           "title": "Success",
+           "type": "boolean"
+          }
+         },
+         "required": [
+          "success"
+         ],
+         "title": "ApiResponse",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     }
+    }
+   }
+  },
+  "/v1/chat/completions": {
+   "post": {
+    "parameters": [
+     {
+      "in": "header",
+      "name": "X-miLLM-Lease",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Millm-Lease"
+      }
+     },
+     {
+      "in": "header",
+      "name": "X-miLLM-Load-Policy",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Millm-Load-Policy"
+      }
+     },
+     {
+      "in": "header",
+      "name": "X-miLLM-Session",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Millm-Session"
+      }
+     },
+     {
+      "in": "header",
+      "name": "X-miLLM-Origin",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Millm-Origin"
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "additionalProperties": true,
+        "description": "Chat completion request - OpenAI format.\n\nSupports all standard OpenAI chat completion parameters. Unknown fields are kept\n(extra=\"allow\") and reported or refused by `miserver/api/request_policy.py`.",
+        "properties": {
+         "allowed_token_ids": {
+          "anyOf": [
+           {
+            "items": {
+             "type": "integer"
+            },
+            "maxItems": 1024,
+            "minItems": 1,
+            "type": "array"
+           },
+           {
+            "type": "null"
+           }
+          ],
+          "title": "Allowed Token Ids"
+         },
+         "chat_template_kwargs": {
+          "anyOf": [
+           {
+            "additionalProperties": true,
+            "type": "object"
+           },
+           {
+            "type": "null"
+           }
+          ],
+          "title": "Chat Template Kwargs"
+         },
+         "extra_messages": {
+          "anyOf": [
+           {
+            "items": {
+             "items": {
+              "additionalProperties": true,
+              "description": "Chat message with role and content.",
+              "properties": {
+               "content": {
+                "anyOf": [
+                 {
+                  "type": "string"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "title": "Content"
+               },
+               "reasoning_content": {
+                "anyOf": [
+                 {
+                  "type": "string"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "title": "Reasoning Content"
+               },
+               "role": {
+                "enum": [
+                 "system",
+                 "user",
+                 "assistant",
+                 "tool",
+                 "function"
+                ],
+                "title": "Role",
+                "type": "string"
+               },
+               "tool_call_id": {
+                "anyOf": [
+                 {
+                  "type": "string"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "title": "Tool Call Id"
+               },
+               "tool_calls": {
+                "anyOf": [
+                 {
+                  "items": {
+                   "additionalProperties": true,
+                   "type": "object"
+                  },
+                  "type": "array"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "title": "Tool Calls"
+               }
+              },
+              "required": [
+               "role"
+              ],
+              "title": "ChatMessage",
+              "type": "object"
+             },
+             "type": "array"
+            },
+            "type": "array"
+           },
+           {
+            "type": "null"
+           }
+          ],
+          "title": "Extra Messages"
+         },
+         "frequency_penalty": {
+          "default": 0.0,
+          "maximum": 2.0,
+          "minimum": -2.0,
+          "title": "Frequency Penalty",
+          "type": "number"
+         },
+         "logprobs": {
+          "anyOf": [
+           {
+            "type": "boolean"
+           },
+           {
+            "type": "null"
+           }
+          ],
+          "title": "Logprobs"
+         },
+         "max_completion_tokens": {
+          "anyOf": [
+           {
+            "exclusiveMinimum": 0.0,
+            "type": "integer"
+           },
+           {
+            "type": "null"
+           }
+          ],
+          "title": "Max Completion Tokens"
+         },
+         "max_tokens": {
+          "anyOf": [
+           {
+            "exclusiveMinimum": 0.0,
+            "type": "integer"
+           },
+           {
+            "type": "null"
+           }
+          ],
+          "title": "Max Tokens"
+         },
+         "messages": {
+          "items": {
+           "additionalProperties": true,
+           "description": "Chat message with role and content.",
+           "properties": {
+            "content": {
+             "anyOf": [
+              {
+               "type": "string"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "title": "Content"
+            },
+            "reasoning_content": {
+             "anyOf": [
+              {
+               "type": "string"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "title": "Reasoning Content"
+            },
+            "role": {
+             "enum": [
+              "system",
+              "user",
+              "assistant",
+              "tool",
+              "function"
+             ],
+             "title": "Role",
+             "type": "string"
+            },
+            "tool_call_id": {
+             "anyOf": [
+              {
+               "type": "string"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "title": "Tool Call Id"
+            },
+            "tool_calls": {
+             "anyOf": [
+              {
+               "items": {
+                "additionalProperties": true,
+                "type": "object"
+               },
+               "type": "array"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "title": "Tool Calls"
+            }
+           },
+           "required": [
+            "role"
+           ],
+           "title": "ChatMessage",
+           "type": "object"
+          },
+          "title": "Messages",
+          "type": "array"
+         },
+         "model": {
+          "title": "Model",
+          "type": "string"
+         },
+         "n": {
+          "default": 1,
+          "minimum": 1.0,
+          "title": "N",
+          "type": "integer"
+         },
+         "parallel_tool_calls": {
+          "anyOf": [
+           {
+            "type": "boolean"
+           },
+           {
+            "type": "null"
+           }
+          ],
+          "title": "Parallel Tool Calls"
+         },
+         "presence_penalty": {
+          "default": 0.0,
+          "maximum": 2.0,
+          "minimum": -2.0,
+          "title": "Presence Penalty",
+          "type": "number"
+         },
+         "profile": {
+          "anyOf": [
+           {
+            "type": "string"
+           },
+           {
+            "type": "null"
+           }
+          ],
+          "title": "Profile"
+         },
+         "response_format": {
+          "anyOf": [
+           {
+            "discriminator": {
+             "mapping": {
+              "json_object": "#/components/schemas/ResponseFormatJsonObject",
+              "json_schema": "#/components/schemas/ResponseFormatJsonSchema",
+              "text": "#/components/schemas/ResponseFormatText"
+             },
+             "propertyName": "type"
+            },
+            "oneOf": [
+             {
+              "additionalProperties": false,
+              "description": "No constraint \u2014 the neutral value (FR-25.3.4).",
+              "properties": {
+               "type": {
+                "const": "text",
+                "title": "Type",
+                "type": "string"
+               }
+              },
+              "required": [
+               "type"
+              ],
+              "title": "ResponseFormatText",
+              "type": "object"
+             },
+             {
+              "additionalProperties": false,
+              "description": "The output parses as one JSON object.",
+              "properties": {
+               "type": {
+                "const": "json_object",
+                "title": "Type",
+                "type": "string"
+               }
+              },
+              "required": [
+               "type"
+              ],
+              "title": "ResponseFormatJsonObject",
+              "type": "object"
+             },
+             {
+              "additionalProperties": false,
+              "properties": {
+               "json_schema": {
+                "additionalProperties": false,
+                "description": "OpenAI's `json_schema` block. `strict: false` is accepted and the schema is STILL\nenforced (FR-25.10.4): enforcing more than asked is not a silent drop.\n\n`schema` is held as `schema_` because `schema` shadows a BaseModel attribute; requests are\nnever dumped, so the alias only matters on input. Unknown keys are refused (`forbid`), so a\nmisspelt field inside the block cannot be dropped silently.",
+                "properties": {
+                 "description": {
+                  "anyOf": [
+                   {
+                    "type": "string"
+                   },
+                   {
+                    "type": "null"
+                   }
+                  ],
+                  "title": "Description"
+                 },
+                 "name": {
+                  "pattern": "^[A-Za-z0-9_-]{1,64}$",
+                  "title": "Name",
+                  "type": "string"
+                 },
+                 "schema": {
+                  "additionalProperties": true,
+                  "title": "Schema",
+                  "type": "object"
+                 },
+                 "strict": {
+                  "anyOf": [
+                   {
+                    "type": "boolean"
+                   },
+                   {
+                    "type": "null"
+                   }
+                  ],
+                  "title": "Strict"
+                 }
+                },
+                "required": [
+                 "name",
+                 "schema"
+                ],
+                "title": "JsonSchemaSpec",
+                "type": "object"
+               },
+               "type": {
+                "const": "json_schema",
+                "title": "Type",
+                "type": "string"
+               }
+              },
+              "required": [
+               "type",
+               "json_schema"
+              ],
+              "title": "ResponseFormatJsonSchema",
+              "type": "object"
+             }
+            ]
+           },
+           {
+            "type": "null"
+           }
+          ],
+          "title": "Response Format"
+         },
+         "return_sae_activations": {
+          "anyOf": [
+           {
+            "additionalProperties": false,
+            "description": "`return_sae_activations` on `/v1/chat/completions` and `/v1/completions` (FR-27.1).\n\n`positions` is absolute over the processed sequence (prompt, then generated tokens). The final\nsampled token is never fed back, so it has no activation (FR-27.1c). `features` restricts the\ncandidates; `top_k` picks the largest among them, as the monitoring configuration does.",
+            "properties": {
+             "features": {
+              "anyOf": [
+               {
+                "items": {
+                 "type": "integer"
+                },
+                "minItems": 1,
+                "type": "array"
+               },
+               {
+                "type": "null"
+               }
+              ],
+              "title": "Features"
+             },
+             "positions": {
+              "anyOf": [
+               {
+                "enum": [
+                 "last",
+                 "prompt",
+                 "completion",
+                 "all"
+                ],
+                "type": "string"
+               },
+               {
+                "additionalProperties": false,
+                "description": "`{start, end}`: absolute positions over the processed sequence, half-open.",
+                "properties": {
+                 "end": {
+                  "exclusiveMinimum": 0.0,
+                  "title": "End",
+                  "type": "integer"
+                 },
+                 "start": {
+                  "minimum": 0.0,
+                  "title": "Start",
+                  "type": "integer"
+                 }
+                },
+                "required": [
+                 "start",
+                 "end"
+                ],
+                "title": "PositionRange",
+                "type": "object"
+               }
+              ],
+              "title": "Positions"
+             },
+             "read_point": {
+              "default": "post_steering",
+              "enum": [
+               "post_steering",
+               "pre_steering"
+              ],
+              "title": "Read Point",
+              "type": "string"
+             },
+             "sae_id": {
+              "anyOf": [
+               {
+                "type": "string"
+               },
+               {
+                "type": "null"
+               }
+              ],
+              "title": "Sae Id"
+             },
+             "top_k": {
+              "minimum": 1.0,
+              "title": "Top K",
+              "type": "integer"
+             }
+            },
+            "required": [
+             "top_k",
+             "positions"
+            ],
+            "title": "ReturnSaeActivations",
+            "type": "object"
+           },
+           {
+            "type": "null"
+           }
+          ]
+         },
+         "return_tokens_as_token_ids": {
+          "default": false,
+          "title": "Return Tokens As Token Ids",
+          "type": "boolean"
+         },
+         "seed": {
+          "anyOf": [
+           {
+            "maximum": 4294967295.0,
+            "minimum": 0.0,
+            "type": "integer"
+           },
+           {
+            "type": "null"
+           }
+          ],
+          "title": "Seed"
+         },
+         "steering": {
+          "anyOf": [
+           {
+            "additionalProperties": false,
+            "description": "`steering: {sae_id?, features: [{index, strength}]}` (FR-28.1.1).\n\n`features: []` means EXPLICITLY UNSTEERED for this request, on every attached SAE (FR-28.2.2);\nan `sae_id` beside it is refused, because it suggests a scope the empty form does not have.",
+            "properties": {
+             "features": {
+              "items": {
+               "additionalProperties": false,
+               "description": "One `{index, strength}` of an inline set. `strength` is clamped to \u00b1200 at apply time\n(FR-28.1.7) and the clamp is reported in `X-miLLM-Steering`, never silent.",
+               "properties": {
+                "index": {
+                 "minimum": 0.0,
+                 "title": "Index",
+                 "type": "integer"
+                },
+                "strength": {
+                 "title": "Strength",
+                 "type": "number"
+                }
+               },
+               "required": [
+                "index",
+                "strength"
+               ],
+               "title": "InlineSteeringFeature",
+               "type": "object"
+              },
+              "title": "Features",
+              "type": "array"
+             },
+             "sae_id": {
+              "anyOf": [
+               {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+               },
+               {
+                "type": "null"
+               }
+              ],
+              "title": "Sae Id"
+             }
+            },
+            "required": [
+             "features"
+            ],
+            "title": "InlineSteering",
+            "type": "object"
+           },
+           {
+            "type": "null"
+           }
+          ]
+         },
+         "steering_intensity": {
+          "anyOf": [
+           {
+            "type": "number"
+           },
+           {
+            "enum": [
+             "off",
+             "min",
+             "max"
+            ],
+            "type": "string"
+           },
+           {
+            "type": "null"
+           }
+          ],
+          "title": "Steering Intensity"
+         },
+         "stop": {
+          "anyOf": [
+           {
+            "type": "string"
+           },
+           {
+            "items": {
+             "type": "string"
+            },
+            "type": "array"
+           },
+           {
+            "type": "null"
+           }
+          ],
+          "title": "Stop"
+         },
+         "stream": {
+          "default": false,
+          "title": "Stream",
+          "type": "boolean"
+         },
+         "temperature": {
+          "default": 1.0,
+          "maximum": 2.0,
+          "minimum": 0.0,
+          "title": "Temperature",
+          "type": "number"
+         },
+         "tool_choice": {
+          "anyOf": [
+           {
+            "enum": [
+             "none",
+             "auto",
+             "required"
+            ],
+            "type": "string"
+           },
+           {
+            "description": "`tool_choice: {\"type\": \"function\", \"function\": {\"name\": ...}}`: call exactly this one.",
+            "properties": {
+             "function": {
+              "properties": {
+               "name": {
+                "title": "Name",
+                "type": "string"
+               }
+              },
+              "required": [
+               "name"
+              ],
+              "title": "ToolChoiceFunctionName",
+              "type": "object"
+             },
+             "type": {
+              "const": "function",
+              "default": "function",
+              "title": "Type",
+              "type": "string"
+             }
+            },
+            "required": [
+             "function"
+            ],
+            "title": "ToolChoiceFunction",
+            "type": "object"
+           },
+           {
+            "type": "null"
+           }
+          ],
+          "title": "Tool Choice"
+         },
+         "tools": {
+          "anyOf": [
+           {
+            "items": {
+             "description": "One entry of `tools` (function calling, 2026-10-28).",
+             "properties": {
+              "function": {
+               "additionalProperties": true,
+               "description": "A function the model may call (OpenAI `tools[].function`).",
+               "properties": {
+                "description": {
+                 "anyOf": [
+                  {
+                   "type": "string"
+                  },
+                  {
+                   "type": "null"
+                  }
+                 ],
+                 "title": "Description"
+                },
+                "name": {
+                 "maxLength": 64,
+                 "minLength": 1,
+                 "pattern": "^[A-Za-z0-9_.\\-]+$",
+                 "title": "Name",
+                 "type": "string"
+                },
+                "parameters": {
+                 "anyOf": [
+                  {
+                   "additionalProperties": true,
+                   "type": "object"
+                  },
+                  {
+                   "type": "null"
+                  }
+                 ],
+                 "title": "Parameters"
+                },
+                "strict": {
+                 "anyOf": [
+                  {
+                   "type": "boolean"
+                  },
+                  {
+                   "type": "null"
+                  }
+                 ],
+                 "title": "Strict"
+                }
+               },
+               "required": [
+                "name"
+               ],
+               "title": "ChatToolFunction",
+               "type": "object"
+              },
+              "type": {
+               "const": "function",
+               "default": "function",
+               "title": "Type",
+               "type": "string"
+              }
+             },
+             "required": [
+              "function"
+             ],
+             "title": "ChatTool",
+             "type": "object"
+            },
+            "type": "array"
+           },
+           {
+            "type": "null"
+           }
+          ],
+          "title": "Tools"
+         },
+         "top_logprobs": {
+          "anyOf": [
+           {
+            "maximum": 20.0,
+            "minimum": 0.0,
+            "type": "integer"
+           },
+           {
+            "type": "null"
+           }
+          ],
+          "title": "Top Logprobs"
+         },
+         "top_p": {
+          "default": 1.0,
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Top P",
+          "type": "number"
+         }
+        },
+        "required": [
+         "model",
+         "messages"
+        ],
+        "title": "ChatCompletionRequest",
+        "type": "object"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "description": "Non-streaming chat completion response.\n\nThe `id` format is \"chatcmpl-{24 hex chars}\".",
+         "properties": {
+          "choices": {
+           "items": {
+            "description": "Single completion choice in non-streaming response.",
+            "properties": {
+             "finish_reason": {
+              "enum": [
+               "stop",
+               "length",
+               "timeout",
+               "tool_calls"
+              ],
+              "title": "Finish Reason",
+              "type": "string"
+             },
+             "index": {
+              "title": "Index",
+              "type": "integer"
+             },
+             "logprobs": {
+              "anyOf": [
+               {
+                "properties": {
+                 "content": {
+                  "items": {
+                   "description": "The scored next token (FR-25.8): `content` holds exactly one of these.",
+                   "properties": {
+                    "bytes": {
+                     "items": {
+                      "type": "integer"
+                     },
+                     "title": "Bytes",
+                     "type": "array"
+                    },
+                    "logprob": {
+                     "title": "Logprob",
+                     "type": "number"
+                    },
+                    "token": {
+                     "title": "Token",
+                     "type": "string"
+                    },
+                    "top_logprobs": {
+                     "items": {
+                      "description": "One entry of `top_logprobs` in OpenAI's chat logprobs shape.",
+                      "properties": {
+                       "bytes": {
+                        "items": {
+                         "type": "integer"
+                        },
+                        "title": "Bytes",
+                        "type": "array"
+                       },
+                       "logprob": {
+                        "title": "Logprob",
+                        "type": "number"
+                       },
+                       "token": {
+                        "title": "Token",
+                        "type": "string"
+                       }
+                      },
+                      "required": [
+                       "token",
+                       "logprob",
+                       "bytes"
+                      ],
+                      "title": "ChatLogprobAlternative",
+                      "type": "object"
+                     },
+                     "title": "Top Logprobs",
+                     "type": "array"
+                    }
+                   },
+                   "required": [
+                    "token",
+                    "logprob",
+                    "bytes",
+                    "top_logprobs"
+                   ],
+                   "title": "ChatLogprobToken",
+                   "type": "object"
+                  },
+                  "title": "Content",
+                  "type": "array"
+                 }
+                },
+                "required": [
+                 "content"
+                ],
+                "title": "ChatLogprobs",
+                "type": "object"
+               },
+               {
+                "type": "null"
+               }
+              ]
+             },
+             "message": {
+              "additionalProperties": true,
+              "description": "Chat message with role and content.",
+              "properties": {
+               "content": {
+                "anyOf": [
+                 {
+                  "type": "string"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "title": "Content"
+               },
+               "reasoning_content": {
+                "anyOf": [
+                 {
+                  "type": "string"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "title": "Reasoning Content"
+               },
+               "role": {
+                "enum": [
+                 "system",
+                 "user",
+                 "assistant",
+                 "tool",
+                 "function"
+                ],
+                "title": "Role",
+                "type": "string"
+               },
+               "tool_call_id": {
+                "anyOf": [
+                 {
+                  "type": "string"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "title": "Tool Call Id"
+               },
+               "tool_calls": {
+                "anyOf": [
+                 {
+                  "items": {
+                   "additionalProperties": true,
+                   "type": "object"
+                  },
+                  "type": "array"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "title": "Tool Calls"
+               }
+              },
+              "required": [
+               "role"
+              ],
+              "title": "ChatMessage",
+              "type": "object"
+             }
+            },
+            "required": [
+             "index",
+             "message",
+             "finish_reason"
+            ],
+            "title": "ChatCompletionChoice",
+            "type": "object"
+           },
+           "title": "Choices",
+           "type": "array"
+          },
+          "created": {
+           "title": "Created",
+           "type": "integer"
+          },
+          "id": {
+           "title": "Id",
+           "type": "string"
+          },
+          "millm": {
+           "anyOf": [
+            {
+             "description": "The `millm` object. Every field is optional and omitted when absent.",
+             "properties": {
+              "sae_activations": {
+               "anyOf": [
+                {
+                 "properties": {
+                  "layer": {
+                   "title": "Layer",
+                   "type": "integer"
+                  },
+                  "note": {
+                   "title": "Note",
+                   "type": "string"
+                  },
+                  "positions": {
+                   "items": {
+                    "properties": {
+                     "features": {
+                      "items": {
+                       "properties": {
+                        "index": {
+                         "title": "Index",
+                         "type": "integer"
+                        },
+                        "value": {
+                         "title": "Value",
+                         "type": "number"
+                        }
+                       },
+                       "required": [
+                        "index",
+                        "value"
+                       ],
+                       "title": "SaeActivationFeature",
+                       "type": "object"
+                      },
+                      "title": "Features",
+                      "type": "array"
+                     },
+                     "position": {
+                      "title": "Position",
+                      "type": "integer"
+                     },
+                     "token_id": {
+                      "anyOf": [
+                       {
+                        "type": "integer"
+                       },
+                       {
+                        "type": "null"
+                       }
+                      ],
+                      "title": "Token Id"
+                     }
+                    },
+                    "required": [
+                     "position",
+                     "features"
+                    ],
+                    "title": "SaeActivationPosition",
+                    "type": "object"
+                   },
+                   "title": "Positions",
+                   "type": "array"
+                  },
+                  "read_point": {
+                   "enum": [
+                    "post_steering",
+                    "pre_steering",
+                    "unsteered"
+                   ],
+                   "title": "Read Point",
+                   "type": "string"
+                  },
+                  "sae_id": {
+                   "title": "Sae Id",
+                   "type": "string"
+                  }
+                 },
+                 "required": [
+                  "sae_id",
+                  "layer",
+                  "read_point",
+                  "positions",
+                  "note"
+                 ],
+                 "title": "SaeActivationsBlock",
+                 "type": "object"
+                },
+                {
+                 "type": "null"
+                }
+               ]
+              }
+             },
+             "title": "MillmExtension",
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ]
+          },
+          "millm_probe_verdicts": {
+           "anyOf": [
+            {
+             "items": {
+              "additionalProperties": true,
+              "type": "object"
+             },
+             "type": "array"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "title": "Millm Probe Verdicts"
+          },
+          "model": {
+           "title": "Model",
+           "type": "string"
+          },
+          "object": {
+           "const": "chat.completion",
+           "default": "chat.completion",
+           "title": "Object",
+           "type": "string"
+          },
+          "system_fingerprint": {
+           "anyOf": [
+            {
+             "type": "string"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "title": "System Fingerprint"
+          },
+          "usage": {
+           "description": "Token usage statistics.",
+           "properties": {
+            "completion_tokens": {
+             "default": 0,
+             "title": "Completion Tokens",
+             "type": "integer"
+            },
+            "prompt_tokens": {
+             "title": "Prompt Tokens",
+             "type": "integer"
+            },
+            "total_tokens": {
+             "default": 0,
+             "title": "Total Tokens",
+             "type": "integer"
+            }
+           },
+           "required": [
+            "prompt_tokens"
+           ],
+           "title": "Usage",
+           "type": "object"
+          }
+         },
+         "required": [
+          "id",
+          "created",
+          "model",
+          "choices",
+          "usage"
+         ],
+         "title": "ChatCompletionResponse",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "properties": {
+          "detail": {
+           "items": {
+            "properties": {
+             "ctx": {
+              "title": "Context",
+              "type": "object"
+             },
+             "input": {
+              "title": "Input"
+             },
+             "loc": {
+              "items": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "integer"
+                }
+               ]
+              },
+              "title": "Location",
+              "type": "array"
+             },
+             "msg": {
+              "title": "Message",
+              "type": "string"
+             },
+             "type": {
+              "title": "Error Type",
+              "type": "string"
+             }
+            },
+            "required": [
+             "loc",
+             "msg",
+             "type"
+            ],
+            "title": "ValidationError",
+            "type": "object"
+           },
+           "title": "Detail",
+           "type": "array"
+          }
+         },
+         "title": "HTTPValidationError",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Validation Error"
+     },
+     "503": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "description": "OpenAI-format error response wrapper.",
+         "properties": {
+          "error": {
+           "description": "OpenAI-format error detail.",
+           "properties": {
+            "code": {
+             "anyOf": [
+              {
+               "type": "string"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "title": "Code"
+            },
+            "message": {
+             "title": "Message",
+             "type": "string"
+            },
+            "param": {
+             "anyOf": [
+              {
+               "type": "string"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "title": "Param"
+            },
+            "type": {
+             "enum": [
+              "invalid_request_error",
+              "authentication_error",
+              "rate_limit_error",
+              "server_error"
+             ],
+             "title": "Type",
+             "type": "string"
+            }
+           },
+           "required": [
+            "message",
+            "type"
+           ],
+           "title": "OpenAIError",
+           "type": "object"
+          }
+         },
+         "required": [
+          "error"
+         ],
+         "title": "OpenAIErrorResponse",
+         "type": "object"
+        }
+       }
+      },
+      "description": "No model loaded"
+     }
+    }
+   }
+  }
+ },
+ "ref": "3309a0f1",
+ "taken": "2026-11-17"
+}

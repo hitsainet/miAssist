@@ -1,0 +1,12 @@
+version: 1
+outcomes:
+  choose:
+    what_happened: This step needs a choice from you, and miAssist listed the options with the one it recommends.
+    why_it_matters: The choice changes what the step does, so it is yours to make.
+    what_good_looks_like: A choice you understand; the recommended one is a safe start.
+    next_step: Repeat the call with your choice, or with the recommendation as suggested.
+  declined:
+    what_happened: You left the choice unanswered, so nothing was done.
+    why_it_matters: Nothing changed in any app.
+    what_good_looks_like: Nothing to check; you can come back to this step any time.
+    next_step: Ask miassist_status where you are when you want to carry on.

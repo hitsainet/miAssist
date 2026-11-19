@@ -1,0 +1,16 @@
+# The /p/ pages' words (001 FR-6, FR-7, FR-20; FTDD §5.1).
+version: 1
+new_title: Your personal miAssist link
+new_intro: "This link remembers your guidance level. It is not a password; every link sees the same tools, and nothing is stored until you save a setting."
+new_url_label: "Use this address in your MCP client:"
+new_clients: "Claude (web and desktop): add a custom connector with this address. Claude Code: add an HTTP MCP server with this address. Other clients: add a remote MCP server; some web interfaces need an administrator."
+key_title: Your miAssist settings
+key_level_label: Guidance level
+key_save: Save
+key_saved: Saved.
+key_not_saved: "Not saved right now: the settings store is not answering. Try again later."
+key_forget_intro: "Forget deletes everything miAssist remembers for this link."
+key_forget: Forget my settings
+key_forget_confirm: "Forget everything for this link? This cannot be undone."
+key_forget_yes: Yes, forget
+key_forgotten: Forgotten.

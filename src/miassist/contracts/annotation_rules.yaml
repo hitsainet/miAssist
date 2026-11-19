@@ -1,0 +1,35 @@
+# x-annotation-rules of mistudio.result-language/v1 (001 FPRD §5.1.5; A13, A30). Read by
+# scripts/write_contracts.py into the published schema; every suite server's annotation test reads
+# the rules FROM THE PUBLISHED FILE (AC-12.3: no second copy).
+- id: AR-1
+  level: must
+  rule: Every tool has a non-empty title.
+- id: AR-2
+  level: must
+  rule: Every tool sets readOnlyHint and destructiveHint explicitly.
+- id: AR-3
+  level: must
+  rule: >-
+    Read-only means the tool changes nothing: it starts no job, GPU or model call, files no
+    approval, spends no paid call, and writes no row, file or artifact; any other tool has
+    readOnlyHint false. The HTTP method does not decide it: a POST that changes nothing (no row,
+    job, approval, file or paid call) is read-only, and a POST that starts a worker task is not.
+- id: AR-4
+  level: must
+  rule: >-
+    Destructive means the tool deletes, purges, clears or cancels, changes served weights in place,
+    or changes a setting that enables later deletion; such a tool has destructiveHint true, every
+    other tool false.
+- id: AR-5
+  level: must
+  rule: idempotentHint and openWorldHint stay unset.
+- id: AR-6
+  level: should
+  rule: >-
+    A tool whose result has a typed shape declares an outputSchema; untyped results are listed as
+    debt.
+- id: AR-7
+  level: must
+  rule: >-
+    A relay carries its source tool's hints only when its REST call set equals the source tool's;
+    otherwise AR-3 and AR-4 apply to the relay's own calls (a GET-only relay stays read-only).

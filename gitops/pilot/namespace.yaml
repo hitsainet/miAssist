@@ -1,0 +1,7 @@
+# miAssist's namespace (PADR ADR-014; Foundation task 6.1).
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: miassist
+  labels:
+    app.kubernetes.io/part-of: miassist

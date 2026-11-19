@@ -1,0 +1,643 @@
+# Route profile for miworkbench (FTDD §4.3), written by eval/scripts/write_route_profiles.py from
+# the reference OpenAPI; edit the script, not this file. No GPU route is listed here (R2M-14):
+# the guarded list is derived from the vendored payload vectors at suite start.
+schema: miassist.eval-route-profile/v1
+app: miworkbench
+agent_header:
+  name: X-MiStudio-Agent
+  value: miassist
+default_match:
+- query
+- body
+routes:
+- method: GET
+  route: /
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/health
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/circuit-capture
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/circuit-discovery
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/circuits
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/cluster-profiles
+  list:
+    items: data
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/cluster-profiles/{profile_id}
+  list:
+    items: members
+    id: id
+- method: GET
+  route: /api/v1/datasets
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/v1/datasets/{dataset_id}
+  list:
+    items: tokenizations
+    id: id
+- method: GET
+  route: /api/v1/datasets/{dataset_id}/tokenizations
+  list:
+    items: data
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/environment
+  list:
+    items: categories
+    id: id
+    counts:
+    - count
+- method: GET
+  route: /api/v1/environment/history
+  list:
+    items: changes
+    id: id
+    counts:
+    - count
+- method: GET
+  route: /api/v1/extraction-templates
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/v1/extraction-templates/favorites
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/v1/extractions
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/v1/extractions/{extraction_id}/feature-groups
+  list:
+    items: groups
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/extractions/{extraction_id}/feature-groups/{group_id}
+  list:
+    items: members
+    id: id
+- method: GET
+  route: /api/v1/extractions/{extraction_id}/features
+  list:
+    items: features
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/extractions/{extraction_id}/features/by-token
+  list:
+    items: features
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/features/{feature_id}/correlations
+  list:
+    items: correlated_features
+    id: id
+- method: GET
+  route: /api/v1/features/{feature_id}/examples
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/features/{feature_id}/label/enhanced/latest
+  list:
+    items: pass1_summaries
+    id: id
+- method: GET
+  route: /api/v1/features/{feature_id}/nlp-analysis
+  list:
+    items: semantic_clusters
+    id: id
+- method: GET
+  route: /api/v1/features/{feature_id}/related
+  list:
+    items: related
+    id: id
+- method: GET
+  route: /api/v1/jlens/annotations
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/jlens/artifacts
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/jlens/artifacts/{slug}/band-report
+  list:
+    items: profiles
+    id: id
+- method: GET
+  route: /api/v1/jlens/artifacts/{slug}/interventions
+  list:
+    items: records
+    id: id
+- method: GET
+  route: /api/v1/jlens/cost-estimate
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/jlens/decompose/{task_id}
+  list:
+    items: decompositions
+    id: id
+- method: GET
+  route: /api/v1/jlens/probe/{task_id}
+  list:
+    items: scores
+    id: id
+- method: GET
+  route: /api/v1/jlens/readout/{task_id}
+  list:
+    items: readout.tokens
+    id: id
+- method: GET
+  route: /api/v1/jlens/reports/replication
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/labeling
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/v1/labeling-prompt-templates
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/v1/labeling-prompt-templates/default
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/labeling/models/available
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/labeling/trials
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/labeling/{extraction_job_id}/coverage
+  list:
+    items: failure_reasons
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/mcp/approvals
+  list:
+    items: approvals
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/mcp/approvals/{request_id}
+  poll_of: approval
+  state_field: status
+  open_states:
+  - pending
+  closed_states:
+  - approved
+  - denied
+  - expired
+  run_states: []
+  done_states:
+  - consumed
+- method: GET
+  route: /api/v1/models
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/v1/models/local-cache/list
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/neuronpedia/exports
+  list:
+    items: jobs
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/neuronpedia/local-status
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/neuronpedia/push-local
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/operations/active-jobs
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/operations/gpu-status
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/probe-monitors/behaviours
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/probe-monitors/blend-reports
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/probe-monitors/dataset-purges
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/probe-monitors/datasets
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/probe-monitors/datasets-page
+  list:
+    items: '*'
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/probe-monitors/judge-prompts
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/probe-monitors/judge-prompts/midataworks/rubrics
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/probe-monitors/judge-runs
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/probe-monitors/probes
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/probe-monitors/probes/{probe_id}
+  list:
+    items: evaluations
+    id: id
+- method: GET
+  route: /api/v1/probe-monitors/probes/{probe_id}/evaluations/{evaluation_id}/scores
+  list:
+    items: rows
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/probe-monitors/runs
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/probe-monitors/runs-page
+  list:
+    items: '*'
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/probe-monitors/runs/{run_id}
+  poll_of: run
+  state_field: status
+  open_states:
+  - queued
+  - running
+  - pending
+  closed_states:
+  - completed
+  - failed
+  - cancelled
+  - refused
+- method: GET
+  route: /api/v1/probe-monitors/spot-checks
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/probe-monitors/spot-checks/availability
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/prompt-templates
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/v1/prompt-templates/favorites
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/v1/saes
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/v1/saes/training/{training_id}/available
+  list:
+    items: available_saes
+    id: id
+    counts:
+    - total_count
+- method: GET
+  route: /api/v1/saes/{sae_id}/features
+  list:
+    items: features
+    id: id
+- method: GET
+  route: /api/v1/settings
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/settings/pin/status
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/steering/async/result/{task_id}
+  poll_of: task
+  state_field: status
+  open_states:
+  - pending
+  - started
+  - progress
+  closed_states:
+  - success
+  - failure
+  - revoked
+- method: GET
+  route: /api/v1/steering/experiments
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/steering/mode
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/steering/status
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/system/all
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/system/disk-rates
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/system/disk-usage
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/system/gpu-info
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/system/gpu-list
+  list:
+    items: gpus
+    id: id
+- method: GET
+  route: /api/v1/system/gpu-metrics
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/system/gpu-metrics/all
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/system/gpu-processes
+  list:
+    items: processes
+    id: id
+- method: GET
+  route: /api/v1/system/health
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/system/metrics
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/system/network-rates
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/system/resource-estimate
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/task-queue
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/v1/task-queue/active
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/v1/task-queue/failed
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/v1/training-templates
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/v1/training-templates/favorites
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/v1/trainings
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/v1/trainings/checkpoints/prune-preview-all
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/trainings/{training_id}/checkpoints
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/v1/trainings/{training_id}/checkpoints/best
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/v1/trainings/{training_id}/features
+  list:
+    items: features
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/trainings/{training_id}/metrics
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/v1/validation-manifests
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/version
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/workers/active
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/workers/health
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/workers/queues
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/workers/stats
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/wsp/captures
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/wsp/sensitivity
+  list:
+    items: '*'
+    id: id
+- method: POST
+  route: /api/v1/circuits
+  creates: true
+- method: POST
+  route: /api/v1/cluster-profiles
+  creates: true
+- method: POST
+  route: /api/v1/datasets
+  creates: true
+- method: POST
+  route: /api/v1/extraction-templates
+  creates: true
+- method: POST
+  route: /api/v1/labeling-prompt-templates
+  creates: true
+- method: POST
+  route: /api/v1/labeling/trials
+  creates: true
+- method: POST
+  route: /api/v1/probe-monitors/behaviours
+  creates: true
+- method: POST
+  route: /api/v1/probe-monitors/datasets
+  creates: true
+- method: POST
+  route: /api/v1/probe-monitors/judge-prompts
+  creates: true
+- method: POST
+  route: /api/v1/prompt-templates
+  creates: true
+- method: POST
+  route: /api/v1/steering/experiments
+  creates: true
+- method: POST
+  route: /api/v1/training-templates
+  creates: true
+gpu_arms:
+  POST /api/v1/probe-monitors/probes/{probe_id}/recalibrate:
+    from: query.recut_windows
+    parse: fastapi_bool
+    armed_unless: false
+  POST /api/v1/trainings/{training_id}/control:
+    from: body.action
+    parse: literal
+    armed_unless_in:
+    - pause
+    - stop
+    - stop_and_finalize

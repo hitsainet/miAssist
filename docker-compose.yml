@@ -1,0 +1,64 @@
+# miAssist with Docker Compose: a SUPPORTED deployment path beside GitOps (PADR ADR-014; the suite
+# rule recorded in miForge's ADR-023), not only a development convenience.
+#
+#     cp .env.example .env    # set POSTGRES_PASSWORD, MIASSIST_APPS and each listed app's URL
+#     docker compose up -d
+#
+# The server runs the built image; no source directory is bind-mounted (a deployment must run what
+# was built). Each app URL comes from the environment and is unset by default: an app not listed
+# in MIASSIST_APPS is simply not installed.
+services:
+  postgres:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: miassist
+      POSTGRES_DB: miassist
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - miassist-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "miassist", "-d", "miassist"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  migrate:
+    image: ${MIASSIST_IMAGE:-hitsai/miassist-server:latest}
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment: &miassist-env
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: miassist
+      POSTGRES_USER: miassist
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      MIASSIST_APPS: ${MIASSIST_APPS:-}
+      MIASSIST_MIWORKBENCH_URL: ${MIASSIST_MIWORKBENCH_URL:-}
+      MIASSIST_MISERVER_URL: ${MIASSIST_MISERVER_URL:-}
+      MIASSIST_MIDATAWORKS_URL: ${MIASSIST_MIDATAWORKS_URL:-}
+      MIASSIST_MIFORGE_URL: ${MIASSIST_MIFORGE_URL:-}
+      MIASSIST_ALLOWED_HOSTS: ${MIASSIST_ALLOWED_HOSTS:-localhost,127.0.0.1}
+      NVIDIA_VISIBLE_DEVICES: void
+    command: ["sh", "-c", "MIASSIST_MIGRATE=1 python -m miassist"]
+    read_only: true
+    tmpfs: [/tmp]
+
+  miassist:
+    image: ${MIASSIST_IMAGE:-hitsai/miassist-server:latest}
+    build: .
+    restart: unless-stopped
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    environment: *miassist-env
+    ports:
+      - "${MIASSIST_PUBLISH_PORT:-8765}:8765"
+    read_only: true
+    tmpfs: [/tmp]
+    user: "10001:10001"
+
+volumes:
+  miassist-pgdata:

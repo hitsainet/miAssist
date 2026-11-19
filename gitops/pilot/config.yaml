@@ -1,0 +1,43 @@
+# miAssist's configuration (PADR ADR-007, ADR-015; Foundation task 6.1).
+#
+# MIASSIST_APPS is the installed set: all four apps. **miworkbench was added by 001 FTASKS 14.4
+# (push 001-W), after miWorkbench 045 phase A0 was deployed** (main 463b29bea, live 2026-11-17;
+# A12: no miAssist push that can reach miWorkbench before it).
+# `tests/unit/test_manifests.py::test_no_miworkbench_before_a0` fails on `miworkbench` here while
+# the code constant MIWORKBENCH_A0_LIVE (src/miassist/web/exposure.py) is False, and on its
+# absence once it is True.
+#
+# The app URLs are the in-cluster addresses miWorkbench's MCP pod uses for miServer, miDataworks
+# and miForge (miWorkbench/k8s/base/mcp.yaml:63-72); miWorkbench's own Service is the same
+# miworkbench-backend in namespace miworkbench (the pod reaches it by short name, :38-39; R3M-14).
+# The URL was set ahead of time; push 001-W listed miworkbench.
+#
+# MIASSIST_PUBLIC_BASE_URL is the address the /p/ pages print in a personal link: the LAN host from
+# 001 FTASKS 13.1, the public host since push 001-P (14.5).
+#
+# MIASSIST_ALLOWED_HOSTS is the MCP transport's Host check (DNS-rebinding protection). Push 001-P
+# (14.5, after 045-A0 went live and on the operator's go, A21) added the public name
+# mcp-assist.hitsai.net. The public request does NOT arrive under that name: the cloudflared tunnel rule
+# rewrites Host to mcp-assist.hitsai.local (httpHostHeader), which is listed here
+# and on the Ingress, so that entry is the one the real path needs
+# (tests/unit/test_public_host_real_path.py). `test_no_public_host_until_approved` fails on a
+# *.hitsai.net name while PUBLIC_HOST_APPROVED is False, and on any public name but the one.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: miassist-config
+  namespace: miassist
+data:
+  MIASSIST_APPS: "miworkbench,miserver,midataworks,miforge"
+  MIASSIST_MIWORKBENCH_URL: "http://miworkbench-backend.miworkbench.svc.cluster.local:8000"
+  MIASSIST_MISERVER_URL: "http://miserver-backend.miserver.svc.cluster.local:8000"
+  MIASSIST_MIDATAWORKS_URL: "http://midataworks-backend.midataworks.svc.cluster.local:8000"
+  MIASSIST_MIFORGE_URL: "http://miforge-backend.miforge.svc.cluster.local:8000"
+  MIASSIST_ALLOWED_HOSTS: "k8s-miassist.hitsai.local,mcp-assist.hitsai.local,mcp-assist.hitsai.net,miassist,miassist.miassist.svc.cluster.local"
+  MIASSIST_PUBLIC_BASE_URL: "https://mcp-assist.hitsai.net"
+  MIASSIST_HOST: "0.0.0.0"
+  MIASSIST_PORT: "8765"
+  POSTGRES_HOST: "postgres"
+  POSTGRES_PORT: "5432"
+  POSTGRES_DB: "miassist"
+  POSTGRES_USER: "miassist"

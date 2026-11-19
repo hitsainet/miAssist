@@ -1,0 +1,114 @@
+{
+ "$id": "miassist.eval-report/v1",
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "additionalProperties": true,
+ "properties": {
+  "cells": {
+   "items": {
+    "allOf": [
+     {
+      "if": {
+       "properties": {
+        "live_recordings": {
+         "minimum": 1,
+         "type": "integer"
+        }
+       },
+       "required": [
+        "live_recordings"
+       ]
+      },
+      "then": {
+       "required": [
+        "live",
+        "coverage"
+       ]
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "key": {
+         "prefixItems": [
+          {},
+          {},
+          {
+           "const": "baseline"
+          }
+         ],
+         "type": "array"
+        }
+       }
+      },
+      "then": {
+       "required": [
+        "coverage"
+       ]
+      }
+     }
+    ],
+    "required": [
+     "key",
+     "verdicts",
+     "valid",
+     "attempts"
+    ],
+    "type": "object"
+   },
+   "type": "array"
+  },
+  "comparisons": {
+   "type": "array"
+  },
+  "generated_utc": {
+   "minLength": 1,
+   "type": "string"
+  },
+  "headings": {
+   "items": {
+    "minLength": 1,
+    "type": "string"
+   },
+   "type": "array"
+  },
+  "label": {
+   "minLength": 1,
+   "type": "string"
+  },
+  "manual": {
+   "type": "object"
+  },
+  "rejected": {
+   "type": "array"
+  },
+  "schema": {
+   "const": "miassist.eval-report/v1"
+  },
+  "suites": {
+   "items": {
+    "minLength": 1,
+    "type": "string"
+   },
+   "type": "array"
+  },
+  "verdict": {
+   "enum": [
+    "BAR MET",
+    "BAR NOT MET",
+    "NO VERDICT"
+   ]
+  }
+ },
+ "required": [
+  "schema",
+  "label",
+  "generated_utc",
+  "headings",
+  "verdict",
+  "cells",
+  "rejected",
+  "comparisons",
+  "suites"
+ ],
+ "type": "object"
+}

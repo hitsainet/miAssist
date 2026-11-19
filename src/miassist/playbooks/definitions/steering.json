@@ -1,0 +1,87 @@
+{
+  "kind": "mistudio.playbook/v1",
+  "version": 1,
+  "id": "steering",
+  "title": "steering.title",
+  "goal": "steering.goal",
+  "requires_apps": [
+    "miworkbench",
+    "miserver"
+  ],
+  "steps": [
+    {
+      "id": "find",
+      "title": "steering.find.title",
+      "tool": "miassist_steering_find",
+      "entry": true,
+      "requires_apps": [
+        "miworkbench"
+      ],
+      "explain_beginner": "steering.find.beginner",
+      "explain_expert": "steering.find.expert",
+      "done_when": {
+        "description": "steering.find.done",
+        "pointer": "/candidates/0",
+        "op": "exists"
+      }
+    },
+    {
+      "id": "try",
+      "title": "steering.try.title",
+      "tool": "miassist_steering_try",
+      "requires_apps": [
+        "miworkbench"
+      ],
+      "explain_beginner": "steering.try.beginner",
+      "explain_expert": "steering.try.expert",
+      "waits_for": [
+        "approval",
+        "gpu"
+      ],
+      "done_when": {
+        "description": "steering.try.done",
+        "pointer": "/swept",
+        "op": "truthy"
+      }
+    },
+    {
+      "id": "save",
+      "title": "steering.save.title",
+      "tool": "miassist_steering_save",
+      "requires_apps": [
+        "miworkbench"
+      ],
+      "explain_beginner": "steering.save.beginner",
+      "explain_expert": "steering.save.expert",
+      "waits_for": [
+        "approval",
+        "gpu"
+      ],
+      "done_when": {
+        "description": "steering.save.done",
+        "pointer": "/profile_id",
+        "op": "exists"
+      }
+    },
+    {
+      "id": "serve",
+      "title": "steering.serve.title",
+      "tool": "miassist_steering_serve",
+      "entry": true,
+      "requires_apps": [
+        "miserver"
+      ],
+      "explain_beginner": "steering.serve.beginner",
+      "explain_expert": "steering.serve.expert",
+      "waits_for": [
+        "approval",
+        "operator_action"
+      ],
+      "done_when": {
+        "description": "steering.serve.done",
+        "pointer": "/active",
+        "op": "truthy"
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+version: 1
+outcomes:
+  saved:
+    what_happened: Your [[guidance-level]] is now {level}.
+    why_it_matters: It changes only the explanation shown with each result; nothing else changes.
+    what_good_looks_like: The next result shows the level you chose.
+    next_step: Carry on; change it again whenever you like.
+  not_remembered:
+    what_happened: Nothing was saved, because this connection has no personal link.
+    why_it_matters: Without a personal link miAssist cannot remember a setting for you.
+    what_good_looks_like: A personal link from /p/new in your client.
+    next_step: Open /p/new, then connect with the link it shows.
+  unavailable:
+    what_happened: Nothing was saved, because the settings store is not answering right now.
+    why_it_matters: Your setting will not be remembered until it is back; everything else works.
+    what_good_looks_like: A later try that saves.
+    next_step: Try again later.

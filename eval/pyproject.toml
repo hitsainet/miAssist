@@ -1,0 +1,76 @@
+[build-system]
+requires = ["setuptools==84.2.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "miassist-eval"
+version = "0.1.0"
+description = "miAssist's evaluation harness (feature 002): scripted and client runs against replayed or live app REST APIs."
+requires-python = ">=3.13,<3.14"
+license = "MIT"
+# EVERY DEPENDENCY IS PINNED EXACTLY (TI-1; PADR ADR-002), to the versions the miAssist server pins on
+# 2026-11-16 (FTDD §3: starlette, uvicorn and httpx come from the `mcp` SDK's tree). No app package and
+# no miAssist server package is a dependency (FR-002.1, FR-002.2; tests/unit/test_boundary.py).
+dependencies = [
+  "mcp==2.3.0",
+  "starlette==1.10.0",
+  "uvicorn==0.54.0",
+  "httpx==0.28.1",
+  "jsonschema==4.26.0",
+  "referencing==0.37.0",
+  "pyyaml==6.0.3",
+  "pydantic==2.14.3",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest==9.2.0",
+  "pytest-xdist==3.8.0",
+  "pytest-asyncio==1.5.0",
+  "ruff==0.17.5",
+  "black==26.10.1",
+  "mypy==2.4.1",
+  "types-jsonschema==4.26.0.20261006",
+  "types-pyyaml==6.0.12.20261113",
+]
+
+[tool.setuptools.packages.find]
+include = ["miassist_eval*"]
+
+# --------------------------------------------------------------------------------------
+# pytest (TI-2). Run from eval/: `.venv/bin/python -m pytest -n 4 --dist loadfile`.
+# `paid` is never selected by default and never in CI (M13).
+# The repository root is on the path only so Core's fixture-filter package `miassist_fixtures`
+# (outside the server package, A37) imports; tests/unit/test_boundary.py proves no `miassist`
+# server module is ever loaded.
+# --------------------------------------------------------------------------------------
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = [".", ".."]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+markers = [
+  "cassettes: needs tests/fixtures/cassettes/private/eval/ (skips loudly; fails under MIASSIST_REQUIRE_CASSETTES=1)",
+  "docker: needs Docker",
+  "client_claude_code: needs the pinned Claude Code binary (never a model)",
+  "client_open_webui: needs the pinned Open WebUI image (never a model)",
+  "paid: needs a provider key from the operator's own environment; by hand only, never in CI (M13)",
+]
+addopts = "-m 'not paid and not docker and not client_claude_code and not client_open_webui' --strict-markers --strict-config -p no:cacheprovider"
+
+[tool.black]
+line-length = 100
+target-version = ["py313"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "N"]
+ignore = ["E501", "N818"]  # Refusal and UnfilteredList are the FTID's names
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+packages = ["miassist_eval"]

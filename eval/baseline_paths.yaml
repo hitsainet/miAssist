@@ -1,0 +1,39 @@
+# The baseline's reference path per goal (FR-002.16; FTASKS 3.7), from the survey's §4.
+# Each step's tool is checked against the baseline servers' LIVE tools/list (read through the tap
+# in a baseline suite); until that read happens every step is `checked: false`.
+schema: miassist.eval-baseline-paths/v1
+goals:
+  detector-refund:
+    checked: false
+    steps:
+      - {tool: register_probe_dataset}
+      - {tool: recommend_probe_rules}
+      - {tool: start_probe_training_run}
+      - {tool: get_probe_training_run}
+      - {tool: evaluate_probe_monitor}
+      - {tool: get_probe_monitor_report}
+      - {tool: build_probe_definition}
+      - {tool: miserver_import_probe}
+      - {tool: miserver_probe_status}
+  dataset-refund:
+    checked: false
+    steps:
+      - {tool: dataworks_list_datasets}
+      - {tool: dataworks_save_recipe}
+      - {tool: dataworks_build_version}
+      - {tool: dataworks_job_status}
+      - {tool: dataworks_get_version}
+      - {tool: dataworks_run_publish_checks}
+      - {tool: dataworks_get_publish_checks}
+      - {tool: dataworks_publish_version}
+      - {tool: dataworks_get_approval_status}
+  tone-warmer:
+    checked: false
+    steps:
+      - {tool: search_features}
+      - {tool: steer_compare}
+      - {tool: get_steering_result}
+      - {tool: save_cluster_profile}
+      - {tool: export_cluster_definition}
+      - {tool: miserver_import_cluster}
+      - {tool: miserver_status}

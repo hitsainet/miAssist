@@ -1,0 +1,427 @@
+{
+ "routes": {
+  "POST /api/v1/steering/async/combined": {
+   "body": {
+    "description": "Schema for combined multi-feature steering request.\n\nApplies ALL selected features simultaneously in a single generation pass,\nrather than generating separate outputs for each feature.\n\nUse cases:\n- Test synergistic effects (e.g., \"formal\" + \"positive\" = professional tone)\n- Create complex behavioral changes with multiple influences\n- Explore feature interactions and emergent behaviors",
+    "properties": {
+     "advanced_params": {
+      "description": "Advanced generation parameters",
+      "properties": {
+       "do_sample": {
+        "default": true,
+        "description": "Whether to use sampling (vs greedy)",
+        "title": "Do Sample",
+        "type": "boolean"
+       },
+       "frequency_penalty": {
+        "default": 0.0,
+        "description": "Frequency penalty",
+        "maximum": 2.0,
+        "minimum": -2.0,
+        "title": "Frequency Penalty",
+        "type": "number"
+       },
+       "presence_penalty": {
+        "default": 0.0,
+        "description": "Presence penalty",
+        "maximum": 2.0,
+        "minimum": -2.0,
+        "title": "Presence Penalty",
+        "type": "number"
+       },
+       "repetition_penalty": {
+        "default": 1.15,
+        "description": "Repetition penalty (1.0=none, 1.1-1.2=mild, 1.3+=strong)",
+        "maximum": 2.0,
+        "minimum": 0.5,
+        "title": "Repetition Penalty",
+        "type": "number"
+       },
+       "stop_sequences": {
+        "description": "Stop sequences",
+        "items": {
+         "type": "string"
+        },
+        "title": "Stop Sequences",
+        "type": "array"
+       }
+      },
+      "title": "AdvancedGenerationParams",
+      "type": "object"
+     },
+     "compute_metrics": {
+      "default": true,
+      "description": "Compute evaluation metrics",
+      "title": "Compute Metrics",
+      "type": "boolean"
+     },
+     "generation_params": {
+      "description": "Generation parameters",
+      "properties": {
+       "max_new_tokens": {
+        "default": 100,
+        "description": "Maximum tokens to generate",
+        "maximum": 2048.0,
+        "minimum": 1.0,
+        "title": "Max New Tokens",
+        "type": "integer"
+       },
+       "num_samples": {
+        "default": 1,
+        "description": "Number of samples per configuration",
+        "maximum": 10.0,
+        "minimum": 1.0,
+        "title": "Num Samples",
+        "type": "integer"
+       },
+       "seed": {
+        "anyOf": [
+         {
+          "type": "integer"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "description": "Random seed for reproducibility",
+        "title": "Seed"
+       },
+       "temperature": {
+        "default": 0.7,
+        "description": "Sampling temperature",
+        "maximum": 2.0,
+        "minimum": 0.0,
+        "title": "Temperature",
+        "type": "number"
+       },
+       "top_k": {
+        "default": 50,
+        "description": "Top-k sampling (0 to disable)",
+        "maximum": 500.0,
+        "minimum": 0.0,
+        "title": "Top K",
+        "type": "integer"
+       },
+       "top_p": {
+        "default": 0.9,
+        "description": "Nucleus sampling probability",
+        "maximum": 1.0,
+        "minimum": 0.0,
+        "title": "Top P",
+        "type": "number"
+       }
+      },
+      "title": "GenerationParams",
+      "type": "object"
+     },
+     "gpu": {
+      "default": "auto",
+      "description": "\"auto\" to run on the GPU with the most free memory when the job starts (a model no single GPU can hold is split across GPUs where the job supports it), \"all\" to split the model across every GPU, or a GPU UUID (or index) from /api/v1/system/gpu-list to run on that card. A named card, or a split, that cannot take the job is refused, never swapped for another choice.",
+      "maxLength": 64,
+      "pattern": "^(auto|all|[0-9]{1,2}|([Gg][Pp][Uu]-)?[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12})$",
+      "title": "Gpu",
+      "type": "string"
+     },
+     "include_baseline": {
+      "default": true,
+      "description": "Include unsteered baseline output for comparison",
+      "title": "Include Baseline",
+      "type": "boolean"
+     },
+     "model_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "description": "Model ID (defaults to SAE's linked model)",
+      "title": "Model Id"
+     },
+     "prompt": {
+      "description": "Input prompt for generation",
+      "maxLength": 10000,
+      "minLength": 1,
+      "title": "Prompt",
+      "type": "string"
+     },
+     "sae_id": {
+      "description": "SAE ID to use for steering",
+      "title": "Sae Id",
+      "type": "string"
+     },
+     "selected_features": {
+      "description": "List of features to apply together (1-20)",
+      "items": {
+       "description": "Schema for a feature selected for steering.",
+       "properties": {
+        "additional_strengths": {
+         "anyOf": [
+          {
+           "items": {
+            "type": "number"
+           },
+           "type": "array"
+          },
+          {
+           "type": "null"
+          }
+         ],
+         "description": "Up to 3 additional strengths to test simultaneously",
+         "title": "Additional Strengths"
+        },
+        "color": {
+         "default": "teal",
+         "description": "Color for UI display (cosmetic; one of the 20-name palette)",
+         "enum": [
+          "teal",
+          "blue",
+          "purple",
+          "amber",
+          "rose",
+          "cyan",
+          "lime",
+          "orange",
+          "fuchsia",
+          "sky",
+          "emerald",
+          "violet",
+          "pink",
+          "indigo",
+          "yellow",
+          "red",
+          "green",
+          "sapphire",
+          "magenta",
+          "gold"
+         ],
+         "title": "Color",
+         "type": "string"
+        },
+        "comparison_id": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "null"
+          }
+         ],
+         "description": "Links to the comparison job this instance was used in",
+         "title": "Comparison Id"
+        },
+        "feature_idx": {
+         "description": "Feature index in the SAE",
+         "minimum": 0.0,
+         "title": "Feature Idx",
+         "type": "integer"
+        },
+        "instance_id": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "null"
+          }
+         ],
+         "description": "Unique identifier for this selection instance (allows duplicates of same feature)",
+         "title": "Instance Id"
+        },
+        "label": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "null"
+          }
+         ],
+         "description": "Feature label for display",
+         "title": "Label"
+        },
+        "layer": {
+         "description": "Target layer for steering (L0, L1, etc.)",
+         "minimum": 0.0,
+         "title": "Layer",
+         "type": "integer"
+        },
+        "sae_id": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "null"
+          }
+         ],
+         "description": "SAE for THIS feature (015); defaults to the request sae_id",
+         "title": "Sae Id"
+        },
+        "strength": {
+         "description": "Raw steering coefficient (Neuronpedia-compatible). Values like 0.07 for subtle effects, 80 for strong effects, 200+ for extreme. Negative values suppress the feature.",
+         "maximum": 300.0,
+         "minimum": -300.0,
+         "title": "Strength",
+         "type": "number"
+        }
+       },
+       "required": [
+        "feature_idx",
+        "layer",
+        "strength"
+       ],
+       "title": "SelectedFeature",
+       "type": "object"
+      },
+      "maxItems": 20,
+      "minItems": 1,
+      "title": "Selected Features",
+      "type": "array"
+     }
+    },
+    "required": [
+     "sae_id",
+     "prompt",
+     "selected_features"
+    ],
+    "title": "CombinedSteeringRequest",
+    "type": "object"
+   },
+   "query": []
+  },
+  "POST /api/v1/steering/async/sweep": {
+   "body": {
+    "description": "Schema for a steering strength sweep (testing multiple strengths).",
+    "properties": {
+     "feature_idx": {
+      "description": "Feature index to sweep",
+      "minimum": 0.0,
+      "title": "Feature Idx",
+      "type": "integer"
+     },
+     "generation_params": {
+      "description": "Generation parameters",
+      "properties": {
+       "max_new_tokens": {
+        "default": 100,
+        "description": "Maximum tokens to generate",
+        "maximum": 2048.0,
+        "minimum": 1.0,
+        "title": "Max New Tokens",
+        "type": "integer"
+       },
+       "num_samples": {
+        "default": 1,
+        "description": "Number of samples per configuration",
+        "maximum": 10.0,
+        "minimum": 1.0,
+        "title": "Num Samples",
+        "type": "integer"
+       },
+       "seed": {
+        "anyOf": [
+         {
+          "type": "integer"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "description": "Random seed for reproducibility",
+        "title": "Seed"
+       },
+       "temperature": {
+        "default": 0.7,
+        "description": "Sampling temperature",
+        "maximum": 2.0,
+        "minimum": 0.0,
+        "title": "Temperature",
+        "type": "number"
+       },
+       "top_k": {
+        "default": 50,
+        "description": "Top-k sampling (0 to disable)",
+        "maximum": 500.0,
+        "minimum": 0.0,
+        "title": "Top K",
+        "type": "integer"
+       },
+       "top_p": {
+        "default": 0.9,
+        "description": "Nucleus sampling probability",
+        "maximum": 1.0,
+        "minimum": 0.0,
+        "title": "Top P",
+        "type": "number"
+       }
+      },
+      "title": "GenerationParams",
+      "type": "object"
+     },
+     "gpu": {
+      "default": "auto",
+      "description": "\"auto\" to run on the GPU with the most free memory when the job starts (a model no single GPU can hold is split across GPUs where the job supports it), \"all\" to split the model across every GPU, or a GPU UUID (or index) from /api/v1/system/gpu-list to run on that card. A named card, or a split, that cannot take the job is refused, never swapped for another choice.",
+      "maxLength": 64,
+      "pattern": "^(auto|all|[0-9]{1,2}|([Gg][Pp][Uu]-)?[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12})$",
+      "title": "Gpu",
+      "type": "string"
+     },
+     "layer": {
+      "description": "Target layer",
+      "minimum": 0.0,
+      "title": "Layer",
+      "type": "integer"
+     },
+     "model_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "description": "Model ID",
+      "title": "Model Id"
+     },
+     "prompt": {
+      "description": "Input prompt",
+      "maxLength": 10000,
+      "minLength": 1,
+      "title": "Prompt",
+      "type": "string"
+     },
+     "sae_id": {
+      "description": "SAE ID to use for steering",
+      "title": "Sae Id",
+      "type": "string"
+     },
+     "strength_values": {
+      "description": "List of strength values to test (e.g., [0, 25, 50, 100, 200])",
+      "items": {
+       "type": "number"
+      },
+      "maxItems": 10,
+      "minItems": 2,
+      "title": "Strength Values",
+      "type": "array"
+     }
+    },
+    "required": [
+     "sae_id",
+     "prompt",
+     "feature_idx",
+     "layer",
+     "strength_values"
+    ],
+    "title": "SteeringStrengthSweepRequest",
+    "type": "object"
+   },
+   "query": []
+  }
+ },
+ "source": "miWorkbench 69bd59bba"
+}

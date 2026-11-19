@@ -1,0 +1,18 @@
+# x-error-text-format of mistudio.result-language/v1 (001 FPRD §5.1.4; A6, A13, A30). The line-1
+# pattern embeds $defs.error_code's pattern (scripts/write_contracts.py inserts it), so a consumer's
+# grammar test checks the code against the vendored error_code, not a copy of its own.
+description: >-
+  An error's text: line 1 is "<code>: <one-line message>", line 2 "fix: <text>", line 3
+  "next: <JSON list of next_step>" (one line, "[]" when there is none), then the original text
+  unchanged (an app error's own message; omitted for miAssist's own errors when it would repeat
+  line 1). An app's code in any other case is lower-cased for line 1 and keeps its spelling in the
+  original text.
+lines:
+  - name: code_and_message
+    pattern: "^({error_code}): ([^\\n]+)$"
+  - name: fix
+    pattern: "^fix: ([^\\n]*)$"
+  - name: next
+    pattern: "^next: (\\[.*\\])$"
+groups: "Each pattern's first group is the value; line 1's are the code, then the message."
+rest: The original text, unchanged; omitted when it would repeat line 1.

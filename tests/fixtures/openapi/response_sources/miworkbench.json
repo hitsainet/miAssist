@@ -1,0 +1,126 @@
+{
+ "extra_routes": [
+  "GET /api/v1/circuits/{circuit_id}",
+  "GET /api/v1/circuits/{circuit_id}/export",
+  "GET /api/v1/cluster-profiles",
+  "GET /api/v1/cluster-profiles/{profile_id}/export",
+  "GET /api/v1/extractions",
+  "GET /api/v1/extractions/{extraction_id}/features",
+  "GET /api/v1/features/{feature_id}",
+  "GET /api/v1/saes/{sae_id}",
+  "GET /api/v1/steering/async/result/{task_id}",
+  "POST /api/v1/cluster-profiles",
+  "POST /api/v1/steering/async/combined",
+  "POST /api/v1/steering/async/sweep"
+ ],
+ "note": "Overlays for miworkbench's response shapes (scripts/snapshot_shapes.py). extra_routes: 005's routes (registered on build/005-A) and the two GPU routes (registered only from 045's vectors), so one snapshot serves every branch.",
+ "overlays": [
+  {
+   "cite": "@69bd59bba backend/src/main.py (health); no playbook reads a field of it, Core's detection reads the status code",
+   "from": "code",
+   "pointer": "",
+   "route": "GET /api/health",
+   "schema": {
+    "additionalProperties": true,
+    "type": "object",
+    "x-open-reason": "reachability only: no playbook reads a field"
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@69bd59bba backend/src/api/v1/endpoints/steering.py:1478-1502 (result = the task's return); services/steering_service.py:3850-3866 (model_dump(mode=json) of StrengthSweepResponse / CombinedSteeringResponse)",
+   "classes": [
+    "src.schemas.steering:StrengthSweepResponse",
+    "src.schemas.steering:CombinedSteeringResponse"
+   ],
+   "from": "model",
+   "nullable": true,
+   "pointer": "/properties/result",
+   "route": "GET /api/v1/steering/async/result/{task_id}",
+   "status": "200"
+  },
+  {
+   "cite": "@69bd59bba backend/src/api/v1/endpoints/cluster_profiles.py:130-140 (definition.model_dump_json(exclude_none=True))",
+   "classes": [
+    "src.schemas.cluster_profile:ClusterDefinitionV1"
+   ],
+   "from": "model",
+   "pointer": "",
+   "route": "GET /api/v1/cluster-profiles/{profile_id}/export",
+   "status": "200"
+  },
+  {
+   "cite": "@69bd59bba backend/src/api/v1/endpoints/circuits.py:602-617 (defn.model_dump(mode=json))",
+   "classes": [
+    "src.schemas.circuit_definition:CircuitDefinitionV1"
+   ],
+   "from": "model",
+   "pointer": "",
+   "route": "GET /api/v1/circuits/{circuit_id}/export",
+   "status": "200"
+  },
+  {
+   "cite": "@69bd59bba backend/src/api/v1/endpoints/circuits.py:68-109 (_summary, _out)",
+   "from": "code",
+   "pointer": "",
+   "route": "GET /api/v1/circuits/{circuit_id}",
+   "schema": {
+    "additionalProperties": true,
+    "properties": {
+     "edges": {
+      "type": "array"
+     },
+     "id": {
+      "type": "string"
+     },
+     "members": {
+      "type": "array"
+     },
+     "model_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "name": {
+      "type": "string"
+     },
+     "promoted": {
+      "type": "boolean"
+     },
+     "rung": {
+      "type": "integer"
+     },
+     "rung_language": {
+      "type": "string"
+     },
+     "rung_next_step": {
+      "type": "string"
+     },
+     "version": {
+      "type": "integer"
+     }
+    },
+    "required": [
+     "id",
+     "name",
+     "rung",
+     "rung_language",
+     "rung_next_step",
+     "promoted",
+     "model_id",
+     "version",
+     "members",
+     "edges"
+    ],
+    "type": "object",
+    "x-open-reason": "005 reads id, name and rung only; those are pinned"
+   },
+   "status": "200"
+  }
+ ]
+}

@@ -1,0 +1,166 @@
+{
+  "$defs": {
+    "CassetteAnswer": {
+      "additionalProperties": false,
+      "properties": {
+        "body": {
+          "default": null,
+          "title": "Body"
+        },
+        "headers": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Headers",
+          "type": "object"
+        },
+        "status": {
+          "maximum": 599,
+          "minimum": 100,
+          "title": "Status",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "CassetteAnswer",
+      "type": "object"
+    },
+    "CassetteRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "answer": {
+          "$ref": "#/$defs/CassetteAnswer"
+        },
+        "app": {
+          "enum": [
+            "miworkbench",
+            "miserver",
+            "midataworks",
+            "miforge"
+          ],
+          "title": "App",
+          "type": "string"
+        },
+        "app_version": {
+          "title": "App Version",
+          "type": "string"
+        },
+        "request": {
+          "$ref": "#/$defs/CassetteRequest"
+        },
+        "seq": {
+          "minimum": 0,
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "description": "When it was recorded, ISO 8601 with offset.",
+          "title": "Time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "seq",
+        "app",
+        "app_version",
+        "time",
+        "request",
+        "answer"
+      ],
+      "title": "CassetteRecord",
+      "type": "object"
+    },
+    "CassetteRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "body": {
+          "default": null,
+          "title": "Body"
+        },
+        "headers": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Headers",
+          "type": "object"
+        },
+        "method": {
+          "enum": [
+            "GET",
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE"
+          ],
+          "title": "Method",
+          "type": "string"
+        },
+        "path": {
+          "description": "The request path as sent.",
+          "title": "Path",
+          "type": "string"
+        },
+        "query": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Query",
+          "type": "object"
+        },
+        "route": {
+          "description": "The route template the path matched.",
+          "title": "Route",
+          "type": "string"
+        }
+      },
+      "required": [
+        "method",
+        "path",
+        "route"
+      ],
+      "title": "CassetteRequest",
+      "type": "object"
+    }
+  },
+  "$id": "miassist-cassette-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "One recorded (or hand-written) exchange with fake apps.",
+  "properties": {
+    "format": {
+      "const": "miassist.cassette/v1",
+      "title": "Format",
+      "type": "string"
+    },
+    "name": {
+      "pattern": "^[a-z0-9][a-z0-9_.-]{0,119}$",
+      "title": "Name",
+      "type": "string"
+    },
+    "records": {
+      "items": {
+        "$ref": "#/$defs/CassetteRecord"
+      },
+      "title": "Records",
+      "type": "array"
+    },
+    "source": {
+      "enum": [
+        "recorded",
+        "hand_written"
+      ],
+      "title": "Source",
+      "type": "string"
+    }
+  },
+  "required": [
+    "format",
+    "name",
+    "source",
+    "records"
+  ],
+  "title": "Cassette",
+  "type": "object"
+}

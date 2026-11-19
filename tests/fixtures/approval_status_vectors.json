@@ -1,0 +1,236 @@
+{
+  "_comment": [
+    "001 FPRD \u00a75.1.3 status mapping (AC-12.4). Sources: miWorkbench ApprovalStatus (api/v1/endpoints/mcp_approvals.py:85-120),",
+    "miServer miserver/db/models/approval.py:30-35, miDataworks backend/src/models/approval.py:19-26, miForge backend/src/models/approval.py:51-57.",
+    "A server-executed app's status is never mapped to approved (A18). A miWorkbench relay passes its source app's approval through (A30)."
+  ],
+  "rows": [
+    {
+      "app": "miworkbench",
+      "style": "file_first",
+      "app_status": "pending",
+      "status": "pending",
+      "then": "call_again_with"
+    },
+    {
+      "app": "miworkbench",
+      "style": "file_first",
+      "app_status": "approved",
+      "status": "approved",
+      "then": "call_again_with"
+    },
+    {
+      "app": "miworkbench",
+      "style": "file_first",
+      "app_status": "consumed",
+      "status": "executed",
+      "then": "call_again_with"
+    },
+    {
+      "app": "miworkbench",
+      "style": "file_first",
+      "app_status": "failed",
+      "status": "failed",
+      "then": "call_again_with"
+    },
+    {
+      "app": "miworkbench",
+      "style": "file_first",
+      "app_status": "denied",
+      "status": "rejected",
+      "then": "call_again_with"
+    },
+    {
+      "app": "miworkbench",
+      "style": "file_first",
+      "app_status": "expired",
+      "status": "expired",
+      "then": "call_again_with"
+    },
+    {
+      "app": "miserver",
+      "style": "server_executed",
+      "app_status": "pending",
+      "status": "pending",
+      "then": "server_runs"
+    },
+    {
+      "app": "miserver",
+      "style": "server_executed",
+      "app_status": "executing",
+      "status": "executing",
+      "then": "server_runs"
+    },
+    {
+      "app": "miserver",
+      "style": "server_executed",
+      "app_status": "executed",
+      "status": "executed",
+      "then": "server_runs"
+    },
+    {
+      "app": "miserver",
+      "style": "server_executed",
+      "app_status": "failed",
+      "status": "failed",
+      "then": "server_runs"
+    },
+    {
+      "app": "miserver",
+      "style": "server_executed",
+      "app_status": "rejected",
+      "status": "rejected",
+      "then": "server_runs"
+    },
+    {
+      "app": "miserver",
+      "style": "server_executed",
+      "app_status": "expired",
+      "status": "expired",
+      "then": "server_runs"
+    },
+    {
+      "app": "midataworks",
+      "style": "server_executed",
+      "app_status": "pending",
+      "status": "pending",
+      "then": "server_runs"
+    },
+    {
+      "app": "midataworks",
+      "style": "server_executed",
+      "app_status": "executing",
+      "status": "executing",
+      "then": "server_runs"
+    },
+    {
+      "app": "midataworks",
+      "style": "server_executed",
+      "app_status": "executed",
+      "status": "executed",
+      "then": "server_runs"
+    },
+    {
+      "app": "midataworks",
+      "style": "server_executed",
+      "app_status": "failed",
+      "status": "failed",
+      "then": "server_runs"
+    },
+    {
+      "app": "midataworks",
+      "style": "server_executed",
+      "app_status": "rejected",
+      "status": "rejected",
+      "then": "server_runs"
+    },
+    {
+      "app": "midataworks",
+      "style": "server_executed",
+      "app_status": "expired",
+      "status": "expired",
+      "then": "server_runs"
+    },
+    {
+      "app": "miforge",
+      "style": "server_executed",
+      "app_status": "pending",
+      "status": "pending",
+      "then": "server_runs"
+    },
+    {
+      "app": "miforge",
+      "style": "server_executed",
+      "app_status": "executing",
+      "status": "executing",
+      "then": "server_runs"
+    },
+    {
+      "app": "miforge",
+      "style": "server_executed",
+      "app_status": "executed",
+      "status": "executed",
+      "then": "server_runs"
+    },
+    {
+      "app": "miforge",
+      "style": "server_executed",
+      "app_status": "failed",
+      "status": "failed",
+      "then": "server_runs"
+    },
+    {
+      "app": "miforge",
+      "style": "server_executed",
+      "app_status": "rejected",
+      "status": "rejected",
+      "then": "server_runs"
+    },
+    {
+      "app": "miforge",
+      "style": "server_executed",
+      "app_status": "expired",
+      "status": "expired",
+      "then": "server_runs"
+    },
+    {
+      "app": "miworkbench",
+      "style": "relay",
+      "app_status": "pending",
+      "status": "pending",
+      "then": "server_runs"
+    },
+    {
+      "app": "miworkbench",
+      "style": "relay",
+      "app_status": "executing",
+      "status": "executing",
+      "then": "server_runs"
+    },
+    {
+      "app": "miworkbench",
+      "style": "relay",
+      "app_status": "executed",
+      "status": "executed",
+      "then": "server_runs"
+    },
+    {
+      "app": "miworkbench",
+      "style": "relay",
+      "app_status": "failed",
+      "status": "failed",
+      "then": "server_runs"
+    },
+    {
+      "app": "miworkbench",
+      "style": "relay",
+      "app_status": "rejected",
+      "status": "rejected",
+      "then": "server_runs"
+    },
+    {
+      "app": "miworkbench",
+      "style": "relay",
+      "app_status": "expired",
+      "status": "expired",
+      "then": "server_runs"
+    }
+  ],
+  "unknown": [
+    {
+      "app": "miworkbench",
+      "style": "file_first",
+      "app_status": "executing"
+    },
+    {
+      "app": "miforge",
+      "style": "server_executed",
+      "app_status": "approved"
+    },
+    {
+      "app": "miserver",
+      "style": "server_executed",
+      "app_status": "consumed"
+    }
+  ]
+}

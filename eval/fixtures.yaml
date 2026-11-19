@@ -1,0 +1,52 @@
+# Evaluation fixtures (FR-002.14a; FTDD §4.4a). miassist.eval-fixtures/v1.
+# Every key carries the prefix; so does every name the creator chooses (a model keeps its Hub name).
+# `app_id` and `created_utc` are written by `python -m miassist_eval fixtures create`, run by hand on
+# the workstation with the operator approving every gated step in the app (FTASKS 3.2b). Until then
+# they are null and `fixtures check` reports each as not created.
+#
+# Core's recorder reads this same file (miassist_fixtures.filter.AllowedSet.from_fixtures: `prefix`,
+# `ids`, `public_repositories`); `ids` and `public_repositories` must equal what `fixtures` lists
+# (tests/unit/test_fixtures.py pins it; OVN-miassist-eval-4).
+schema: miassist.eval-fixtures/v1
+prefix: evalfx-
+ids: []
+public_repositories: [Salesforce/wikitext, Qwen/Qwen2.5-0.5B-Instruct]
+fixtures:
+  - key: evalfx-refund-messages-dw
+    app: midataworks
+    kind: dataset
+    name: evalfx-refund-messages
+    app_id: null
+    origin: synthetic
+    made_from: eval/fixtures/data/refund_messages.jsonl
+    created_utc: null
+  - key: evalfx-refund-messages-wb
+    app: miworkbench
+    kind: dataset
+    name: evalfx-refund-messages
+    app_id: null
+    origin: synthetic
+    made_from: eval/fixtures/data/refund_messages.jsonl
+    created_utc: null
+  - key: evalfx-everyday-text
+    app: miworkbench
+    kind: dataset
+    name: evalfx-everyday-text
+    app_id: null
+    origin: public
+    repo_id: Salesforce/wikitext
+    # Exact-repo_id public check (A23), 2026-11-16 ~04:15 ET: private false, gated false.
+    revision: b08601e04326c79dfdd32d625aee71d232d685c3
+    licence: cc-by-sa-3.0
+    created_utc: null
+  - key: evalfx-model
+    app: miworkbench
+    kind: model
+    name: null
+    app_id: null
+    origin: public
+    repo_id: Qwen/Qwen2.5-0.5B-Instruct
+    # Exact-repo_id public check (A23), 2026-11-16 ~04:15 ET: private false, gated false.
+    revision: 7ae557604adf67be50417f59c2c2f167def9a775
+    licence: apache-2.0
+    created_utc: null

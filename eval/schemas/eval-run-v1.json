@@ -1,0 +1,511 @@
+{
+ "$id": "miassist.eval-run/v1",
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "additionalProperties": true,
+ "properties": {
+  "apps": {
+   "additionalProperties": {
+    "additionalProperties": true,
+    "properties": {
+     "drift": {
+      "minLength": 1,
+      "type": "string"
+     },
+     "openapi_sha256": {
+      "minLength": 1,
+      "type": "string"
+     },
+     "reference_age_days": {
+      "type": "integer"
+     },
+     "version": {
+      "minLength": 1,
+      "type": "string"
+     }
+    },
+    "required": [
+     "version",
+     "openapi_sha256",
+     "drift"
+    ],
+    "type": "object"
+   },
+   "minProperties": 1,
+   "type": "object"
+  },
+  "artifacts": {
+   "additionalProperties": false,
+   "properties": {
+    "clock": {
+     "additionalProperties": false,
+     "properties": {
+      "path": {
+       "minLength": 1,
+       "type": "string"
+      },
+      "sha256": {
+       "pattern": "^[0-9a-f]{64}$",
+       "type": "string"
+      }
+     },
+     "required": [
+      "path",
+      "sha256"
+     ],
+     "type": "object"
+    },
+    "effects_log": {
+     "additionalProperties": false,
+     "properties": {
+      "path": {
+       "minLength": 1,
+       "type": "string"
+      },
+      "sha256": {
+       "pattern": "^[0-9a-f]{64}$",
+       "type": "string"
+      }
+     },
+     "required": [
+      "path",
+      "sha256"
+     ],
+     "type": "object"
+    },
+    "tap_log": {
+     "additionalProperties": false,
+     "properties": {
+      "path": {
+       "minLength": 1,
+       "type": "string"
+      },
+      "sha256": {
+       "pattern": "^[0-9a-f]{64}$",
+       "type": "string"
+      }
+     },
+     "required": [
+      "path",
+      "sha256"
+     ],
+     "type": "object"
+    },
+    "transcript": {
+     "additionalProperties": false,
+     "properties": {
+      "path": {
+       "minLength": 1,
+       "type": "string"
+      },
+      "sha256": {
+       "pattern": "^[0-9a-f]{64}$",
+       "type": "string"
+      }
+     },
+     "required": [
+      "path",
+      "sha256"
+     ],
+     "type": "object"
+    }
+   },
+   "required": [
+    "transcript",
+    "tap_log",
+    "effects_log",
+    "clock"
+   ],
+   "type": "object"
+  },
+  "attempt": {
+   "minimum": 1,
+   "type": "integer"
+  },
+  "budget_stop": {
+   "type": "boolean"
+  },
+  "calls": {
+   "type": "object"
+  },
+  "cassette": {
+   "oneOf": [
+    {
+     "type": "null"
+    },
+    {
+     "additionalProperties": false,
+     "properties": {
+      "id": {
+       "minLength": 1,
+       "type": "string"
+      },
+      "manifest_sha256": {
+       "minLength": 1,
+       "type": "string"
+      }
+     },
+     "required": [
+      "id",
+      "manifest_sha256"
+     ],
+     "type": "object"
+    }
+   ]
+  },
+  "client": {
+   "additionalProperties": false,
+   "properties": {
+    "name": {
+     "minLength": 1,
+     "type": "string"
+    },
+    "version": {
+     "minLength": 1,
+     "type": "string"
+    }
+   },
+   "required": [
+    "name",
+    "version"
+   ],
+   "type": "object"
+  },
+  "cls": {
+   "type": [
+    "string",
+    "null"
+   ]
+  },
+  "goal": {
+   "additionalProperties": false,
+   "properties": {
+    "goal_set_sha256": {
+     "pattern": "^[0-9a-f]{64}$",
+     "type": "string"
+    },
+    "id": {
+     "minLength": 1,
+     "type": "string"
+    },
+    "phrasing": {
+     "enum": [
+      "a",
+      "b"
+     ]
+    }
+   },
+   "required": [
+    "id",
+    "phrasing",
+    "goal_set_sha256"
+   ],
+   "type": "object"
+  },
+  "harness_version": {
+   "minLength": 1,
+   "type": "string"
+  },
+  "limits": {
+   "type": "object"
+  },
+  "milestones_reached": {
+   "type": "array"
+  },
+  "model": {
+   "additionalProperties": false,
+   "properties": {
+    "mismatch": {
+     "type": "boolean"
+    },
+    "requested": {
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "served": {
+     "type": [
+      "string",
+      "null"
+     ]
+    }
+   },
+   "required": [
+    "requested",
+    "served",
+    "mismatch"
+   ],
+   "type": "object"
+  },
+  "operator_handoffs": {
+   "type": "integer"
+  },
+  "outcome": {
+   "enum": [
+    "success",
+    "failed",
+    "invalid"
+   ]
+  },
+  "reference_stale": {
+   "type": "boolean"
+  },
+  "run_id": {
+   "minLength": 1,
+   "type": "string"
+  },
+  "schema": {
+   "const": "miassist.eval-run/v1"
+  },
+  "server_under_test": {
+   "minProperties": 1,
+   "type": "object"
+  },
+  "stuck_at": {
+   "type": [
+    "object",
+    "null"
+   ]
+  },
+  "suite_id": {
+   "minLength": 1,
+   "type": "string"
+  },
+  "surface": {
+   "enum": [
+    "miassist",
+    "baseline"
+   ]
+  },
+  "tier": {
+   "enum": [
+    "1a",
+    "1b",
+    "2",
+    "record"
+   ]
+  },
+  "time": {
+   "type": "object"
+  },
+  "tokens": {
+   "additionalProperties": false,
+   "allOf": [
+    {
+     "if": {
+      "properties": {
+       "input": {
+        "const": 0
+       }
+      },
+      "required": [
+       "input"
+      ]
+     },
+     "then": {
+      "properties": {
+       "reported": {
+        "properties": {
+         "input": {
+          "const": true
+         }
+        },
+        "required": [
+         "input"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "if": {
+      "properties": {
+       "output": {
+        "const": 0
+       }
+      },
+      "required": [
+       "output"
+      ]
+     },
+     "then": {
+      "properties": {
+       "reported": {
+        "properties": {
+         "output": {
+          "const": true
+         }
+        },
+        "required": [
+         "output"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "if": {
+      "properties": {
+       "cache_read": {
+        "const": 0
+       }
+      },
+      "required": [
+       "cache_read"
+      ]
+     },
+     "then": {
+      "properties": {
+       "reported": {
+        "properties": {
+         "cache_read": {
+          "const": true
+         }
+        },
+        "required": [
+         "cache_read"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "if": {
+      "properties": {
+       "cache_write": {
+        "const": 0
+       }
+      },
+      "required": [
+       "cache_write"
+      ]
+     },
+     "then": {
+      "properties": {
+       "reported": {
+        "properties": {
+         "cache_write": {
+          "const": true
+         }
+        },
+        "required": [
+         "cache_write"
+        ]
+       }
+      }
+     }
+    }
+   ],
+   "properties": {
+    "cache_read": {
+     "oneOf": [
+      {
+       "minimum": 1,
+       "type": "integer"
+      },
+      {
+       "type": "null"
+      },
+      {
+       "const": 0
+      }
+     ]
+    },
+    "cache_write": {
+     "oneOf": [
+      {
+       "minimum": 1,
+       "type": "integer"
+      },
+      {
+       "type": "null"
+      },
+      {
+       "const": 0
+      }
+     ]
+    },
+    "input": {
+     "oneOf": [
+      {
+       "minimum": 1,
+       "type": "integer"
+      },
+      {
+       "type": "null"
+      },
+      {
+       "const": 0
+      }
+     ]
+    },
+    "null_reason": {
+     "additionalProperties": {
+      "minLength": 1,
+      "type": "string"
+     },
+     "type": "object"
+    },
+    "output": {
+     "oneOf": [
+      {
+       "minimum": 1,
+       "type": "integer"
+      },
+      {
+       "type": "null"
+      },
+      {
+       "const": 0
+      }
+     ]
+    },
+    "reported": {
+     "additionalProperties": {
+      "type": "boolean"
+     },
+     "type": "object"
+    }
+   },
+   "required": [
+    "input",
+    "output",
+    "cache_read",
+    "cache_write",
+    "reported"
+   ],
+   "type": "object"
+  },
+  "tool_choice": {
+   "type": "object"
+  },
+  "user_nudges": {
+   "type": "integer"
+  }
+ },
+ "required": [
+  "schema",
+  "run_id",
+  "suite_id",
+  "attempt",
+  "surface",
+  "tier",
+  "client",
+  "model",
+  "server_under_test",
+  "apps",
+  "harness_version",
+  "cassette",
+  "goal",
+  "outcome",
+  "cls",
+  "milestones_reached",
+  "calls",
+  "tokens",
+  "time",
+  "user_nudges",
+  "reference_stale",
+  "artifacts"
+ ],
+ "type": "object"
+}

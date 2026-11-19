@@ -1,0 +1,19 @@
+# Explanations for miassist_dataset_find (004; FR-004.20: only beginners see them).
+version: 1
+outcomes:
+  nothing_chosen:
+    what_happened: No public dataset on the Hub matched your words.
+    why_it_matters: Private and gated datasets are always left out, so only public data can be found here.
+    what_good_looks_like: A list of public candidates with licence, size and splits.
+    next_step: Try other words, or name a [[source]] you already have in miDataworks.
+  source_chosen:
+    what_happened: miAssist found public datasets on the Hub and previewed the best match.
+    why_it_matters: Each candidate shows its licence, so you know whether you may share what you build
+      from it.
+    what_good_looks_like: A candidate whose licence fits your use and whose splits and size look right.
+    next_step: Build the candidate you want with miassist_dataset_build.
+  unavailable:
+    what_happened: miDataworks is not answering, so nothing was asked of it.
+    why_it_matters: No change was made anywhere.
+    what_good_looks_like: miDataworks answering its health check again.
+    next_step: Check the status again later.

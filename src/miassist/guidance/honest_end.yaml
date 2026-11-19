@@ -1,0 +1,9 @@
+# The honest end (001 FR-28, A25): the ONE sanctioned way to say this installation cannot do
+# something. Rendered only by results/honest_end.py; every chain (003-005) carries its output in
+# data.honest_end and writes no wording of its own. {app} and {apps} are display names from apps.yaml.
+version: 1
+one: "needs {app}, which isn't part of this installation"
+any_of: "needs {apps}, which aren't part of this installation"
+joiner: " or "
+absent_answer: "That playbook {honest_end}. Here is what you can do with what you have:"
+unknown_playbook: "There is no playbook by that name here. Here is what you can do with what you have:"

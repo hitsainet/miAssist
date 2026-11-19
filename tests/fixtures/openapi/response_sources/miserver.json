@@ -1,0 +1,399 @@
+{
+ "extra_routes": [
+  "GET /api/circuits",
+  "GET /api/circuits/active",
+  "GET /api/clusters",
+  "GET /api/health/detailed",
+  "POST /api/circuits/import",
+  "POST /api/clusters/import",
+  "POST /api/models/{model_id}/load",
+  "POST /v1/chat/completions"
+ ],
+ "note": "Overlays for miserver's response shapes (scripts/snapshot_shapes.py). extra_routes: 005's routes (registered on build/005-A) and the two GPU routes (registered only from 045's vectors), so one snapshot serves every branch.",
+ "overlays": [
+  {
+   "cite": "@04ac4524 miserver/api/routes/management/approvals.py:58-67 ({approvals, count, pending}); services/approval_service.py:149-174 (as_payload); db/models/approval.py:30-32 (statuses)",
+   "from": "code",
+   "pointer": "/properties/data",
+   "route": "GET /api/approvals",
+   "schema": {
+    "properties": {
+     "approvals": {
+      "items": {
+       "properties": {
+        "action": {
+         "type": "string"
+        },
+        "action_label": {
+         "type": "string"
+        },
+        "approval_id": {
+         "type": "string"
+        },
+        "batch_id": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "null"
+          }
+         ]
+        },
+        "batch_kind": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "null"
+          }
+         ]
+        },
+        "created_at": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "null"
+          }
+         ]
+        },
+        "decided_at": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "null"
+          }
+         ]
+        },
+        "decided_by": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "null"
+          }
+         ]
+        },
+        "error": {},
+        "expires_at": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "null"
+          }
+         ]
+        },
+        "payload": {
+         "additionalProperties": true,
+         "type": "object"
+        },
+        "reason": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "null"
+          }
+         ]
+        },
+        "request_digest": {
+         "type": "string"
+        },
+        "requested_by": {
+         "type": "string"
+        },
+        "result": {},
+        "settings_change": {
+         "type": "boolean"
+        },
+        "status": {
+         "enum": [
+          "pending",
+          "executing",
+          "executed",
+          "failed",
+          "rejected",
+          "expired"
+         ]
+        },
+        "summary": {
+         "type": [
+          "object",
+          "string",
+          "null"
+         ]
+        }
+       },
+       "required": [
+        "approval_id",
+        "action",
+        "action_label",
+        "settings_change",
+        "batch_kind",
+        "status",
+        "summary",
+        "payload",
+        "request_digest",
+        "requested_by",
+        "decided_by",
+        "reason",
+        "result",
+        "error",
+        "created_at",
+        "decided_at",
+        "expires_at",
+        "batch_id"
+       ],
+       "type": "object"
+      },
+      "type": "array"
+     },
+     "count": {
+      "type": "integer"
+     },
+     "pending": {
+      "type": "integer"
+     }
+    },
+    "required": [
+     "approvals",
+     "count",
+     "pending"
+    ],
+    "type": "object"
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@04ac4524 miserver/services/approval_service.py:149-174 (as_payload)",
+   "from": "code",
+   "pointer": "/properties/data",
+   "route": "GET /api/approvals/{approval_id}",
+   "schema": {
+    "properties": {
+     "action": {
+      "type": "string"
+     },
+     "action_label": {
+      "type": "string"
+     },
+     "approval_id": {
+      "type": "string"
+     },
+     "batch_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "batch_kind": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "created_at": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "decided_at": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "decided_by": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "error": {},
+     "expires_at": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "payload": {
+      "additionalProperties": true,
+      "type": "object"
+     },
+     "reason": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "request_digest": {
+      "type": "string"
+     },
+     "requested_by": {
+      "type": "string"
+     },
+     "result": {},
+     "settings_change": {
+      "type": "boolean"
+     },
+     "status": {
+      "enum": [
+       "pending",
+       "executing",
+       "executed",
+       "failed",
+       "rejected",
+       "expired"
+      ]
+     },
+     "summary": {
+      "type": [
+       "object",
+       "string",
+       "null"
+      ]
+     }
+    },
+    "required": [
+     "approval_id",
+     "action",
+     "action_label",
+     "settings_change",
+     "batch_kind",
+     "status",
+     "summary",
+     "payload",
+     "request_digest",
+     "requested_by",
+     "decided_by",
+     "reason",
+     "result",
+     "error",
+     "created_at",
+     "decided_at",
+     "expires_at",
+     "batch_id"
+    ],
+    "type": "object"
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@04ac4524 miserver/api/approval_gate.py:463-469 (an agent's gated call); services/approval_service.py:132-142 (pending_body)",
+   "from": "code",
+   "mode": "anyOf",
+   "pointer": "",
+   "route": "POST /api/models/{model_id}/load",
+   "schema": {
+    "properties": {
+     "data": {
+      "properties": {
+       "action": {
+        "type": "string"
+       },
+       "approval_id": {
+        "type": "string"
+       },
+       "expires_at": {
+        "type": "string"
+       },
+       "hint": {
+        "type": "string"
+       },
+       "request_digest": {
+        "type": "string"
+       },
+       "status": {
+        "enum": [
+         "pending"
+        ]
+       },
+       "summary": {
+        "type": [
+         "object",
+         "string",
+         "null"
+        ]
+       }
+      },
+      "required": [
+       "approval_id",
+       "status",
+       "action",
+       "summary",
+       "request_digest",
+       "expires_at",
+       "hint"
+      ],
+      "type": "object"
+     },
+     "error": {
+      "type": "null"
+     },
+     "success": {
+      "enum": [
+       true
+      ]
+     }
+    },
+    "required": [
+     "success",
+     "data",
+     "error"
+    ],
+    "type": "object"
+   },
+   "status": "202"
+  },
+  {
+   "cite": "@04ac4524 miserver/api/routes/management/circuits.py:293-339 (a LIST of CircuitSummary rows with `steering`; null only with ?single=true)",
+   "classes": [
+    "miserver.api.schemas.circuit:CircuitSummary"
+   ],
+   "from": "model",
+   "nullable": true,
+   "pointer": "/properties/data",
+   "route": "GET /api/circuits/active",
+   "status": "200",
+   "wrap": "array"
+  }
+ ]
+}

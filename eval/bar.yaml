@@ -1,0 +1,19 @@
+# The release bar (FR-002.33, M10). miassist.eval-bar/v1. PROVISIONAL until the operator confirms it
+# against the baseline report (FTASKS 8.7); `bar confirm` is run only on his words.
+schema: miassist.eval-bar/v1
+status: provisional
+criteria:
+  success: {k: 9, of: 10}
+  calls_reduction: {min: 0.50}
+  first_useful_active: {seconds: 600, k: 9, of: 10}
+cells:
+  - {playbook: detector-probe, client: claude_code, tier: "1b"}
+  - {playbook: detector-probe, client: open_webui, tier: "1b"}
+  - {playbook: dataset, client: claude_code, tier: "1b"}
+  - {playbook: dataset, client: open_webui, tier: "1b"}
+  - {playbook: steering, client: claude_code, tier: "1b"}
+  - {playbook: steering, client: open_webui, tier: "1b"}
+confirmed_on: null
+words: null
+baseline_report: null
+baseline_goal_set_sha256: null

@@ -1,0 +1,21 @@
+# Origin: miForge (Onegaishimas/miForge) .github/workflows/docs-check.yml @ e4251e4
+# Mode: adapt (docs/REUSE.md). Kept: the framework-reference check. Not required by the private
+# gate (it gates no image; sync-to-clean.yml names it as the one exemption).
+name: docs-check
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check-refs:
+    if: github.repository == 'Onegaishimas/miAssist' || github.repository == 'Onegaishimas/miassist'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify framework doc references
+        run: bash 0xcc/scripts/check_refs.sh

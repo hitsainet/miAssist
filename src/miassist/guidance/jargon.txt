@@ -1,0 +1,5 @@
+AUROC
+SAE
+OOD
+checkpoint
+calibration

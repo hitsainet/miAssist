@@ -1,0 +1,43 @@
+# Explanations for miassist_dataset_build (004; FR-004.20: only beginners see them).
+version: 1
+outcomes:
+  awaiting_import:
+    what_happened: The import is the operator's step.
+    why_it_matters: A private, gated or large dataset can only be imported by the operator in miDataworks.
+    what_good_looks_like: The source showing in miDataworks, Sources.
+    next_step: Ask the operator to import it, then build again.
+  importing:
+    what_happened: miDataworks is importing the dataset.
+    why_it_matters: The import runs as a job; building waits for it.
+    what_good_looks_like: The import job finishing.
+    next_step: Call the build again in a little while.
+  awaiting_operator_build:
+    what_happened: The build plan labels rows, so miAssist did not build it.
+    why_it_matters: Labelling can spend a paid classifier, so the operator starts that build in miDataworks.
+    what_good_looks_like: The operator building the version in miDataworks.
+    next_step: Ask the operator, then check the status.
+  build_waiting:
+    what_happened: miDataworks holds the build for the operator's [[approval]].
+    why_it_matters: Only the operator decides an approval, in miDataworks.
+    what_good_looks_like: A decision from the operator.
+    next_step: Check the status later.
+  building:
+    what_happened: miDataworks is building the [[dataset-version]].
+    why_it_matters: The build runs as a job; the version is ready when it ends.
+    what_good_looks_like: The build job finishing with rows kept.
+    next_step: Call the build again, or check the status, in a little while.
+  version_ready:
+    what_happened: The [[dataset-version]] is built.
+    why_it_matters: A version never changes after it is built, so what you check is what you publish.
+    what_good_looks_like: A version whose splits and row counts look right.
+    next_step: Check it with miassist_dataset_check.
+  build_failed:
+    what_happened: The build did not complete.
+    why_it_matters: miDataworks' own reason says what went wrong.
+    what_good_looks_like: A reason you can act on.
+    next_step: Read the reason, then build again.
+  unavailable:
+    what_happened: miDataworks is not answering, so nothing was asked of it.
+    why_it_matters: No change was made anywhere.
+    what_good_looks_like: miDataworks answering its health check again.
+    next_step: Check the status again later.

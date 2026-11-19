@@ -1,0 +1,253 @@
+# The miAssist server (PADR ADR-003, ADR-014; Foundation tasks 6.2, 6.3).
+#
+# - **One replica** (pinned by tests/unit/test_manifests.py): the write floor's rate counters live
+#   in process memory (ADR-003, A24), so a second replica needs a shared counter first.
+# - An init container runs the migrations (`MIASSIST_MIGRATE=1`) before the server starts.
+# - Hardened: non-root uid 10001, read-only root filesystem with an emptyDir at /tmp, every
+#   capability dropped, no privilege escalation, no service-account token.
+# - **NVIDIA_VISIBLE_DEVICES=void**: the node's default runtime is NVIDIA's, and an absent variable
+#   would hand the pod every card (miForge/gitops/pilot/mcp.yaml:10-13). No GPU request: miAssist
+#   does no GPU work (ADR-020).
+# - The pod gets POSTGRES_PASSWORD only, by secretKeyRef; no envFrom anywhere (each ConfigMap key
+#   is named, so nothing arrives that the manifest does not show).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: miassist
+  namespace: miassist
+  labels:
+    app: miassist
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: miassist
+  template:
+    metadata:
+      labels:
+        app: miassist
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+      initContainers:
+        - name: migrate
+          image: hitsai/miassist-server:latest
+          imagePullPolicy: Always
+          command: ["python", "-m", "miassist"]
+          env:
+            - name: MIASSIST_APPS
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: MIASSIST_APPS
+            - name: MIASSIST_MIWORKBENCH_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: MIASSIST_MIWORKBENCH_URL
+            - name: MIASSIST_MISERVER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: MIASSIST_MISERVER_URL
+            - name: MIASSIST_MIDATAWORKS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: MIASSIST_MIDATAWORKS_URL
+            - name: MIASSIST_MIFORGE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: MIASSIST_MIFORGE_URL
+            - name: MIASSIST_ALLOWED_HOSTS
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: MIASSIST_ALLOWED_HOSTS
+            - name: MIASSIST_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: MIASSIST_HOST
+            - name: MIASSIST_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: MIASSIST_PORT
+            - name: POSTGRES_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: POSTGRES_HOST
+            - name: POSTGRES_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: POSTGRES_PORT
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: POSTGRES_USER
+            - name: MIASSIST_MIGRATE
+              value: "1"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: miassist-secrets
+                  key: POSTGRES_PASSWORD
+            - name: NVIDIA_VISIBLE_DEVICES
+              value: void
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 10001
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+      containers:
+        - name: server
+          image: hitsai/miassist-server:latest
+          imagePullPolicy: Always
+          command: ["python", "-m", "miassist"]
+          env:
+            - name: MIASSIST_APPS
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: MIASSIST_APPS
+            - name: MIASSIST_MIWORKBENCH_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: MIASSIST_MIWORKBENCH_URL
+            - name: MIASSIST_MISERVER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: MIASSIST_MISERVER_URL
+            - name: MIASSIST_MIDATAWORKS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: MIASSIST_MIDATAWORKS_URL
+            - name: MIASSIST_MIFORGE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: MIASSIST_MIFORGE_URL
+            - name: MIASSIST_ALLOWED_HOSTS
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: MIASSIST_ALLOWED_HOSTS
+            - name: MIASSIST_PUBLIC_BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: MIASSIST_PUBLIC_BASE_URL
+            - name: MIASSIST_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: MIASSIST_HOST
+            - name: MIASSIST_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: MIASSIST_PORT
+            - name: POSTGRES_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: POSTGRES_HOST
+            - name: POSTGRES_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: POSTGRES_PORT
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: miassist-config
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: miassist-secrets
+                  key: POSTGRES_PASSWORD
+            - name: NVIDIA_VISIBLE_DEVICES
+              value: void
+          ports:
+            - containerPort: 8765
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8765
+            initialDelaySeconds: 5
+            periodSeconds: 15
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8765
+            initialDelaySeconds: 15
+            periodSeconds: 30
+            timeoutSeconds: 5
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 10001
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+      volumes:
+        - name: tmp
+          emptyDir:
+            sizeLimit: 64Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: miassist
+  namespace: miassist
+spec:
+  type: ClusterIP
+  selector:
+    app: miassist
+  ports:
+    - port: 8765
+      targetPort: 8765

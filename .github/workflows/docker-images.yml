@@ -1,0 +1,173 @@
+# Origin: miForge (Onegaishimas/miForge) .github/workflows/docker-images.yml @ e4251e4
+# Mode: adapt (docs/REUSE.md). Runs ON THE MIRROR ONLY (hitsainet/miAssist). Kept: the empty-list
+# guard in `emit_all`, the `private-ci` job requiring the `Private-CI: passed` / `Source-Commit:`
+# trailers, provenance attestation. Changed (Foundation 4.3): ALL=(server), one path rule, one build
+# case producing hitsai/miassist-server.
+name: Build and Push Docker Images
+
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  detect:
+    if: github.repository == 'hitsainet/miAssist' || github.repository == 'hitsainet/miassist'
+    runs-on: ubuntu-latest
+    outputs:
+      images: ${{ steps.detect.outputs.images }}
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # need history to diff the push range
+
+      - name: Detect changed images
+        id: detect
+        env:
+          BEFORE: ${{ github.event.before }}
+          REF: ${{ github.ref }}
+        run: |
+          set -euo pipefail
+          ALL=(server)
+          emit_all() {
+            if [ ${#ALL[@]} -eq 0 ]; then echo '[]'; return; fi
+            printf '%s\n' "${ALL[@]}" | jq -R . | jq -cs .
+          }
+
+          if [[ "$REF" == refs/tags/* ]]; then
+            echo "images=$(emit_all)" >> "$GITHUB_OUTPUT"; echo "tag push → all"; exit 0
+          fi
+
+          BASE="$BEFORE"
+          if [ -n "$BASE" ] && [ "$BASE" != "0000000000000000000000000000000000000000" ]; then
+            git cat-file -e "${BASE}^{commit}" 2>/dev/null \
+              || git fetch --no-tags origin "$BASE" 2>/dev/null \
+              || true
+          fi
+          if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ] \
+             || ! git cat-file -e "${BASE}^{commit}" 2>/dev/null; then
+            echo "images=$(emit_all)" >> "$GITHUB_OUTPUT"; echo "no usable diff base → all"; exit 0
+          fi
+
+          CHANGED="$(git diff --name-only "$BASE" "$GITHUB_SHA")"
+          echo "--- changed files ---"; echo "$CHANGED"
+
+          declare -A pick=()
+          if grep -qE '^(src/|alembic/|alembic\.ini|pyproject\.toml|Dockerfile|docs/schemas/|\.dockerignore|LICENSE)' <<< "$CHANGED"; then pick[server]=1; fi
+
+          OUT=()
+          for img in "${ALL[@]}"; do [ "${pick[$img]:-}" = "1" ] && OUT+=("$img"); done
+          if [ ${#OUT[@]} -eq 0 ]; then
+            echo "images=[]" >> "$GITHUB_OUTPUT"; echo "no image-affecting changes → nothing to build"
+          else
+            JSON="$(printf '%s\n' "${OUT[@]}" | jq -R . | jq -cs .)"
+            echo "images=$JSON" >> "$GITHUB_OUTPUT"; echo "building: $JSON"
+          fi
+
+
+  private-ci:
+    name: Require the private repo's CI verdict
+    if: github.repository == 'hitsainet/miAssist' || github.repository == 'hitsainet/miassist'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Require the private repo's CI verdict
+        run: |
+          set -euo pipefail
+          TRAILERS="$(git log -1 --format='%(trailers:only,unfold)' "$GITHUB_SHA")"
+          SRC="$(sed -n '/^Source-Commit: /{s///p;q;}' <<< "$TRAILERS")"
+          VERDICT="$(sed -n '/^Private-CI: /{s///p;q;}' <<< "$TRAILERS")"
+          if [ "$VERDICT" != "passed" ] || ! [[ "$SRC" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "::error::${GITHUB_SHA} carries no 'Private-CI: passed' / 'Source-Commit: <sha>' trailers."
+            echo "::error::Only snapshots published by the private repo's gated sync are built. Refusing."
+            exit 1
+          fi
+          echo "Snapshot of private commit ${SRC}, whose CI passed before it was published - building."
+
+  build:
+    needs: [detect, private-ci]
+    if: (github.repository == 'hitsainet/miAssist' || github.repository == 'hitsainet/miassist') && needs.detect.outputs.images != '[]' && needs.detect.outputs.images != ''
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        name: ${{ fromJson(needs.detect.outputs.images) }}
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Resolve image build parameters
+        id: img
+        run: |
+          case "${{ matrix.name }}" in
+            server)
+              echo "repo=hitsai/miassist-server"       >> "$GITHUB_OUTPUT"
+              echo "context=."                         >> "$GITHUB_OUTPUT"
+              echo "dockerfile=./Dockerfile"           >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "ERROR: unknown image '${{ matrix.name }}'"; exit 1
+              ;;
+          esac
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+
+      - name: Extract version tag
+        id: version
+        run: |
+          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+            VERSION="${GITHUB_REF#refs/tags/}"
+            echo "tags=${{ steps.img.outputs.repo }}:latest,${{ steps.img.outputs.repo }}:${VERSION}" >> "$GITHUB_OUTPUT"
+          else
+            SHA="${GITHUB_SHA::8}"
+            VERSION="$(cat VERSION 2>/dev/null || echo 0.0.0)+${SHA}"
+            echo "tags=${{ steps.img.outputs.repo }}:latest,${{ steps.img.outputs.repo }}:${SHA}" >> "$GITHUB_OUTPUT"
+          fi
+          echo "app_version=${VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push ${{ matrix.name }} image
+        id: build
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ steps.img.outputs.context }}
+          file: ${{ steps.img.outputs.dockerfile }}
+          push: true
+          tags: ${{ steps.version.outputs.tags }}
+          build-args: |
+            APP_VERSION=${{ steps.version.outputs.app_version }}
+          cache-from: type=gha,scope=${{ matrix.name }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.name }}
+          provenance: mode=max
+          sbom: true
+
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-name: index.docker.io/${{ steps.img.outputs.repo }}
+          subject-digest: ${{ steps.build.outputs.digest }}
+          push-to-registry: true

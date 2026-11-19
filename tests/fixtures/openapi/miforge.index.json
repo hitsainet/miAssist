@@ -1,0 +1,695 @@
+{
+ "app": "miforge",
+ "commit": "ac5a6dc",
+ "ref": "ac5a6dc",
+ "routes": [
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/health"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/adapters"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/adapters/{name}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/adapters/{name}/merge",
+   "x-approval-action": "gpu_start"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/approvals"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/approvals/actions"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/approvals/approve-batch"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/approvals/{approval_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/approvals/{approval_id}/approve"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/approvals/{approval_id}/reject"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/attachment"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/budget/estimate"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/chains"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/chains",
+   "x-approval-action": "gpu_start"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/chains/{chain_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/chains/{chain_id}/stop"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/checkpoints"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/gpus"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/host/resources"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/hub/revision"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/merges"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/midataworks/available-parts"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/midataworks/status"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/models/local"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/models/sources"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/pack-drafts"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/pack-drafts"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/pack-drafts/{draft_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/pack-drafts/{draft_id}",
+   "x-approval-action": "delete"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/pack-drafts/{draft_id}/commit"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/pack-drafts/{draft_id}/dry-run"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/pack-drafts/{draft_id}/samples/{slot}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/pack-drafts/{draft_id}/samples/{slot}/score"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PUT",
+   "path": "/api/v1/pack-drafts/{draft_id}/steps/{number}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/pack-drafts/{draft_id}/validity"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/pack-part-refs/{part_id}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/packs"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/packs"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/packs/import"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/packs/{pack_id}/versions/{version}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/packs/{pack_id}/versions/{version}",
+   "x-approval-action": "delete"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/packs/{pack_id}/versions/{version}/clone"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/packs/{pack_id}/versions/{version}/export"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/packs/{pack_id}/versions/{version}/lineage"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/packs/{pack_id}/versions/{version}/validity"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/parts"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/parts/import"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/parts/purge"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/parts/purge/plan"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/parts/validate"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/parts/{part_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/parts/{part_id}/archive"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/parts/{part_id}/purge"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/parts/{part_id}/unarchive"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/providers"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/providers/{name}/check"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/purges"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/refresh-modes"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/run-types"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/runs"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/runs",
+   "x-approval-action": "gpu_start"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/runs/define",
+   "x-approval-action": "gpu_start"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/runs/purge"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/runs/purge/plan"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/runs/validate"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/runs/{run_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/runs/{run_id}/archive"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/runs/{run_id}/batches"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/runs/{run_id}/batches/{batch_sha256}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/runs/{run_id}/boundaries"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/runs/{run_id}/cancel"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/runs/{run_id}/checkpoints"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/runs/{run_id}/checkpoints"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/runs/{run_id}/checkpoints/{step}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/runs/{run_id}/checkpoints/{step}/branch"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/runs/{run_id}/checkpoints/{step}/lineage"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/runs/{run_id}/checkpoints/{step}/verify"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/runs/{run_id}/continue",
+   "x-approval-action": "hotupdate_attach"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/runs/{run_id}/definition"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/runs/{run_id}/evaluate",
+   "x-approval-action": "gpu_start"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/runs/{run_id}/purge"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/runs/{run_id}/review"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/runs/{run_id}/scores"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/runs/{run_id}/scores/{step}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/runs/{run_id}/steps"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/runs/{run_id}/stop-conditions"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/runs/{run_id}/unarchive"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/selectors"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/selectors/evaluate"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/settings"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/settings/history"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PUT",
+   "path": "/api/v1/settings/{key}",
+   "x-approval-action": "config_write"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/settings/{key}",
+   "x-approval-action": "config_write"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/signal-sources"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/signal-sources/preflight"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/stop-conditions"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/tokenizers/local"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/tree"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/wsp/bundles"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/wsp/bundles/import"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/wsp/bundles/{bundle_sha256}"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/wsp/endpoints"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/wsp/endpoints"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "PATCH",
+   "path": "/api/v1/wsp/endpoints/{endpoint_id}"
+  },
+  {
+   "content_types": [],
+   "method": "DELETE",
+   "path": "/api/v1/wsp/endpoints/{endpoint_id}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/wsp/endpoints/{endpoint_id}/protocol-test",
+   "x-approval-action": "wsp_session"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/wsp/patches/stack"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/wsp/patches/verify"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/wsp/programs/{program_sha256}"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/wsp/programs/{program_sha256}/rerun"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/wsp/providers"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/wsp/runs"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/wsp/runs",
+   "x-approval-action": "wsp_session"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/wsp/runs/validate"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/wsp/runs/{run_id}"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/wsp/runs/{run_id}/cancel"
+  },
+  {
+   "content_types": [],
+   "method": "POST",
+   "path": "/api/v1/wsp/runs/{run_id}/replay"
+  },
+  {
+   "content_types": [],
+   "method": "GET",
+   "path": "/api/v1/wsp/runs/{run_id}/transcript"
+  },
+  {
+   "content_types": [
+    "application/json"
+   ],
+   "method": "POST",
+   "path": "/api/v1/wsp/weight-ops/inspect"
+  }
+ ],
+ "taken": "2026-11-19"
+}

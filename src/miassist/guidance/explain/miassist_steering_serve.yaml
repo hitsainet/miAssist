@@ -1,0 +1,48 @@
+# Explanations for miassist_steering_serve (005; only beginners see them).
+version: 1
+outcomes:
+  model_load_waiting:
+    what_happened: Loading the model waits for the operator's [[approval]], then for the server to load it.
+    why_it_matters: A model load changes what the server serves, so the operator decides it.
+    what_good_looks_like: A decision from the operator; the server then loads it.
+    next_step: Check the status later.
+  awaiting_hub_import:
+    what_happened: The cluster on the Hub is the operator's import.
+    why_it_matters: The cluster hub reads the Hub with the server's own credential.
+    what_good_looks_like: The cluster showing in the server's list.
+    next_step: Ask the operator, then serve again.
+  imported:
+    what_happened: The [[cluster]] is in the inference server and not active.
+    why_it_matters: Importing never switches it on.
+    what_good_looks_like: One short trial reply.
+    next_step: Serve again with a prompt to try it once.
+  awaiting_activation:
+    what_happened: The [[cluster]] is ready; activating it is the operator's step.
+    why_it_matters: Once active it steers every reply the server gives.
+    what_good_looks_like: The operator's decision.
+    next_step: Check the status later.
+  active:
+    what_happened: The [[cluster]] is active.
+    why_it_matters: Every reply the server gives is now steered by it.
+    what_good_looks_like: Replies that read as you expected.
+    next_step: Nothing more is needed.
+  rejected:
+    what_happened: The operator turned the request down.
+    why_it_matters: Only the operator decides; nothing runs unless you ask again.
+    what_good_looks_like: A reason you can act on.
+    next_step: Ask again with ask_again, if it still makes sense.
+  expired:
+    what_happened: The request expired before anyone decided it.
+    why_it_matters: An expired request cannot run.
+    what_good_looks_like: A new request, if you still want it.
+    next_step: Ask again with ask_again.
+  failed:
+    what_happened: The run did not complete.
+    why_it_matters: The app's own reason says what went wrong.
+    what_good_looks_like: A reason you can act on.
+    next_step: Read the reason, then ask again with ask_again.
+  unavailable:
+    what_happened: The app is not answering, so nothing was asked of it.
+    why_it_matters: No change was made anywhere.
+    what_good_looks_like: The app answering its health check again.
+    next_step: Check the status again later.

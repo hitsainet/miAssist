@@ -1,0 +1,22 @@
+version: 1
+outcomes:
+  ok:
+    what_happened: You asked for the state of this installation, and miAssist read it.
+    why_it_matters: It shows which apps answer right now and whether your settings are remembered.
+    what_good_looks_like: Every installed app reachable, and your level as you set it.
+    next_step: Start a playbook, or ask for one playbook's progress.
+  playbook:
+    what_happened: You asked where you are in "{title}", and miAssist checked each step.
+    why_it_matters: You can see the steps already done and the one to take next.
+    what_good_looks_like: Each step done in turn, until the playbook is finished.
+    next_step: Take the suggested next step, then ask again.
+  playbook_finished:
+    what_happened: You asked where you are in "{title}", and every step is done.
+    why_it_matters: You have finished this playbook; its results stay in the apps.
+    what_good_looks_like: Every step listed as done.
+    next_step: Pick another playbook from the guide.
+  not_offered:
+    what_happened: You asked for a playbook this installation does not offer.
+    why_it_matters: Each playbook works with particular apps; here is what you can do with the apps you have.
+    what_good_looks_like: A playbook from the list that fits what you want to do.
+    next_step: Pick one of the playbooks on offer.

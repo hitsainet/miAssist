@@ -1,0 +1,17 @@
+# App tool names met in app hints (next_steps or the legacy next) -> the miAssist tool that does
+# that part of a playbook (003 FTDD §6, FTID §12). An unmapped name becomes a plain sentence.
+version: 1
+hints:
+  create_behaviour: {tool: miassist_detector_start, why: "Record the behaviour."}
+  register_probe_dataset: {tool: miassist_detector_data, why: "Register the views the detector needs."}
+  create_nonsense_text_dataset: {tool: miassist_detector_data, why: "Register the views the detector needs."}
+  download_dataset: {tool: miassist_detector_data, why: "Bring the dataset in."}
+  recommend_probe_rules: {tool: miassist_detector_train, why: "Train with the recommended choices."}
+  forecast_probe_training_run: {tool: miassist_detector_train, why: "Train with the recommended choices."}
+  start_probe_training_run: {tool: miassist_detector_train, why: "Train the detector."}
+  evaluate_probe_monitor: {tool: miassist_detector_verdict, why: "Get the verdict."}
+  build_probe_definition: {tool: miassist_detector_deploy, why: "Deploy the detector."}
+  miserver_import_probe: {tool: miassist_detector_deploy, why: "Deploy the detector."}
+  dataworks_send_detector_set: {tool: miassist_detector_data, why: "Send the detector sets."}
+  dataworks_send_detector_sets: {tool: miassist_detector_data, why: "Send the detector sets."}
+  dataworks_get_detector_send: {tool: miassist_status, why: "Follow the send."}
