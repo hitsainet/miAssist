@@ -1,0 +1,43 @@
+# Explanations for miassist_dataset_publish (004; FR-004.20: only beginners see them).
+version: 1
+outcomes:
+  publish_waiting:
+    what_happened: miDataworks holds the publish for the operator's [[approval]].
+    why_it_matters: Publishing sends the data off this installation, so the operator decides it in miDataworks.
+    what_good_looks_like: A decision from the operator; miDataworks then re-runs the checks and publishes.
+    next_step: Check the status later.
+  publishing:
+    what_happened: The operator approved and miDataworks is publishing.
+    why_it_matters: miDataworks re-runs every check, uploads and verifies the files.
+    what_good_looks_like: The publish finishing.
+    next_step: Check the status in a little while.
+  published:
+    what_happened: The version is published to the Hub.
+    why_it_matters: Its [[visibility]] is what you asked for; private unless you said public.
+    what_good_looks_like: The repository showing the version's files.
+    next_step: Nothing more is needed.
+  rejected:
+    what_happened: The operator turned the publish down.
+    why_it_matters: Only the operator decides; miAssist files nothing new unless you ask again.
+    what_good_looks_like: A reason you can act on.
+    next_step: Ask again with ask_again, if it still makes sense.
+  expired:
+    what_happened: The publish request expired before anyone decided it.
+    why_it_matters: An expired request cannot run; miAssist files nothing new unless you ask again.
+    what_good_looks_like: A new request, if you still want it.
+    next_step: Ask again with ask_again.
+  failed:
+    what_happened: The operator approved, but the publish did not complete.
+    why_it_matters: miDataworks' own reason says what went wrong.
+    what_good_looks_like: A reason you can act on.
+    next_step: Read the reason, then ask again with ask_again.
+  checking:
+    what_happened: The version's files are still being built.
+    why_it_matters: The publish needs the files first.
+    what_good_looks_like: The files build finishing.
+    next_step: Call the publish again in a little while.
+  unavailable:
+    what_happened: miDataworks is not answering, so nothing was asked of it.
+    why_it_matters: No change was made anywhere.
+    what_good_looks_like: miDataworks answering its health check again.
+    next_step: Check the status again later.

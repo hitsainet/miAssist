@@ -1,0 +1,246 @@
+{
+  "_comment": [
+    "001 FR-31 id-filter vectors (A37, R2M-7; FTID \u00a78.3). Each vector: a route profile, a request, the verdict and the refused field. The fixture list for every vector: prefix evalfx-, public repository public/fixture-dataset. Core's recorder and 002's recording proxy must both reproduce every verdict."
+  ],
+  "fixtures": {
+    "prefix": "evalfx-",
+    "ids": [],
+    "public_repositories": [
+      "public/fixture-dataset"
+    ]
+  },
+  "vectors": [
+    {
+      "id": "path-param-fixture",
+      "profile": {
+        "template": "/api/v1/datasets/{dataset_id}",
+        "creates": false
+      },
+      "request": {
+        "path": "/api/v1/datasets/evalfx-ds-1",
+        "query": {},
+        "body": null
+      },
+      "verdict": "allowed",
+      "refused_at": null
+    },
+    {
+      "id": "path-param-foreign",
+      "profile": {
+        "template": "/api/v1/datasets/{dataset_id}",
+        "creates": false
+      },
+      "request": {
+        "path": "/api/v1/datasets/ds-operator-9",
+        "query": {},
+        "body": null
+      },
+      "verdict": "refused",
+      "refused_at": "path.dataset_id"
+    },
+    {
+      "id": "eval-dataset-ids-all-fixture",
+      "profile": {
+        "template": "/api/v1/label-runs",
+        "creates": false
+      },
+      "request": {
+        "path": "/api/v1/label-runs",
+        "query": {},
+        "body": {
+          "eval_dataset_ids": [
+            "evalfx-a",
+            "evalfx-b"
+          ]
+        }
+      },
+      "verdict": "allowed",
+      "refused_at": null
+    },
+    {
+      "id": "eval-dataset-ids-one-foreign",
+      "profile": {
+        "template": "/api/v1/label-runs",
+        "creates": false
+      },
+      "request": {
+        "path": "/api/v1/label-runs",
+        "query": {},
+        "body": {
+          "eval_dataset_ids": [
+            "evalfx-a",
+            "prod-7"
+          ]
+        }
+      },
+      "verdict": "refused",
+      "refused_at": "body.eval_dataset_ids[1]"
+    },
+    {
+      "id": "query-id-foreign",
+      "profile": {
+        "template": "/api/v1/label-runs",
+        "creates": false
+      },
+      "request": {
+        "path": "/api/v1/label-runs",
+        "query": {
+          "dataset_id": "prod-1"
+        },
+        "body": null
+      },
+      "verdict": "refused",
+      "refused_at": "query.dataset_id"
+    },
+    {
+      "id": "key-on-read-foreign",
+      "profile": {
+        "template": "/api/v1/label-runs",
+        "creates": false
+      },
+      "request": {
+        "path": "/api/v1/label-runs",
+        "query": {},
+        "body": {
+          "key": "someones-behaviour"
+        }
+      },
+      "verdict": "refused",
+      "refused_at": "body.key"
+    },
+    {
+      "id": "repo-id-on-read-listed",
+      "profile": {
+        "template": "/api/v1/label-runs",
+        "creates": false
+      },
+      "request": {
+        "path": "/api/v1/label-runs",
+        "query": {},
+        "body": {
+          "repo_id": "public/fixture-dataset"
+        }
+      },
+      "verdict": "allowed",
+      "refused_at": null
+    },
+    {
+      "id": "repo-id-on-read-foreign",
+      "profile": {
+        "template": "/api/v1/label-runs",
+        "creates": false
+      },
+      "request": {
+        "path": "/api/v1/label-runs",
+        "query": {},
+        "body": {
+          "repo_id": "private/other"
+        }
+      },
+      "verdict": "refused",
+      "refused_at": "body.repo_id"
+    },
+    {
+      "id": "name-on-read-foreign",
+      "profile": {
+        "template": "/api/v1/label-runs",
+        "creates": false
+      },
+      "request": {
+        "path": "/api/v1/label-runs",
+        "query": {},
+        "body": {
+          "name": "customer-data"
+        }
+      },
+      "verdict": "refused",
+      "refused_at": "body.name"
+    },
+    {
+      "id": "name-on-creates-grows",
+      "profile": {
+        "template": "/api/v1/recipes",
+        "creates": true
+      },
+      "request": {
+        "path": "/api/v1/recipes",
+        "query": {},
+        "body": {
+          "name": "new-recipe"
+        }
+      },
+      "verdict": "allowed",
+      "refused_at": null
+    },
+    {
+      "id": "key-on-creates-grows",
+      "profile": {
+        "template": "/api/v1/recipes",
+        "creates": true
+      },
+      "request": {
+        "path": "/api/v1/recipes",
+        "query": {},
+        "body": {
+          "key": "new-key"
+        }
+      },
+      "verdict": "allowed",
+      "refused_at": null
+    },
+    {
+      "id": "nested-id-foreign-on-creates",
+      "profile": {
+        "template": "/api/v1/recipes",
+        "creates": true
+      },
+      "request": {
+        "path": "/api/v1/recipes",
+        "query": {},
+        "body": {
+          "name": "new-recipe",
+          "source": {
+            "dataset_id": "prod-2"
+          }
+        }
+      },
+      "verdict": "refused",
+      "refused_at": "body.source.dataset_id"
+    },
+    {
+      "id": "nested-name-on-creates-foreign",
+      "profile": {
+        "template": "/api/v1/recipes",
+        "creates": true
+      },
+      "request": {
+        "path": "/api/v1/recipes",
+        "query": {},
+        "body": {
+          "name": "ok-new",
+          "steps": [
+            {
+              "name": "someone-else"
+            }
+          ]
+        }
+      },
+      "verdict": "refused",
+      "refused_at": "body.steps[0].name"
+    },
+    {
+      "id": "unknown-route",
+      "profile": {
+        "template": "/api/v1/datasets/{dataset_id}",
+        "creates": false
+      },
+      "request": {
+        "path": "/api/v1/other/evalfx-1",
+        "query": {},
+        "body": null
+      },
+      "verdict": "refused",
+      "refused_at": "path"
+    }
+  ]
+}

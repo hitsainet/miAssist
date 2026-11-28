@@ -1,0 +1,42 @@
+version: 1
+outcomes:
+  pending:
+    what_happened: The [[approval]] is pending.
+    why_it_matters: Only the app's operator decides an approval, in the app; you cannot approve it.
+    what_good_looks_like: A decision from the operator.
+    next_step: Check again later.
+  approved:
+    what_happened: The [[approval]] is approved.
+    why_it_matters: The operator said yes; the work starts only when the same call is made again with the approval id.
+    what_good_looks_like: One call with the approval id, then the work running.
+    next_step: Make the call again with the approval id.
+  executing:
+    what_happened: The [[approval]] was granted and the app is doing the work.
+    why_it_matters: The operator decided; nothing more is needed from you while it runs.
+    what_good_looks_like: The work finishing in the app.
+    next_step: Check again later.
+  executed:
+    what_happened: The [[approval]] was granted and the work ran.
+    why_it_matters: This approval is finished; it cannot be used again.
+    what_good_looks_like: A clear final state.
+    next_step: Carry on with what the result says next.
+  failed:
+    what_happened: The [[approval]] was granted, but the work did not complete.
+    why_it_matters: The app's own reason says what went wrong; a new request is needed to try again.
+    what_good_looks_like: A reason you can act on.
+    next_step: Read the reason, then ask for the work again if it still makes sense.
+  rejected:
+    what_happened: The operator turned the [[approval]] down.
+    why_it_matters: Only the app's operator decides an approval; the work will not run.
+    what_good_looks_like: A reason from the operator.
+    next_step: Read the reason; ask the operator before requesting it again.
+  expired:
+    what_happened: The [[approval]] expired before it was used.
+    why_it_matters: An approval is good for a limited time; this one can no longer start the work.
+    what_good_looks_like: A clear final state.
+    next_step: Ask for the work again if it is still needed.
+  unavailable:
+    what_happened: miAssist could not reach the app, so it read nothing.
+    why_it_matters: An app that does not answer cannot report its approvals.
+    what_good_looks_like: The app answering on a later try.
+    next_step: Check miassist_status later; do not retry in a loop.

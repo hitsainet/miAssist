@@ -1,0 +1,1238 @@
+{
+ "extra_routes": [],
+ "note": "Overlays for midataworks' response shapes (scripts/snapshot_shapes.py). Each model/code overlay cites the code at the snapshot's commit.",
+ "overlays": [
+  {
+   "cite": "@58087b1 backend/src/api/v1/endpoints/health.py:14-17 (health_service.health); the playbooks read no field of it, Core's detection reads the status code only",
+   "from": "code",
+   "pointer": "",
+   "route": "GET /api/health",
+   "schema": {
+    "additionalProperties": true,
+    "type": "object",
+    "x-open-reason": "reachability only: no playbook reads a field"
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@58087b1 backend/src/services/build_plan_service.py:141-215 (plan_build: labelling nested under `labelling`)",
+   "from": "code",
+   "pointer": "",
+   "route": "POST /api/v1/versions/plan",
+   "schema": {
+    "properties": {
+     "balancers": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "type": "array"
+     },
+     "column_roles": {
+      "anyOf": [
+       {
+        "additionalProperties": true,
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "column_roles_error": {
+      "properties": {
+       "code": {
+        "type": "string"
+       },
+       "message": {
+        "type": "string"
+       }
+      },
+      "required": [
+       "code",
+       "message"
+      ],
+      "type": "object"
+     },
+     "dataset_id": {
+      "type": "string"
+     },
+     "labelling": {
+      "properties": {
+       "agent_needs_approval": {
+        "type": "boolean"
+       },
+       "approval_action": {
+        "enum": [
+         "agent_label_rows"
+        ]
+       },
+       "counted_steps": {
+        "items": {
+         "properties": {
+          "operator": {
+           "type": "string"
+          },
+          "step": {
+           "type": "integer"
+          },
+          "why": {
+           "type": "string"
+          }
+         },
+         "required": [
+          "step",
+          "operator",
+          "why"
+         ],
+         "type": "object"
+        },
+        "type": "array"
+       },
+       "rows_counted": {
+        "type": "integer"
+       },
+       "rows_per_step": {
+        "type": "integer"
+       },
+       "rule": {
+        "type": "string"
+       },
+       "scope": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "threshold": {
+        "type": "integer"
+       },
+       "window_hours": {
+        "type": "number"
+       },
+       "window_total_now": {
+        "type": "integer"
+       }
+      },
+      "required": [
+       "counted_steps",
+       "rows_per_step",
+       "rows_counted",
+       "scope",
+       "window_hours",
+       "window_total_now",
+       "threshold",
+       "agent_needs_approval",
+       "approval_action",
+       "rule"
+      ],
+      "type": "object"
+     },
+     "recipe_revision_id": {
+      "type": "string"
+     },
+     "rows_in": {
+      "type": "integer"
+     },
+     "valid": {
+      "type": "boolean"
+     },
+     "validation": {
+      "additionalProperties": true,
+      "type": "object"
+     },
+     "writes": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "dataset_id",
+     "recipe_revision_id",
+     "valid",
+     "validation",
+     "rows_in",
+     "column_roles",
+     "labelling",
+     "balancers",
+     "writes"
+    ],
+    "type": "object"
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@58087b1 backend/src/services/sources/search_service.py:24-60 (summarise, search)",
+   "from": "code",
+   "pointer": "",
+   "route": "POST /api/v1/sources/hf/search",
+   "schema": {
+    "properties": {
+     "items": {
+      "items": {
+       "properties": {
+        "description": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "null"
+          }
+         ]
+        },
+        "downloads": {
+         "anyOf": [
+          {
+           "type": "integer"
+          },
+          {
+           "type": "null"
+          }
+         ]
+        },
+        "gated": {
+         "anyOf": [
+          {
+           "type": "boolean"
+          },
+          {
+           "type": "string"
+          }
+         ]
+        },
+        "languages": {
+         "items": {
+          "type": "string"
+         },
+         "type": "array"
+        },
+        "last_modified": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "null"
+          }
+         ]
+        },
+        "licence": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "null"
+          }
+         ]
+        },
+        "licences": {
+         "items": {
+          "type": "string"
+         },
+         "type": "array"
+        },
+        "likes": {
+         "anyOf": [
+          {
+           "type": "integer"
+          },
+          {
+           "type": "null"
+          }
+         ]
+        },
+        "private": {
+         "type": "boolean"
+        },
+        "repo_id": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "null"
+          }
+         ]
+        },
+        "size_category": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "null"
+          }
+         ]
+        },
+        "task_categories": {
+         "items": {
+          "type": "string"
+         },
+         "type": "array"
+        }
+       },
+       "required": [
+        "repo_id",
+        "licence",
+        "licences",
+        "downloads",
+        "likes",
+        "last_modified",
+        "gated",
+        "private",
+        "size_category",
+        "task_categories",
+        "languages",
+        "description"
+       ],
+       "type": "object"
+      },
+      "type": "array"
+     },
+     "licences": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array"
+     },
+     "next_step": {
+      "type": "string"
+     },
+     "query": {
+      "type": "string"
+     },
+     "total": {
+      "type": "integer"
+     }
+    },
+    "required": [
+     "query",
+     "licences",
+     "items",
+     "total",
+     "next_step"
+    ],
+    "type": "object"
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@58087b1 backend/src/services/sources/preview_service.py:85-108",
+   "from": "code",
+   "pointer": "",
+   "route": "POST /api/v1/sources/hf/preview",
+   "schema": {
+    "properties": {
+     "columns": {
+      "items": {
+       "properties": {
+        "name": {
+         "type": "string"
+        },
+        "type": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "name",
+        "type"
+       ],
+       "type": "object"
+      },
+      "type": "array"
+     },
+     "config": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "configs": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array"
+     },
+     "detection": {
+      "anyOf": [
+       {
+        "additionalProperties": true,
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "gated": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "head_commit": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "licence": {
+      "properties": {
+       "display": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "origin": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "raw": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       }
+      },
+      "required": [
+       "raw",
+       "display",
+       "origin"
+      ],
+      "type": "object"
+     },
+     "repo_id": {
+      "type": "string"
+     },
+     "requested_ref": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "resolved_commit": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "sample_rows": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "type": "array"
+     },
+     "size": {
+      "anyOf": [
+       {
+        "additionalProperties": true,
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "split": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "splits": {
+      "items": {
+       "properties": {
+        "bytes": {
+         "anyOf": [
+          {
+           "type": "integer"
+          },
+          {
+           "type": "null"
+          }
+         ]
+        },
+        "name": {
+         "type": "string"
+        },
+        "rows": {
+         "anyOf": [
+          {
+           "type": "integer"
+          },
+          {
+           "type": "null"
+          }
+         ]
+        }
+       },
+       "required": [
+        "name",
+        "rows",
+        "bytes"
+       ],
+       "type": "object"
+      },
+      "type": "array"
+     },
+     "unavailable": {
+      "items": {
+       "properties": {
+        "part": {
+         "type": "string"
+        },
+        "reason": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "part",
+        "reason"
+       ],
+       "type": "object"
+      },
+      "type": "array"
+     },
+     "viewer_commit_note": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     }
+    },
+    "required": [
+     "repo_id",
+     "requested_ref",
+     "resolved_commit",
+     "head_commit",
+     "viewer_commit_note",
+     "configs",
+     "config",
+     "splits",
+     "split",
+     "columns",
+     "sample_rows",
+     "licence",
+     "gated",
+     "size",
+     "detection",
+     "unavailable"
+    ],
+    "type": "object"
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@58087b1 backend/src/api/v1/endpoints/operators.py:272-287 (paging meta keys optional)",
+   "from": "code",
+   "pointer": "",
+   "route": "GET /api/v1/operators/{name}",
+   "schema": {
+    "properties": {
+     "current_version": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "limit": {
+      "type": "integer"
+     },
+     "name": {
+      "type": "string"
+     },
+     "page": {
+      "type": "integer"
+     },
+     "total": {
+      "type": "integer"
+     },
+     "versions": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "type": "array"
+     }
+    },
+    "required": [
+     "name",
+     "current_version",
+     "versions"
+    ],
+    "type": "object"
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@58087b1 backend/src/api/v1/endpoints/operators.py:305-323 (an invalid set is a 422, never valid=false)",
+   "from": "code",
+   "pointer": "",
+   "route": "POST /api/v1/operators/{name}/{version}/validate",
+   "schema": {
+    "properties": {
+     "limits": {
+      "anyOf": [
+       {
+        "additionalProperties": true,
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "references": {
+      "additionalProperties": true,
+      "type": "object"
+     },
+     "template_rules": {
+      "type": "string"
+     },
+     "valid": {
+      "enum": [
+       true
+      ]
+     }
+    },
+    "required": [
+     "valid"
+    ],
+    "type": "object"
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@58087b1 backend/src/api/v1/endpoints/curation.py:69-83 (report_out), :407-410; services/curation/leakage_service.py:293-306 (result)",
+   "from": "code",
+   "pointer": "",
+   "route": "GET /api/v1/versions/{version_id}/leakage",
+   "schema": {
+    "properties": {
+     "artefacts": {
+      "anyOf": [
+       {
+        "type": [
+         "object",
+         "array"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "completed_at": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "id": {
+      "type": "string"
+     },
+     "inputs": {
+      "type": "array"
+     },
+     "job_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "kind": {
+      "type": "string"
+     },
+     "operator": {
+      "type": "string"
+     },
+     "params": {
+      "additionalProperties": true,
+      "type": "object"
+     },
+     "result": {
+      "anyOf": [
+       {
+        "properties": {
+         "band_layout": {
+          "additionalProperties": true,
+          "type": "object"
+         },
+         "basis": {
+          "type": "string"
+         },
+         "exact_pairs": {
+          "type": "integer"
+         },
+         "group_column": {
+          "anyOf": [
+           {
+            "type": "string"
+           },
+           {
+            "type": "null"
+           }
+          ]
+         },
+         "group_columns": {
+          "additionalProperties": true,
+          "type": "object"
+         },
+         "group_pairs": {
+          "type": "integer"
+         },
+         "n_rows": {
+          "type": "integer"
+         },
+         "near_pairs": {
+          "type": "integer"
+         },
+         "pairs_artefact": {
+          "anyOf": [
+           {
+            "additionalProperties": true,
+            "type": "object"
+           },
+           {
+            "type": "null"
+           }
+          ]
+         },
+         "pairs_total": {
+          "type": "integer"
+         },
+         "sides": {
+          "type": "array"
+         },
+         "threshold": {
+          "anyOf": [
+           {
+            "type": "number"
+           },
+           {
+            "type": "null"
+           }
+          ]
+         }
+        },
+        "required": [
+         "sides",
+         "exact_pairs",
+         "near_pairs",
+         "group_pairs",
+         "pairs_artefact",
+         "basis",
+         "threshold",
+         "band_layout",
+         "group_column",
+         "n_rows",
+         "pairs_total"
+        ],
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "seed": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "started_by": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "state": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "id",
+     "kind",
+     "state",
+     "operator",
+     "params",
+     "inputs",
+     "seed",
+     "result",
+     "artefacts",
+     "job_id",
+     "started_by",
+     "completed_at"
+    ],
+    "type": "object"
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@58087b1 backend/src/api/v1/endpoints/curation.py:303-325; services/curation/api.py:39-70 (EvaluatedWarning.model_dump)",
+   "from": "code",
+   "pointer": "",
+   "route": "GET /api/v1/versions/{version_id}/shortcut-audit",
+   "schema": {
+    "properties": {
+     "audit": {
+      "additionalProperties": true,
+      "type": "object"
+     },
+     "invalid": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array"
+     },
+     "level": {
+      "additionalProperties": true,
+      "type": "object"
+     },
+     "report": {
+      "additionalProperties": true,
+      "type": "object"
+     },
+     "warnings": {
+      "items": {
+       "properties": {
+        "chance": {
+         "type": "number"
+        },
+        "column": {
+         "type": "string"
+        },
+        "control_mean": {
+         "type": "number"
+        },
+        "figure": {
+         "type": "number"
+        },
+        "level": {
+         "type": "number"
+        },
+        "level_set_by": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "null"
+          }
+         ]
+        },
+        "level_source": {
+         "type": "string"
+        },
+        "margin_pp": {
+         "type": "number"
+        },
+        "message": {
+         "type": "string"
+        },
+        "n_rows": {
+         "type": "integer"
+        },
+        "sample": {
+         "type": "boolean"
+        },
+        "version_id": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "version_id",
+        "column",
+        "figure",
+        "chance",
+        "control_mean",
+        "level",
+        "margin_pp",
+        "level_source",
+        "level_set_by",
+        "n_rows",
+        "sample",
+        "message"
+       ],
+       "type": "object"
+      },
+      "type": "array"
+     }
+    },
+    "required": [
+     "audit",
+     "report",
+     "warnings",
+     "invalid",
+     "level"
+    ],
+    "type": "object"
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@58087b1 backend/src/core/agent_origin.py:353-372 (the 202 an agent receives)",
+   "from": "code",
+   "pointer": "",
+   "route": "POST /api/v1/publishes",
+   "schema": {
+    "properties": {
+     "action": {
+      "type": "string"
+     },
+     "approval_id": {
+      "type": "string"
+     },
+     "expires_at": {
+      "type": "string"
+     },
+     "hint": {
+      "type": "string"
+     },
+     "next": {
+      "additionalProperties": true,
+      "type": "object"
+     },
+     "request_digest": {
+      "type": "string"
+     },
+     "status": {
+      "enum": [
+       "pending"
+      ]
+     }
+    },
+    "required": [
+     "approval_id",
+     "status",
+     "action",
+     "request_digest",
+     "expires_at",
+     "hint"
+    ],
+    "type": "object"
+   },
+   "status": "202"
+  },
+  {
+   "cite": "@58087b1 backend/src/schemas/versions.py:60-64; api/v1/endpoints/versions.py:44-53",
+   "classes": [
+    "src.schemas.versions:BuildAccepted"
+   ],
+   "from": "model",
+   "pointer": "",
+   "route": "POST /api/v1/versions",
+   "status": "202"
+  },
+  {
+   "cite": "@58087b1 backend/src/core/agent_origin.py:353-372 (the 202 an agent receives) (agent_label_rows, state:agent_label_plan)",
+   "from": "code",
+   "mode": "anyOf",
+   "pointer": "",
+   "route": "POST /api/v1/versions",
+   "schema": {
+    "properties": {
+     "action": {
+      "type": "string"
+     },
+     "approval_id": {
+      "type": "string"
+     },
+     "expires_at": {
+      "type": "string"
+     },
+     "hint": {
+      "type": "string"
+     },
+     "next": {
+      "additionalProperties": true,
+      "type": "object"
+     },
+     "request_digest": {
+      "type": "string"
+     },
+     "status": {
+      "enum": [
+       "pending"
+      ]
+     }
+    },
+    "required": [
+     "approval_id",
+     "status",
+     "action",
+     "request_digest",
+     "expires_at",
+     "hint"
+    ],
+    "type": "object"
+   },
+   "status": "202"
+  },
+  {
+   "cite": "@58087b1 backend/src/schemas/sources.py:280-283",
+   "classes": [
+    "src.schemas.sources:ImportAccepted"
+   ],
+   "from": "model",
+   "pointer": "",
+   "route": "POST /api/v1/sources/hf",
+   "status": "202"
+  },
+  {
+   "cite": "@58087b1 backend/src/models/job.py:19-26 (JOB_STATUSES)",
+   "from": "code",
+   "pointer": "/properties/status",
+   "route": "GET /api/v1/jobs/{job_id}",
+   "schema": {
+    "enum": [
+     "queued",
+     "running",
+     "cancelling",
+     "cancelled",
+     "completed",
+     "failed"
+    ]
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@58087b1 backend/src/models/approval.py:19-26 (APPROVAL_STATUSES)",
+   "from": "code",
+   "pointer": "/properties/approvals/items/properties/status",
+   "route": "GET /api/v1/approvals",
+   "schema": {
+    "enum": [
+     "pending",
+     "executing",
+     "executed",
+     "failed",
+     "rejected",
+     "expired"
+    ]
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@58087b1 backend/src/models/approval.py:19-26 (APPROVAL_STATUSES)",
+   "from": "code",
+   "pointer": "/properties/status",
+   "route": "GET /api/v1/approvals/{approval_id}",
+   "schema": {
+    "enum": [
+     "pending",
+     "executing",
+     "executed",
+     "failed",
+     "rejected",
+     "expired"
+    ]
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@58087b1 backend/src/models/publish.py:57-67 (PublishStatus)",
+   "from": "code",
+   "pointer": "/properties/items/items/properties/status",
+   "route": "GET /api/v1/publishes",
+   "schema": {
+    "enum": [
+     "queued",
+     "checking",
+     "uploading",
+     "verifying",
+     "published",
+     "no_change",
+     "refused",
+     "verification_failed",
+     "failed",
+     "cancelled"
+    ]
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@58087b1 backend/src/models/publish.py:57-67 (PublishStatus)",
+   "from": "code",
+   "pointer": "/properties/status",
+   "route": "GET /api/v1/publishes/{publish_id}",
+   "schema": {
+    "enum": [
+     "queued",
+     "checking",
+     "uploading",
+     "verifying",
+     "published",
+     "no_change",
+     "refused",
+     "verification_failed",
+     "failed",
+     "cancelled"
+    ]
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@58087b1 backend/src/models/publish.py:42-47 (BuildStatus)",
+   "from": "code",
+   "pointer": "/properties/status",
+   "route": "GET /api/v1/publish-builds/{build_id}",
+   "schema": {
+    "enum": [
+     "queued",
+     "building",
+     "completed",
+     "failed",
+     "cancelled"
+    ]
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@58087b1 backend/src/models/publish.py:42-47 (BuildStatus)",
+   "from": "code",
+   "pointer": "/properties/status",
+   "route": "POST /api/v1/versions/{version_id}/publish-builds",
+   "schema": {
+    "enum": [
+     "queued",
+     "building",
+     "completed",
+     "failed",
+     "cancelled"
+    ]
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@58087b1 backend/src/models/publish.py:42-47 (BuildStatus)",
+   "from": "code",
+   "pointer": "/properties/status",
+   "route": "POST /api/v1/versions/{version_id}/publish-builds",
+   "schema": {
+    "enum": [
+     "queued",
+     "building",
+     "completed",
+     "failed",
+     "cancelled"
+    ]
+   },
+   "status": "202"
+  },
+  {
+   "cite": "@58087b1 backend/src/models/publish.py:50-54 (CheckRunStatus)",
+   "from": "code",
+   "pointer": "/properties/status",
+   "route": "GET /api/v1/publish-check-runs/{check_run_id}",
+   "schema": {
+    "enum": [
+     "queued",
+     "completed",
+     "failed",
+     "cancelled"
+    ]
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@58087b1 backend/src/models/enums.py:29-33 (VersionState)",
+   "from": "code",
+   "pointer": "/properties/state",
+   "route": "GET /api/v1/versions/{version_id}",
+   "schema": {
+    "enum": [
+     "completed",
+     "deleted"
+    ]
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@58087b1 backend/src/models/enums.py:29-33 (VersionState)",
+   "from": "code",
+   "pointer": "/properties/state",
+   "route": "POST /api/v1/versions",
+   "schema": {
+    "enum": [
+     "completed",
+     "deleted"
+    ]
+   },
+   "status": "200"
+  }
+ ]
+}

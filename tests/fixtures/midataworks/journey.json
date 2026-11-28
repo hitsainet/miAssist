@@ -1,0 +1,110 @@
+{
+ "about": "miDataworks behaviour-dataset journey step table (backend/src/services/behaviour/journey.py JOURNEY), read by AST at the commit named; pinned by tests/cross_repo/test_dw_journey_live.py (R3 review fix OR3-int-3, 2026-11-16).",
+ "commit": "dcec0cb",
+ "steps": [
+  {
+   "step": "resolve",
+   "title": "Read the behaviour's definition",
+   "tool": "dataworks_resolve_behaviour",
+   "done_when": "a version or a detector set records the definition",
+   "count": "definitions_recorded",
+   "at_least": 1
+  },
+  {
+   "step": "rule_set",
+   "title": "Save the behaviour's rule set (its rule signals)",
+   "tool": "dataworks_save_rule_set",
+   "done_when": "a rule set carries the key",
+   "count": "rule_sets",
+   "at_least": 1
+  },
+  {
+   "step": "templates",
+   "title": "Save the generation templates",
+   "tool": "dataworks_save_generation_template",
+   "done_when": "a generation template carries the key",
+   "count": "generation_templates",
+   "at_least": 1
+  },
+  {
+   "step": "recipe",
+   "title": "Save the recipes (the carrier plan and the build)",
+   "tool": "dataworks_save_recipe",
+   "done_when": "a recipe carries the key",
+   "count": "recipes",
+   "at_least": 1
+  },
+  {
+   "step": "plan",
+   "title": "Build the carrier plan version",
+   "tool": "dataworks_build_version",
+   "done_when": "a version built from one of the behaviour's recipes",
+   "count": "versions",
+   "at_least": 1
+  },
+  {
+   "step": "generation",
+   "title": "Generate carriers, one run per generator",
+   "tool": "dataworks_start_generation",
+   "done_when": "a generation run with the key completed",
+   "count": "generation_runs_completed",
+   "at_least": 1
+  },
+  {
+   "step": "build",
+   "title": "Build the labelled version (insertion, renderings, labels, value-directed split)",
+   "tool": "dataworks_build_version",
+   "done_when": "two versions built from the behaviour's recipes (the plan and the build)",
+   "count": "versions",
+   "at_least": 2
+  },
+  {
+   "step": "second_opinion",
+   "title": "Score a stratified sample with a second opinion",
+   "tool": "dataworks_start_label_run",
+   "done_when": "a label run with the key completed",
+   "count": "label_runs_completed",
+   "at_least": 1
+  },
+  {
+   "step": "agreement",
+   "title": "Read the agreement by stratum",
+   "tool": "dataworks_get_label_run_agreement",
+   "done_when": "a label run with the key completed (the agreement is read from it)",
+   "count": "label_runs_completed",
+   "at_least": 1
+  },
+  {
+   "step": "review",
+   "title": "Send the disagreements to review",
+   "tool": "dataworks_review_disagreements",
+   "done_when": "a review queue carries the key",
+   "count": "review_queues",
+   "at_least": 1
+  },
+  {
+   "step": "sets",
+   "title": "Create the detector sets (main and one per sub-question)",
+   "tool": "dataworks_create_detector_set",
+   "done_when": "a detector set carries the key",
+   "count": "detector_sets",
+   "at_least": 1
+  },
+  {
+   "step": "check",
+   "title": "Check the sets",
+   "tool": "dataworks_check_detector_set",
+   "done_when": "a send of the behaviour's sets records its checks",
+   "count": "detector_sends",
+   "at_least": 1
+  },
+  {
+   "step": "send",
+   "title": "Send the sets to miWorkbench",
+   "tool": "dataworks_send_detector_sets",
+   "done_when": "a send of the behaviour's sets completed",
+   "count": "detector_sends_completed",
+   "at_least": 1
+  }
+ ]
+}

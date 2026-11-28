@@ -1,0 +1,38 @@
+# Origin: miForge (Onegaishimas/miForge) .github/workflows/manual-ci.yml @ e4251e4
+# Mode: adapt (docs/REUSE.md). Kept: npm test (the published-page check) and npm run build.
+name: Manual Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: manual
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: manual/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test the publish check
+        run: npm test
+
+      - name: Build the manual (link check, publish check)
+        run: npm run build

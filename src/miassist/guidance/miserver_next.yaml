@@ -1,0 +1,39 @@
+# miServer's next-tool hint names mapped to a miAssist tool or plain words (001 FR-25, BR-A-1).
+hints:
+  miserver_arm_behaviour:
+    words: Arming a behaviour is the operator's step in miServer.
+  miserver_arm_probe:
+    words: Arming a probe is the operator's step in miServer.
+  miserver_clear_behaviour_rule_signals:
+    words: Clearing rule signals is the operator's step in miServer.
+  miserver_delete_probe:
+    words: Deleting a probe is the operator's step in miServer.
+  miserver_delete_rule_set:
+    words: Deleting a rule set is the operator's step in miServer.
+  miserver_disarm_behaviour:
+    words: Disarming a behaviour is the operator's step in miServer.
+  miserver_evaluate_rule_set:
+    words: Evaluating a rule set is done in miServer.
+  miserver_get_approval_status:
+    args:
+      app: miserver
+    tool: miassist_approval_status
+    words: Check the approval with miassist_approval_status.
+  miserver_get_probe_limit_recommendation:
+    words: The probe limits are the operator's call in miServer.
+  miserver_list_approvals:
+    words: The operator sees waiting requests in miServer → Approvals.
+  miserver_list_probes:
+    args:
+      app: miserver
+    tool: miassist_overview
+    words: See miServer's probes with miassist_overview.
+  miserver_list_rule_sets:
+    words: Rule sets are listed in miServer.
+  miserver_list_rule_validators:
+    words: Rule validators are listed in miServer.
+  miserver_score_probes:
+    words: Scoring with probes is done in miServer.
+  miserver_validate_rule_set:
+    words: Validating a rule set is done in miServer.
+version: 1

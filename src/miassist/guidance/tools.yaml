@@ -1,0 +1,73 @@
+# Tool titles and descriptions, and the reasons given with suggested next steps (001 FR-11, FR-19).
+version: 1
+tools:
+  miassist_guide:
+    title: "Start here: what miAssist can do"
+    description: "Start here: what this installation can do, which apps are answering, the playbooks on offer and the first step of each. Pick a topic for more: start, apps, playbooks, approvals, results, glossary or connect. Use it when you are new or unsure what to do next; use miassist_status for your own settings and a playbook's progress, and miassist_glossary for one word. It reads nothing from the apps beyond the last health check."
+  miassist_glossary:
+    title: Explain a term
+    description: "Explain a term in plain words: a word miAssist or the apps use, such as probe, pack or served model. With no term it lists every entry; with a term it returns that entry, matched on its name or a common alias, ignoring case. Use it whenever a result uses a word you do not know; results link the words they use. It reads only miAssist's own glossary, never an app."
+  miassist_status:
+    title: What is installed, my settings, and where a playbook stands
+    description: "What is installed, your settings, and where a playbook stands. It always shows each installed app and whether it is answering, your guidance level, and whether miAssist remembers your settings. Name a playbook to see the steps done, the next step and anything it is waiting for. Use miassist_guide instead to choose what to do; this tool reports, it changes nothing."
+  miassist_set_guidance:
+    title: Switch between beginner and expert
+    description: "Switch between beginner and expert guidance for your personal link. Beginner adds a short explanation to every result: what happened, why it matters, what good looks like and the next step; expert leaves it out and changes nothing else. The level is remembered only on a personal link (/p/<key>/mcp); without one it says how to get a link. Use miassist_reset_my_settings to forget everything instead."
+  miassist_reset_my_settings:
+    title: Forget my remembered settings
+    description: "Forget my remembered settings: delete everything miAssist keeps for your personal link, which is the guidance level and any playbook progress. Nothing in the apps is touched, and the next result is at beginner again. Use it when you want a clean start or are done with a link; use miassist_set_guidance to change only the level. It cannot be undone."
+  miassist_overview:
+    title: What I have in an app
+    description: "What I have in an app: counts and up to three of the newest names of the main lists of one installed app, such as its models, datasets or runs. It reads one bounded page of each list and never changes anything. If the app is not answering, it says so and sends it nothing. Use it for a quick look before a playbook; use miassist_status for whether each app is answering."
+  miassist_approval_status:
+    title: Check an approval
+    description: "Check an approval: where a request that needs the operator's yes stands, read from the app that holds it. It shows pending, approved, executing, executed, rejected, failed or expired, where it is decided and what happens next. Only the app's operator decides an approval, in the app; this tool cannot approve, reject or retry anything. Use it after a result carried an approval."
+  miassist_detector_start:
+    title: "Detector: describe the behaviour"
+    description: "Start building a behaviour detector: say in plain words what it should catch. It proposes a short key, the positive meaning and a starting false-alarm rate, each with a reason, and records the behaviour once you confirm (confirm: true). It never takes over a behaviour you did not name; a key you type that is already recorded is used only with adopt_existing. Calling it again with the same key changes nothing. Next: miassist_detector_data."
+  miassist_detector_data:
+    title: "Detector: get labelled data"
+    description: "Bring the labelled data for a detector, by its key: your own labelled Hugging Face dataset (with the splits, the text and label columns and the values that mean positive) or a dataset built step by step in the dataset app; the route argument lists the ways this installation offers. It registers the views the detector needs and reports their counts; a private, gated or very large dataset is the operator's to download. Sets are sent private unless you say public; a rejected or expired send is sent again only with ask_again. Next: miassist_detector_train."
+  miassist_detector_train:
+    title: "Detector: train it"
+    description: "Train the detector in miWorkbench, by its key: it proposes the model and the training choices with reasons, files the GPU run for the operator's approval in miWorkbench and, once a later call sees it approved, starts it once. Repeated calls never file twice; after a rejection it files again only with ask_again. expert_config takes any training setting by name. Next: miassist_detector_verdict."
+  miassist_detector_verdict:
+    title: "Detector: get the verdict"
+    description: "Get an honest verdict on the detector, by its key: it files the evaluation on every registered set for the operator's approval in miWorkbench, starts it once approved, then states the rung and the numbers behind it (catch rate on data from another source, false alarms per 1,000 everyday and nonsense messages) and the one step that would raise it. Next: miassist_detector_deploy."
+  miassist_detector_deploy:
+    title: "Detector: deploy it"
+    description: "Deploy the detector to miServer, by its key, or start from a probe miServer already holds (probe) or one on the Hub (hub_repo, which the operator imports). It imports the built definition, which changes nothing until armed, and hands parity and arming to the operator in miServer: miAssist never arms a detector. Below rung 2 it needs your own reason (below_rung2_reason). Once armed, miassist_status shows how often it fires."
+  miassist_dataset_find:
+    title: Find a public dataset
+    description: "Find a public dataset on the Hub for the data you describe in plain words. It lists public, ungated candidates with their licence in plain words, and previews the best match for its splits, rows and columns. Private and gated datasets are left out; it says how many, never which. It starts a search and a preview in miDataworks and changes nothing else. Next, build the one you want with miassist_dataset_build."
+  miassist_dataset_build:
+    title: Build a dataset version
+    description: "Build a versioned dataset from a public Hub dataset or a source already in miDataworks. It imports a public source (its licence shown first), creates or adopts the dataset, saves a two-step recipe that drops exact duplicates and keeps a held-out split, checks the build plan, then builds. A large, private or gated import, and a recipe that would label rows, are left to the operator. Calling it again converges on what already exists."
+  miassist_dataset_check:
+    title: Check a dataset version
+    description: "Check a built dataset version: it builds the version's files, reads the leakage report and the shortcut audit, and explains each publish check (C-1 to C-9) in plain words with the number behind it. Running the publish checks is the operator's step in miDataworks; pass the run id the operator gives you as check_run_id to see every check. It never says a version is ready to publish without that run."
+  miassist_dataset_publish:
+    title: Publish a dataset version
+    description: "Ask miDataworks to publish a checked dataset version to a Hub repository. It is private unless you say public. The operator decides the request in miDataworks, which then re-runs every check, uploads and verifies; this tool files it once and afterwards only reads its status. A rejected or expired request is filed again only with ask_again. It never takes a token: a missing token is the operator's step."
+  miassist_steering_find:
+    title: Find a feature to steer with
+    description: "Find a feature to steer with: describe a concept in plain words and get the best-matching features of your finished extractions, each with its machine-written label, how often it fires and its highest activation. It only reads; nothing runs on a GPU. Next, try one with miassist_steering_try and a prompt of your own."
+  miassist_steering_try:
+    title: Try a feature at several strengths
+    description: "Try a feature at several strengths: miAssist files one GPU run for the operator to approve, then, called again with the approval id, runs it once and shows how fluent each reply stays next to the unsteered one. A reply with fewer than 4 distinct words in 10 counts as fallen apart. It never runs anything on the GPU without the operator's approval."
+  miassist_steering_save:
+    title: Save a steering cluster
+    description: "Save one feature, or two or three, at a fluent strength as a cluster with a dial from 0 to 1. Two or three features are first checked together through one more approved GPU run, and saved only if the combined reply stays fluent. Calling it again with the same name adopts the saved cluster instead of saving twice."
+  miassist_steering_serve:
+    title: Serve a steering cluster
+    description: "Serve a saved cluster or circuit: import it into the inference server without activating it, ask the operator to load its model if needed, try one short steered reply (one trial per cluster per hour), and hand activation to the operator, who decides whether every reply is steered. A cluster on the Hub is imported by the operator."
+why:
+  status: See the state of each installed app.
+  playbooks: See the playbooks on offer.
+  connect: See how to get a personal link.
+  store_back: Check whether the settings store is back.
+  app_back: Check whether the app is back.
+  next_in_app: See what you can do with {app_name}.
+  ask_form: Choose how this step should go. The recommended answer is filled in.
+  ask_recommended: Repeat the call with the recommended choices filled in.
+  start_playbook: "Begin with {title}; there is nothing here yet."

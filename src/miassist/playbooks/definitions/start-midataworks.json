@@ -1,0 +1,59 @@
+{
+  "kind": "mistudio.playbook/v1",
+  "id": "start-midataworks",
+  "version": 1,
+  "title": "playbook.title",
+  "goal": "playbook.goal",
+  "requires_apps": [
+    "midataworks"
+  ],
+  "steps": [
+    {
+      "id": "look-around",
+      "title": "look-around.title",
+      "tool": "miassist_overview",
+      "args": {
+        "app": "midataworks"
+      },
+      "entry": true,
+      "explain_beginner": "look-around.beginner",
+      "explain_expert": "look-around.expert",
+      "done_when": {
+        "description": "look-around.done",
+        "pointer": "/app",
+        "op": "equals",
+        "value": "midataworks"
+      }
+    },
+    {
+      "id": "learn-a-word",
+      "title": "learn-a-word.title",
+      "tool": "miassist_glossary",
+      "args": {
+        "term": "dataset version"
+      },
+      "explain_beginner": "learn-a-word.beginner",
+      "explain_expert": "learn-a-word.expert",
+      "done_when": {
+        "description": "learn-a-word.done",
+        "pointer": "/entry",
+        "op": "exists"
+      }
+    },
+    {
+      "id": "what-next",
+      "title": "what-next.title",
+      "tool": "miassist_guide",
+      "args": {
+        "topic": "playbooks"
+      },
+      "explain_beginner": "what-next.beginner",
+      "explain_expert": "what-next.expert",
+      "done_when": {
+        "description": "what-next.done",
+        "pointer": "/playbooks",
+        "op": "exists"
+      }
+    }
+  ]
+}

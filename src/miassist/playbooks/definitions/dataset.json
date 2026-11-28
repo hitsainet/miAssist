@@ -1,0 +1,89 @@
+{
+  "kind": "mistudio.playbook/v1",
+  "version": 1,
+  "id": "dataset",
+  "title": "dataset.title",
+  "goal": "dataset.goal",
+  "requires_apps": [
+    "midataworks"
+  ],
+  "steps": [
+    {
+      "id": "find",
+      "title": "dataset.find.title",
+      "tool": "miassist_dataset_find",
+      "entry": true,
+      "requires_apps": [
+        "midataworks"
+      ],
+      "explain_beginner": "dataset.find.beginner",
+      "explain_expert": "dataset.find.expert",
+      "done_when": {
+        "description": "dataset.find.done",
+        "pointer": "/candidates/0",
+        "op": "exists"
+      }
+    },
+    {
+      "id": "build",
+      "title": "dataset.build.title",
+      "tool": "miassist_dataset_build",
+      "requires_apps": [
+        "midataworks"
+      ],
+      "explain_beginner": "dataset.build.beginner",
+      "explain_expert": "dataset.build.expert",
+      "waits_for": [
+        "job",
+        "operator_action"
+      ],
+      "done_when": {
+        "description": "dataset.build.done",
+        "pointer": "/version_ready",
+        "op": "truthy"
+      }
+    },
+    {
+      "id": "check",
+      "title": "dataset.check.title",
+      "tool": "miassist_dataset_check",
+      "requires_apps": [
+        "midataworks"
+      ],
+      "explain_beginner": "dataset.check.beginner",
+      "explain_expert": "dataset.check.expert",
+      "waits_for": [
+        "job",
+        "operator_action"
+      ],
+      "done_when": {
+        "description": "dataset.check.done",
+        "pointer": "/checks_complete",
+        "op": "truthy"
+      }
+    },
+    {
+      "id": "publish",
+      "title": "dataset.publish.title",
+      "tool": "miassist_dataset_publish",
+      "requires_apps": [
+        "midataworks"
+      ],
+      "explain_beginner": "dataset.publish.beginner",
+      "explain_expert": "dataset.publish.expert",
+      "waits_for": [
+        "approval",
+        "job"
+      ],
+      "done_when": {
+        "description": "dataset.publish.done",
+        "pointer": "/publish_status",
+        "op": "in",
+        "value": [
+          "published",
+          "no_change"
+        ]
+      }
+    }
+  ]
+}

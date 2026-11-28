@@ -1,0 +1,615 @@
+{
+ "extra_routes": [
+  "GET /api/v1/wsp/bundles",
+  "GET /api/v1/wsp/candidates",
+  "GET /api/v1/wsp/endpoints",
+  "GET /api/v1/wsp/heldout-uses",
+  "GET /api/v1/wsp/pool",
+  "GET /api/v1/wsp/providers",
+  "GET /api/v1/wsp/runs"
+ ],
+ "note": "Overlays for miforge's response shapes (scripts/snapshot_shapes.py). FU-10: miForge's WSP lists answer a dict (no response model), so the reference OpenAPI names no item field; each overlay is read from the cited code at the snapshot's commit, every key the item carries, values left open except the identity fields. eval/scripts/write_route_profiles.py reads them for a list's items and id.",
+ "overlays": [
+  {
+   "cite": "@4bb6d56 backend/src/api/v1/endpoints/checkpoints.py:126-145 ({checkpoints, count: the page's length, total: every row}); backend/src/services/reindex.py:888-916 (_checkpoint_payload), :942-952 (list_checkpoints, by name)",
+   "from": "code",
+   "pointer": "",
+   "route": "GET /api/v1/checkpoints",
+   "schema": {
+    "additionalProperties": false,
+    "properties": {
+     "checkpoints": {
+      "items": {
+       "additionalProperties": false,
+       "properties": {
+        "base_model": {},
+        "created_at": {
+         "type": "string"
+        },
+        "domain": {},
+        "domain_display": {},
+        "domain_state": {},
+        "grader_hash": {},
+        "manifest_sha256": {},
+        "merged_adapter": {},
+        "name": {
+         "type": "string"
+        },
+        "optimizer": {},
+        "parent": {},
+        "path": {},
+        "retention": {},
+        "run_id": {
+         "type": "string"
+        },
+        "selector_hash": {},
+        "signal_source": {},
+        "step": {
+         "type": "integer"
+        },
+        "test": {},
+        "weights_sha256": {}
+       },
+       "required": [
+        "base_model",
+        "created_at",
+        "domain",
+        "domain_display",
+        "domain_state",
+        "grader_hash",
+        "manifest_sha256",
+        "merged_adapter",
+        "name",
+        "optimizer",
+        "parent",
+        "path",
+        "retention",
+        "run_id",
+        "selector_hash",
+        "signal_source",
+        "step",
+        "test",
+        "weights_sha256"
+       ],
+       "type": "object"
+      },
+      "type": "array"
+     },
+     "count": {
+      "type": "integer"
+     },
+     "total": {
+      "type": "integer"
+     }
+    },
+    "required": [
+     "checkpoints",
+     "count",
+     "total"
+    ],
+    "type": "object"
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@4bb6d56 backend/src/api/v1/endpoints/runs_index.py:56-72 (run_row), :91-160 (list_runs, newest first)",
+   "from": "code",
+   "pointer": "",
+   "route": "GET /api/v1/runs",
+   "schema": {
+    "additionalProperties": false,
+    "properties": {
+     "include_archived": {
+      "type": "boolean"
+     },
+     "limit": {
+      "type": "integer"
+     },
+     "offset": {
+      "type": "integer"
+     },
+     "run_types": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array"
+     },
+     "runs": {
+      "items": {
+       "additionalProperties": false,
+       "properties": {
+        "archived_at": {},
+        "created_at": {},
+        "failure_code": {},
+        "finished_at": {},
+        "last_step": {},
+        "run_id": {
+         "type": "string"
+        },
+        "run_type": {},
+        "status": {
+         "type": "string"
+        },
+        "stop_reason": {}
+       },
+       "required": [
+        "archived_at",
+        "created_at",
+        "failure_code",
+        "finished_at",
+        "last_step",
+        "run_id",
+        "run_type",
+        "status",
+        "stop_reason"
+       ],
+       "type": "object"
+      },
+      "type": "array"
+     },
+     "statuses": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array"
+     },
+     "total": {
+      "type": "integer"
+     }
+    },
+    "required": [
+     "include_archived",
+     "limit",
+     "offset",
+     "run_types",
+     "runs",
+     "statuses",
+     "total"
+    ],
+    "type": "object"
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@4bb6d56 backend/src/api/v1/endpoints/wsp_bundles.py:28-44 (document), :64-71 ({bundles})",
+   "from": "code",
+   "pointer": "",
+   "route": "GET /api/v1/wsp/bundles",
+   "schema": {
+    "additionalProperties": false,
+    "properties": {
+     "bundles": {
+      "items": {
+       "additionalProperties": false,
+       "properties": {
+        "artifact_id": {},
+        "artifact_kind": {},
+        "bundle_id": {},
+        "bundle_kind": {},
+        "bundle_sha256": {
+         "type": "string"
+        },
+        "bytes": {},
+        "import_failure": {},
+        "import_status": {},
+        "layer": {},
+        "model": {},
+        "owner": {},
+        "received_at": {},
+        "received_by": {},
+        "sensitivity": {}
+       },
+       "required": [
+        "artifact_id",
+        "artifact_kind",
+        "bundle_id",
+        "bundle_kind",
+        "bundle_sha256",
+        "bytes",
+        "import_failure",
+        "import_status",
+        "layer",
+        "model",
+        "owner",
+        "received_at",
+        "received_by",
+        "sensitivity"
+       ],
+       "type": "object"
+      },
+      "type": "array"
+     }
+    },
+    "required": [
+     "bundles"
+    ],
+    "type": "object"
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@4bb6d56 backend/src/api/v1/endpoints/wsp_candidates.py:64-75 (_summary; FU-7b's _verdict, :51-61, adds the verdict's standing, an open value), :78-92 ({candidates})",
+   "from": "code",
+   "pointer": "",
+   "route": "GET /api/v1/wsp/candidates",
+   "schema": {
+    "additionalProperties": false,
+    "properties": {
+     "candidates": {
+      "items": {
+       "additionalProperties": false,
+       "properties": {
+        "bundle_base_sha256": {},
+        "candidate_id": {
+         "type": "string"
+        },
+        "changed_entries": {},
+        "created_at": {},
+        "parent": {},
+        "patch_sha256": {},
+        "run_id": {},
+        "tensors": {},
+        "verdict": {}
+       },
+       "required": [
+        "bundle_base_sha256",
+        "candidate_id",
+        "changed_entries",
+        "created_at",
+        "parent",
+        "patch_sha256",
+        "run_id",
+        "tensors",
+        "verdict"
+       ],
+       "type": "object"
+      },
+      "type": "array"
+     }
+    },
+    "required": [
+     "candidates"
+    ],
+    "type": "object"
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@4bb6d56 backend/src/api/v1/endpoints/wsp_endpoints.py:61-72 ({endpoints}); wsp/endpoints.py:748-772 (public_document; 020-P1 adds history_mode and runs_refused), :775-779 (runs_refused), :325-338 (run_refusal), :654-668 (bound_fields), :124-129 (PRICE_FIELDS), :709-745 (window_facts; F-P4-1 adds window_if_read_fails, :689-693, and window_now reads the latest run, :696-706), :782-797 (protocol_test_document); the keys are pinned from the route's answer by miForge's tests/integration/wsp/test_list_row_keys.py",
+   "from": "code",
+   "pointer": "",
+   "route": "GET /api/v1/wsp/endpoints",
+   "schema": {
+    "additionalProperties": false,
+    "properties": {
+     "endpoints": {
+      "items": {
+       "additionalProperties": false,
+       "properties": {
+        "action_protocol": {},
+        "base_url": {},
+        "context_window_tokens": {},
+        "created_at": {},
+        "created_by": {},
+        "has_key": {},
+        "history_mode": {},
+        "id": {
+         "type": "string"
+        },
+        "key_fingerprint": {},
+        "kind": {},
+        "latest_run_window": {},
+        "locality": {},
+        "model": {},
+        "output_cap": {},
+        "output_cap_field": {},
+        "output_ceiling_effective": {},
+        "output_ceiling_tokens": {},
+        "paging": {},
+        "price_cache_read_per_mtok": {},
+        "price_cache_write_per_mtok": {},
+        "price_in_per_mtok": {},
+        "price_out_per_mtok": {},
+        "protocol_test": {},
+        "registration_window": {},
+        "runs_refused": {},
+        "serving": {},
+        "thinking": {},
+        "thinking_tokens": {},
+        "window_if_read_fails": {},
+        "window_now": {},
+        "window_warnings": {}
+       },
+       "required": [
+        "action_protocol",
+        "base_url",
+        "context_window_tokens",
+        "created_at",
+        "created_by",
+        "has_key",
+        "history_mode",
+        "id",
+        "key_fingerprint",
+        "kind",
+        "latest_run_window",
+        "locality",
+        "model",
+        "output_cap",
+        "output_cap_field",
+        "output_ceiling_effective",
+        "output_ceiling_tokens",
+        "paging",
+        "price_cache_read_per_mtok",
+        "price_cache_write_per_mtok",
+        "price_in_per_mtok",
+        "price_out_per_mtok",
+        "protocol_test",
+        "registration_window",
+        "runs_refused",
+        "serving",
+        "thinking",
+        "thinking_tokens",
+        "window_if_read_fails",
+        "window_now",
+        "window_warnings"
+       ],
+       "type": "object"
+      },
+      "type": "array"
+     }
+    },
+    "required": [
+     "endpoints"
+    ],
+    "type": "object"
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@4bb6d56 backend/src/api/v1/endpoints/wsp_candidates.py:294-316 ({heldout_uses}: one row per owner, set_name and row_ids_sha256; no single id field)",
+   "from": "code",
+   "pointer": "",
+   "route": "GET /api/v1/wsp/heldout-uses",
+   "schema": {
+    "additionalProperties": false,
+    "properties": {
+     "heldout_uses": {
+      "items": {
+       "additionalProperties": false,
+       "properties": {
+        "heldout_uses": {},
+        "last_candidate_id": {},
+        "last_used_at": {},
+        "owner": {},
+        "row_ids_sha256": {},
+        "set_name": {}
+       },
+       "required": [
+        "heldout_uses",
+        "last_candidate_id",
+        "last_used_at",
+        "owner",
+        "row_ids_sha256",
+        "set_name"
+       ],
+       "type": "object"
+      },
+      "type": "array"
+     }
+    },
+    "required": [
+     "heldout_uses"
+    ],
+    "type": "object"
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@4bb6d56 backend/src/api/v1/endpoints/wsp_runs.py:88-96 (get_pool); wsp/pool.py:60-129 (pool_document: workers by index, no single id field)",
+   "from": "code",
+   "pointer": "",
+   "route": "GET /api/v1/wsp/pool",
+   "schema": {
+    "additionalProperties": false,
+    "properties": {
+     "busy": {},
+     "effective": {},
+     "idle": {},
+     "maximum": {},
+     "not_answering": {},
+     "pool_size": {},
+     "queued_by_endpoint": {},
+     "queued_without_endpoint": {},
+     "shared_base_urls": {},
+     "workers": {
+      "items": {
+       "additionalProperties": false,
+       "properties": {
+        "boot_id": {},
+        "index": {},
+        "read_at": {},
+        "run_id": {},
+        "state": {},
+        "worker_state": {}
+       },
+       "required": [
+        "boot_id",
+        "index",
+        "read_at",
+        "run_id",
+        "state",
+        "worker_state"
+       ],
+       "type": "object"
+      },
+      "type": "array"
+     }
+    },
+    "required": [
+     "busy",
+     "effective",
+     "idle",
+     "maximum",
+     "not_answering",
+     "pool_size",
+     "queued_by_endpoint",
+     "queued_without_endpoint",
+     "shared_base_urls",
+     "workers"
+    ],
+    "type": "object"
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@4bb6d56 backend/src/api/v1/endpoints/wsp_ops.py:45-47 ({providers}); wsp/providers/registry.py:35-42 (public), :80-82 (listing)",
+   "from": "code",
+   "pointer": "",
+   "route": "GET /api/v1/wsp/providers",
+   "schema": {
+    "additionalProperties": false,
+    "properties": {
+     "providers": {
+      "items": {
+       "additionalProperties": false,
+       "properties": {
+        "available": {},
+        "id": {
+         "type": "string"
+        },
+        "operations": {},
+        "styles": {},
+        "version": {}
+       },
+       "required": [
+        "available",
+        "id",
+        "operations",
+        "styles",
+        "version"
+       ],
+       "type": "object"
+      },
+      "type": "array"
+     }
+    },
+    "required": [
+     "providers"
+    ],
+    "type": "object"
+   },
+   "status": "200"
+  },
+  {
+   "cite": "@4bb6d56 backend/src/api/v1/endpoints/wsp_runs.py:99-170 ({runs}; 020-P1 adds metered, :114 and :165); wsp/window_read.py:195-207 (run_fields); wsp/runs.py:1258-1287 (metered_totals: {cost_usd, cache_read_tokens, cache_write_tokens}); the keys are pinned from the route's answer by miForge's tests/integration/wsp/test_list_row_keys.py",
+   "from": "code",
+   "pointer": "",
+   "route": "GET /api/v1/wsp/runs",
+   "schema": {
+    "additionalProperties": false,
+    "properties": {
+     "runs": {
+      "items": {
+       "additionalProperties": false,
+       "properties": {
+        "action_protocol": {},
+        "caller": {},
+        "caller_ref": {},
+        "created_at": {},
+        "endpoint_id": {},
+        "failure": {},
+        "finished_at": {},
+        "forward_passes_used": {},
+        "handoffs": {},
+        "kernel_restarts": {},
+        "kind": {},
+        "ledger_rows": {},
+        "metered": {},
+        "mode": {},
+        "outcome": {},
+        "outcome_reason": {},
+        "output_cap": {},
+        "output_ceiling_lowered": {},
+        "output_ceiling_tokens": {},
+        "pages_out": {},
+        "paging": {},
+        "peak_prompt_tokens": {},
+        "progress": {},
+        "provider": {},
+        "provider_version": {},
+        "reasoning_returned": {},
+        "reasoning_turns": {},
+        "recalls": {},
+        "refused_turns": {},
+        "repeated_turns": {},
+        "run_id": {
+         "type": "string"
+        },
+        "started_at": {},
+        "status": {},
+        "stop_reason": {},
+        "thinking": {},
+        "thinking_tokens": {},
+        "usage": {},
+        "window_reported_tokens": {},
+        "window_source": {},
+        "window_tokens": {},
+        "window_warnings": {}
+       },
+       "required": [
+        "action_protocol",
+        "caller",
+        "caller_ref",
+        "created_at",
+        "endpoint_id",
+        "failure",
+        "finished_at",
+        "forward_passes_used",
+        "handoffs",
+        "kernel_restarts",
+        "kind",
+        "ledger_rows",
+        "metered",
+        "mode",
+        "outcome",
+        "outcome_reason",
+        "output_cap",
+        "output_ceiling_lowered",
+        "output_ceiling_tokens",
+        "pages_out",
+        "paging",
+        "peak_prompt_tokens",
+        "progress",
+        "provider",
+        "provider_version",
+        "reasoning_returned",
+        "reasoning_turns",
+        "recalls",
+        "refused_turns",
+        "repeated_turns",
+        "run_id",
+        "started_at",
+        "status",
+        "stop_reason",
+        "thinking",
+        "thinking_tokens",
+        "usage",
+        "window_reported_tokens",
+        "window_source",
+        "window_tokens",
+        "window_warnings"
+       ],
+       "type": "object"
+      },
+      "type": "array"
+     }
+    },
+    "required": [
+     "runs"
+    ],
+    "type": "object"
+   },
+   "status": "200"
+  }
+ ]
+}

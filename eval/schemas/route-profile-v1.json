@@ -1,0 +1,211 @@
+{
+ "$id": "miassist.eval-route-profile/v1",
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "additionalProperties": false,
+ "properties": {
+  "agent_header": {
+   "additionalProperties": false,
+   "properties": {
+    "name": {
+     "minLength": 1,
+     "type": "string"
+    },
+    "value": {
+     "minLength": 1,
+     "type": "string"
+    }
+   },
+   "required": [
+    "name",
+    "value"
+   ],
+   "type": "object"
+  },
+  "app": {
+   "enum": [
+    "miworkbench",
+    "miserver",
+    "midataworks",
+    "miforge"
+   ]
+  },
+  "default_match": {
+   "items": {
+    "minLength": 1,
+    "type": "string"
+   },
+   "type": "array"
+  },
+  "gpu_arms": {
+   "additionalProperties": {
+    "additionalProperties": false,
+    "properties": {
+     "armed_unless": {
+      "type": "boolean"
+     },
+     "armed_unless_in": {
+      "type": "array"
+     },
+     "from": {
+      "pattern": "^(query|body)\\.",
+      "type": "string"
+     },
+     "parse": {
+      "enum": [
+       "fastapi_bool",
+       "literal"
+      ]
+     }
+    },
+    "required": [
+     "from",
+     "parse"
+    ],
+    "type": "object"
+   },
+   "type": "object"
+  },
+  "routes": {
+   "items": {
+    "additionalProperties": false,
+    "properties": {
+     "archived": {
+      "additionalProperties": false,
+      "properties": {
+       "field": {
+        "minLength": 1,
+        "type": "string"
+       },
+       "values": {
+        "type": "array"
+       }
+      },
+      "required": [
+       "field",
+       "values"
+      ],
+      "type": "object"
+     },
+     "closed_states": {
+      "type": "array"
+     },
+     "creates": {
+      "type": "boolean"
+     },
+     "done_states": {
+      "type": "array"
+     },
+     "echo": {
+      "items": {
+       "minLength": 1,
+       "type": "string"
+      },
+      "type": "array"
+     },
+     "ids": {
+      "items": {
+       "minLength": 1,
+       "type": "string"
+      },
+      "type": "array"
+     },
+     "list": {
+      "oneOf": [
+       {
+        "const": "none"
+       },
+       {
+        "additionalProperties": false,
+        "properties": {
+         "counts": {
+          "items": {
+           "minLength": 1,
+           "type": "string"
+          },
+          "type": "array"
+         },
+         "id": {
+          "minLength": 1,
+          "type": "string"
+         },
+         "items": {
+          "type": "string"
+         },
+         "keep_if": {
+          "type": "object"
+         },
+         "parents": {
+          "items": {
+           "minLength": 1,
+           "type": "string"
+          },
+          "type": "array"
+         }
+        },
+        "required": [
+         "items"
+        ],
+        "type": "object"
+       }
+      ]
+     },
+     "match": {
+      "items": {
+       "minLength": 1,
+       "type": "string"
+      },
+      "type": "array"
+     },
+     "method": {
+      "enum": [
+       "GET",
+       "POST",
+       "PUT",
+       "PATCH",
+       "DELETE"
+      ]
+     },
+     "open_states": {
+      "type": "array"
+     },
+     "poll_of": {
+      "minLength": 1,
+      "type": "string"
+     },
+     "reason": {
+      "minLength": 1,
+      "type": "string"
+     },
+     "route": {
+      "pattern": "^/",
+      "type": "string"
+     },
+     "run_states": {
+      "type": "array"
+     },
+     "state_field": {
+      "minLength": 1,
+      "type": "string"
+     }
+    },
+    "required": [
+     "method",
+     "route"
+    ],
+    "type": "object"
+   },
+   "type": "array"
+  },
+  "schema": {
+   "const": "miassist.eval-route-profile/v1"
+  }
+ },
+ "required": [
+  "schema",
+  "app",
+  "agent_header",
+  "routes",
+  "default_match"
+ ],
+ "type": "object"
+}

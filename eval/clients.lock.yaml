@@ -1,0 +1,11 @@
+# Client and baseline pins (FTDD §3; FTASKS 1.2-1.4, 8.1). Every run record copies the version the
+# client REPORTS at run time (FR-002.27), so a drifted pin shows.
+# NOTHING BELOW IS PINNED YET: each value is filled by its spike, by hand on the operator's
+# workstation (1.2 Claude Code, 1.3 Open WebUI) or from the cluster's running pods, read only (8.1).
+schema: miassist.eval-clients-lock/v1
+claude_code: {npm: "@anthropic-ai/claude-code", version: null}
+open_webui: {image: ghcr.io/open-webui/open-webui, tag: null, digest: null}
+baseline_images:
+  miworkbench: null
+  midataworks: null
+  miforge: null

@@ -1,0 +1,33 @@
+# Feature 002 (Evaluation), FTASKS 9.2a (FR-002.12a, A31): tier 1a on the release candidate with the
+# reference age mode `fail`. Dispatch only, so a named exemption in the private gate. The tier-2
+# runbook requires it green on the candidate's commit. Off the mirror (R3M-9). No model, no key (M13).
+name: eval-prerelease
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  prerelease:
+    if: github.repository == 'Onegaishimas/miAssist'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      MIASSIST_EVAL_REF_AGE_MODE: fail
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install the evaluation package (exact pins)
+        working-directory: eval
+        run: python -m pip install -e ".[dev]"
+
+      - name: Tier 1a with the reference age failing the run
+        working-directory: eval
+        run: python -m pytest -n 4 --dist loadfile -m "not paid" -rs

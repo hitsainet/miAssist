@@ -1,0 +1,326 @@
+{
+ "$id": "miassist.eval-goals/v1",
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "additionalProperties": false,
+ "properties": {
+  "approved": {
+   "oneOf": [
+    {
+     "type": "null"
+    },
+    {
+     "additionalProperties": false,
+     "properties": {
+      "by": {
+       "const": "operator"
+      },
+      "goal_set_sha256": {
+       "pattern": "^[0-9a-f]{64}$",
+       "type": "string"
+      },
+      "on": {
+       "minLength": 1,
+       "type": "string"
+      },
+      "words": {
+       "minLength": 1,
+       "type": "string"
+      }
+     },
+     "required": [
+      "by",
+      "on",
+      "goal_set_sha256",
+      "words"
+     ],
+     "type": "object"
+    }
+   ]
+  },
+  "fixed_replies": {
+   "additionalProperties": false,
+   "properties": {
+    "approved": {
+     "minLength": 1,
+     "type": "string"
+    },
+    "continue": {
+     "minLength": 1,
+     "type": "string"
+    },
+    "done": {
+     "minLength": 1,
+     "type": "string"
+    }
+   },
+   "required": [
+    "continue",
+    "approved",
+    "done"
+   ],
+   "type": "object"
+  },
+  "goals": {
+   "items": {
+    "additionalProperties": false,
+    "properties": {
+     "fairness": {
+      "additionalProperties": false,
+      "properties": {
+       "lists": {
+        "items": {
+         "additionalProperties": false,
+         "properties": {
+          "app": {
+           "enum": [
+            "miworkbench",
+            "miserver",
+            "midataworks",
+            "miforge"
+           ]
+          },
+          "route": {
+           "pattern": "^/",
+           "type": "string"
+          }
+         },
+         "required": [
+          "app",
+          "route"
+         ],
+         "type": "object"
+        },
+        "minItems": 1,
+        "type": "array"
+       },
+       "terms": {
+        "items": {
+         "minLength": 1,
+         "type": "string"
+        },
+        "minItems": 1,
+        "type": "array"
+       }
+      },
+      "required": [
+       "terms",
+       "lists"
+      ],
+      "type": "object"
+     },
+     "final_message_check": {
+      "additionalProperties": false,
+      "properties": {
+       "kind": {
+        "enum": [
+         "detector",
+         "dataset",
+         "steering"
+        ]
+       },
+       "source_milestone": {
+        "minLength": 1,
+        "type": "string"
+       }
+      },
+      "required": [
+       "kind",
+       "source_milestone"
+      ],
+      "type": "object"
+     },
+     "first_useful_result": {
+      "minLength": 1,
+      "type": "string"
+     },
+     "fixtures": {
+      "items": {
+       "pattern": "^evalfx-",
+       "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+     },
+     "id": {
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "type": "string"
+     },
+     "installation": {
+      "items": {
+       "enum": [
+        "miworkbench",
+        "miserver",
+        "midataworks",
+        "miforge"
+       ]
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+     },
+     "milestones": {
+      "items": {
+       "additionalProperties": false,
+       "properties": {
+        "any_of": {
+         "items": {
+          "additionalProperties": false,
+          "properties": {
+           "after": {
+            "minLength": 1,
+            "type": "string"
+           },
+           "app": {
+            "enum": [
+             "miworkbench",
+             "miserver",
+             "midataworks",
+             "miforge"
+            ]
+           },
+           "method": {
+            "enum": [
+             "GET",
+             "POST",
+             "PUT",
+             "PATCH",
+             "DELETE"
+            ]
+           },
+           "predicate": {
+            "additionalProperties": false,
+            "properties": {
+             "json": {
+              "additionalProperties": {
+               "minItems": 1,
+               "type": "array"
+              },
+              "type": "object"
+             },
+             "nonempty": {
+              "items": {
+               "minLength": 1,
+               "type": "string"
+              },
+              "minItems": 1,
+              "type": "array"
+             },
+             "request_query_not": {
+              "additionalProperties": {
+               "type": "array"
+              },
+              "type": "object"
+             },
+             "status": {
+              "oneOf": [
+               {
+                "type": "integer"
+               },
+               {
+                "items": {
+                 "type": "integer"
+                },
+                "minItems": 1,
+                "type": "array"
+               }
+              ]
+             }
+            },
+            "required": [
+             "status"
+            ],
+            "type": "object"
+           },
+           "route": {
+            "pattern": "^/",
+            "type": "string"
+           }
+          },
+          "required": [
+           "app",
+           "method",
+           "route",
+           "predicate"
+          ],
+          "type": "object"
+         },
+         "minItems": 1,
+         "type": "array"
+        },
+        "id": {
+         "minLength": 1,
+         "type": "string"
+        }
+       },
+       "required": [
+        "id",
+        "any_of"
+       ],
+       "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+     },
+     "phrasings": {
+      "additionalProperties": false,
+      "properties": {
+       "a": {
+        "minLength": 1,
+        "type": "string"
+       },
+       "b": {
+        "minLength": 1,
+        "type": "string"
+       }
+      },
+      "required": [
+       "a",
+       "b"
+      ],
+      "type": "object"
+     },
+     "playbook_id": {
+      "minLength": 1,
+      "type": "string"
+     },
+     "required": {
+      "items": {
+       "minLength": 1,
+       "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+     },
+     "scripted_args": {
+      "type": "object"
+     }
+    },
+    "required": [
+     "id",
+     "playbook_id",
+     "installation",
+     "phrasings",
+     "milestones",
+     "first_useful_result",
+     "required",
+     "fixtures",
+     "fairness",
+     "final_message_check"
+    ],
+    "type": "object"
+   },
+   "minItems": 1,
+   "type": "array"
+  },
+  "schema": {
+   "const": "miassist.eval-goals/v1"
+  }
+ },
+ "required": [
+  "schema",
+  "approved",
+  "fixed_replies",
+  "goals"
+ ],
+ "type": "object"
+}

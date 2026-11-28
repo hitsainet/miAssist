@@ -1,0 +1,113 @@
+{
+  "kind": "mistudio.playbook/v1",
+  "version": 1,
+  "id": "detector-probe",
+  "title": "detector.title",
+  "goal": "detector.goal",
+  "requires_apps": [
+    "midataworks",
+    "miworkbench",
+    "miserver"
+  ],
+  "steps": [
+    {
+      "id": "describe",
+      "title": "detector.describe.title",
+      "tool": "miassist_detector_start",
+      "entry": true,
+      "requires_apps": [
+        "miworkbench",
+        "midataworks"
+      ],
+      "explain_beginner": "detector.describe.beginner",
+      "explain_expert": "detector.describe.expert",
+      "done_when": {
+        "description": "detector.describe.done",
+        "pointer": "/key",
+        "op": "exists"
+      }
+    },
+    {
+      "id": "data",
+      "title": "detector.data.title",
+      "tool": "miassist_detector_data",
+      "requires_apps": [
+        "miworkbench",
+        "midataworks"
+      ],
+      "explain_beginner": "detector.data.beginner",
+      "explain_expert": "detector.data.expert",
+      "waits_for": [
+        "job",
+        "approval",
+        "operator_action"
+      ],
+      "done_when": {
+        "description": "detector.data.done",
+        "pointer": "/data_ready",
+        "op": "truthy"
+      }
+    },
+    {
+      "id": "train",
+      "title": "detector.train.title",
+      "tool": "miassist_detector_train",
+      "requires_apps": [
+        "miworkbench"
+      ],
+      "explain_beginner": "detector.train.beginner",
+      "explain_expert": "detector.train.expert",
+      "waits_for": [
+        "approval",
+        "gpu"
+      ],
+      "done_when": {
+        "description": "detector.train.done",
+        "pointer": "/trained",
+        "op": "truthy"
+      }
+    },
+    {
+      "id": "verdict",
+      "title": "detector.verdict.title",
+      "tool": "miassist_detector_verdict",
+      "requires_apps": [
+        "miworkbench"
+      ],
+      "explain_beginner": "detector.verdict.beginner",
+      "explain_expert": "detector.verdict.expert",
+      "waits_for": [
+        "approval",
+        "gpu"
+      ],
+      "done_when": {
+        "description": "detector.verdict.done",
+        "pointer": "/rung",
+        "op": "gte",
+        "value": 0
+      }
+    },
+    {
+      "id": "deploy",
+      "title": "detector.deploy.title",
+      "tool": "miassist_detector_deploy",
+      "entry": true,
+      "requires_apps": [
+        "miserver"
+      ],
+      "explain_beginner": "detector.deploy.beginner",
+      "explain_expert": "detector.deploy.expert",
+      "waits_for": [
+        "approval",
+        "gpu",
+        "job",
+        "operator_action"
+      ],
+      "done_when": {
+        "description": "detector.deploy.done",
+        "pointer": "/armed",
+        "op": "truthy"
+      }
+    }
+  ]
+}

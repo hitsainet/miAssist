@@ -1,0 +1,18 @@
+# Explanations for miassist_steering_find (005; only beginners see them).
+version: 1
+outcomes:
+  nothing_found:
+    what_happened: No [[feature]] matched your words.
+    why_it_matters: Features carry machine-written labels, so other words may find them.
+    what_good_looks_like: A short list of candidates.
+    next_step: Try other words.
+  feature_chosen:
+    what_happened: miAssist found candidate [[feature]]s.
+    why_it_matters: 'Each label is machine-written: it is a guess at what the feature responds to.'
+    what_good_looks_like: A candidate whose label and examples fit your concept.
+    next_step: Try one with miassist_steering_try and a prompt of yours.
+  unavailable:
+    what_happened: The app is not answering, so nothing was asked of it.
+    why_it_matters: No change was made anywhere.
+    what_good_looks_like: The app answering its health check again.
+    next_step: Check the status again later.

@@ -1,0 +1,56 @@
+# miAssist's Ingress (PADR ADR-005, ADR-014; Foundation task 6.4).
+#
+# The LAN hosts, and since push 001-P (001 FTASKS 14.5, after miWorkbench 045 phase A0 went live
+# and on the operator's go; M11, A21) the public host mcp-assist.hitsai.net.
+# The public path is Cloudflare -> the cloudflared tunnel -> this Ingress, with
+# Host REWRITTEN to mcp-assist.hitsai.local (suite memory public-proxy-rewrites-host-header), so
+# the mcp-assist.hitsai.local rule is the one that carries public traffic; the .net rule serves a
+# tunnel rule that keeps the original name.
+# `tests/unit/test_manifests.py::test_no_public_host_until_approved` fails on any *.hitsai.net
+# host here while PUBLIC_HOST_APPROVED is False, and on any public host but the one once True.
+#
+# Streaming annotations from miForge/gitops/pilot/mcp.yaml: 3600 s read/send, buffering off.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: miassist-ingress
+  namespace: miassist
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
+    nginx.ingress.kubernetes.io/proxy-body-size: "2m"
+spec:
+  ingressClassName: public
+  rules:
+    - host: k8s-miassist.hitsai.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: miassist
+                port:
+                  number: 8765
+    - host: mcp-assist.hitsai.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: miassist
+                port:
+                  number: 8765
+    - host: mcp-assist.hitsai.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: miassist
+                port:
+                  number: 8765

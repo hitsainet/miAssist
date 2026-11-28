@@ -1,0 +1,17 @@
+version: 1
+outcomes:
+  forgotten:
+    what_happened: miAssist deleted everything it remembered for your link.
+    why_it_matters: 'Nothing about you is kept now: no level and no progress.'
+    what_good_looks_like: The next result shows the beginner level.
+    next_step: Carry on, or set your level again.
+  not_remembered:
+    what_happened: There was nothing to forget, because this connection has no personal link.
+    why_it_matters: Without a personal link miAssist remembers nothing for you anyway.
+    what_good_looks_like: Nothing to do.
+    next_step: Carry on.
+  unavailable:
+    what_happened: Nothing was deleted, because the settings store is not answering right now.
+    why_it_matters: Your settings stay until the store is back and you ask again.
+    what_good_looks_like: A later try that deletes them.
+    next_step: Try again later.

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block body %}
+{% if notice %}<p><strong>{{ notice }}</strong></p>{% endif %}
+<form method="post" action="{{ page }}/guidance">
+<label>{{ text.key_level_label }}
+<select name="level">
+{% for option in levels %}<option value="{{ option }}"{% if option == level %} selected{% endif %}>{{ option }}</option>{% endfor %}
+</select></label>
+<button type="submit">{{ text.key_save }}</button>
+</form>
+<p>{{ text.key_forget_intro }}</p>
+{% if confirm %}
+<form method="post" action="{{ page }}/forget"><input type="hidden" name="confirm" value="yes">
+<p>{{ text.key_forget_confirm }}</p><button type="submit">{{ text.key_forget_yes }}</button></form>
+{% else %}
+<form method="post" action="{{ page }}/forget"><button type="submit">{{ text.key_forget }}</button></form>
+{% endif %}
+{% endblock %}

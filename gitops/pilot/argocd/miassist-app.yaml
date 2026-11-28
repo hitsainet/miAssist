@@ -1,0 +1,85 @@
+# miAssist's Argo CD AppProject, Application and ImageUpdater (PADR ADR-014; Foundation 6.6).
+# Shape copied from miForge/gitops/pilot/argocd/miforge-app.yaml (docs/REUSE.md).
+#
+# APPLIED BY HAND (not in kustomization.yaml):  kubectl apply -f gitops/pilot/argocd/miassist-app.yaml
+#
+# ONE-TIME PREREQUISITES, in order (Foundation 0.6, 5.3, 5.4):
+#   1. the Argo CD repository credential for https://github.com/Onegaishimas/miAssist.git in
+#      namespace argocd, labelled argocd.argoproj.io/secret-type: repository;
+#   2. the namespace and the Secret miassist-secrets (POSTGRES_PASSWORD, generated in place: see
+#      postgres.yaml's header);
+#   3. the directory /data/miassist/pgdata on the node, then `kubectl apply -f gitops/pilot/storage.yaml`.
+#
+# The source is the PRIVATE primary; Image Updater pins hitsai/miassist-server by digest and writes
+# the pin back to the primary's gitops/pilot branch.
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: miassist
+  namespace: argocd
+spec:
+  description: miAssist - the suite's guide (one MCP server; no GPU work)
+  sourceRepos:
+    - https://github.com/Onegaishimas/miAssist.git
+  destinations:
+    - namespace: miassist
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: ''
+      kind: Namespace
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: miassist
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: miassist
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: server=docker.io/hitsai/miassist-server:latest
+    argocd-image-updater.argoproj.io/server.update-strategy: digest
+    argocd-image-updater.argoproj.io/server.kustomize.image-name: hitsai/miassist-server
+    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/git-branch: gitops/pilot
+spec:
+  project: miassist
+  source:
+    repoURL: https://github.com/Onegaishimas/miAssist.git
+    targetRevision: gitops/pilot
+    path: gitops/pilot
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: miassist
+  revisionHistoryLimit: 10
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=true
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /spec/template/metadata/annotations/kubectl.kubernetes.io~1restartedAt
+---
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: miassist-images
+  namespace: argocd
+spec:
+  applicationRefs:
+    - namePattern: miassist
+      useAnnotations: true
+  commonUpdateSettings:
+    forceUpdate: false
+    pullSecret: pullsecret:argocd/regcred
+    updateStrategy: digest
+  writeBackConfig:
+    method: git
+    gitConfig:
+      branch: gitops/pilot

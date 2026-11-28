@@ -1,0 +1,38 @@
+# Explanations for miassist_steering_save (005; only beginners see them).
+version: 1
+outcomes:
+  saved:
+    what_happened: The [[cluster]] is saved with a dial from 0 to 1.
+    why_it_matters: The dial can only turn the saved strengths down, never past them.
+    what_good_looks_like: A saved profile you can serve.
+    next_step: Serve it with miassist_steering_serve.
+  combined_waiting:
+    what_happened: The GPU run waits for the operator's [[approval]].
+    why_it_matters: A GPU run is decided by the operator, in the app; miAssist never approves anything.
+    what_good_looks_like: A decision from the operator.
+    next_step: Call the same tool again with the approval id once approved.
+  combining:
+    what_happened: The combined check is running on the GPU.
+    why_it_matters: Features that each stay fluent can still break replies together.
+    what_good_looks_like: A fluent combined reply.
+    next_step: Call the save again in a few minutes.
+  rejected:
+    what_happened: The operator turned the request down.
+    why_it_matters: Only the operator decides; nothing runs unless you ask again.
+    what_good_looks_like: A reason you can act on.
+    next_step: Ask again with ask_again, if it still makes sense.
+  expired:
+    what_happened: The request expired before anyone decided it.
+    why_it_matters: An expired request cannot run.
+    what_good_looks_like: A new request, if you still want it.
+    next_step: Ask again with ask_again.
+  failed:
+    what_happened: The run did not complete.
+    why_it_matters: The app's own reason says what went wrong.
+    what_good_looks_like: A reason you can act on.
+    next_step: Read the reason, then ask again with ask_again.
+  unavailable:
+    what_happened: The app is not answering, so nothing was asked of it.
+    why_it_matters: No change was made anywhere.
+    what_good_looks_like: The app answering its health check again.
+    next_step: Check the status again later.

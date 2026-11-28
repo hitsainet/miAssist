@@ -1,0 +1,262 @@
+# Route profile for miserver (FTDD §4.3), written by eval/scripts/write_route_profiles.py from
+# the reference OpenAPI; edit the script, not this file. No GPU route is listed here (R2M-14):
+# the guarded list is derived from the vendored payload vectors at suite start.
+schema: miassist.eval-route-profile/v1
+app: miserver
+agent_header:
+  name: X-miLLM-Agent
+  value: agent:miassist
+default_match:
+- query
+- body
+routes:
+- method: GET
+  route: /api/approvals
+  list:
+    items: data.approvals
+    id: approval_id
+- method: GET
+  route: /api/approvals/actions
+  list:
+    items: data.actions
+- method: GET
+  route: /api/approvals/{approval_id}
+  poll_of: approval
+  state_field: data.status
+  open_states:
+  - pending
+  closed_states:
+  - rejected
+  - expired
+  run_states:
+  - executing
+  done_states:
+  - executed
+  - failed
+- method: GET
+  route: /api/circuit-sensing/events
+  list:
+    items: data.events
+    id: id
+- method: GET
+  route: /api/circuit-sensing/status
+  list:
+    items: data.enabled_circuits
+- method: GET
+  route: /api/circuits
+  list:
+    items: data.circuits
+    id: id
+- method: GET
+  route: /api/circuits/active
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/circuits/claims
+  list:
+    items: data
+- method: GET
+  route: /api/clusters
+  list:
+    items: data.clusters
+    id: id
+- method: GET
+  route: /api/clusters/hub/search
+  list:
+    items: data
+- method: GET
+  route: /api/clusters/hub/{repo_id}/definitions
+  list:
+    items: data
+- method: GET
+  route: /api/environment
+  list:
+    items: data.settings
+- method: GET
+  route: /api/environment/history
+  list:
+    items: data.changes
+    id: id
+- method: GET
+  route: /api/health
+  list:
+    items: '*'
+- method: GET
+  route: /api/health/circuits
+  list:
+    items: '*'
+- method: GET
+  route: /api/health/detailed
+  list:
+    items: circuit_breakers
+- method: GET
+  route: /api/health/gpus
+  list:
+    items: cards
+- method: GET
+  route: /api/health/inference
+  list:
+    items: '*'
+- method: GET
+  route: /api/health/metrics
+  list:
+    items: '*'
+- method: GET
+  route: /api/health/metrics/prometheus
+  list:
+    items: '*'
+- method: GET
+  route: /api/health/ready
+  list:
+    items: components
+- method: GET
+  route: /api/health/version
+  list:
+    items: '*'
+- method: GET
+  route: /api/models
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/monitoring
+  list:
+    items: '*'
+- method: GET
+  route: /api/monitoring/history
+  list:
+    items: data.records
+- method: GET
+  route: /api/monitoring/statistics
+  list:
+    items: data.features
+- method: GET
+  route: /api/probes
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/probes/behaviours
+  list:
+    items: data
+- method: GET
+  route: /api/probes/behaviours/{key}/rule-signals
+  list:
+    items: data.history
+- method: GET
+  route: /api/probes/behaviours/{key}/verdict
+  list:
+    items: data.history
+- method: GET
+  route: /api/probes/events
+  list:
+    items: '*'
+- method: GET
+  route: /api/probes/hub/search
+  list:
+    items: data
+- method: GET
+  route: /api/probes/hub/{repo_id}/definitions
+  list:
+    items: data
+- method: GET
+  route: /api/probes/sessions
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/probes/sessions/{session_id}
+  list:
+    items: data.columns
+- method: GET
+  route: /api/probes/sessions/{session_id}/transcript
+  list:
+    items: data
+- method: GET
+  route: /api/probes/status
+  list:
+    items: data.armed
+    id: id
+- method: GET
+  route: /api/profiles
+  list:
+    items: data.profiles
+    id: id
+- method: GET
+  route: /api/profiles/active
+  list:
+    items: '*'
+- method: GET
+  route: /api/rule-sets
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /api/rule-sets/validators
+  list:
+    items: data.forms
+- method: GET
+  route: /api/saes
+  list:
+    items: data.saes
+    id: id
+- method: GET
+  route: /api/saes/attachment
+  list:
+    items: '*'
+- method: GET
+  route: /api/saes/attachments
+  list:
+    items: data.entries
+- method: GET
+  route: /api/saes/steering
+  list:
+    items: '*'
+- method: GET
+  route: /api/sensing/events
+  list:
+    items: data.events
+    id: id
+- method: GET
+  route: /api/sensing/status
+  list:
+    items: data.enabled_clusters
+- method: GET
+  route: /api/settings/hf-token
+  list:
+    items: '*'
+- method: GET
+  route: /api/weights/adapter
+  list:
+    items: '*'
+- method: GET
+  route: /api/weights/lineage
+  list:
+    items: data.chain
+- method: GET
+  route: /api/weights/status
+  list:
+    items: data.cuda_memory
+- method: GET
+  route: /v1/batches
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /v1/batches/{batch_id}
+  list:
+    items: errors.data
+- method: GET
+  route: /v1/files
+  list:
+    items: data
+    id: id
+- method: GET
+  route: /v1/models
+  list:
+    items: data
+    id: id
+- method: POST
+  route: /api/profiles
+  creates: true

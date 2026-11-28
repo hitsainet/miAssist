@@ -1,0 +1,136 @@
+# Origin: miDataworks (Onegaishimas/miDataworks) k8s/base/db-backup.yaml @ 895dde3
+# Mode: adapt (docs/REUSE.md). Kept: verify before it counts, publish by rename, prune only after a
+# verified publish, RESTORE.md beside the archives, refuse under 1 GB free, Forbid, a deadline.
+# Changed: miAssist's names; the required table is ma_alembic_version; the schema version is a
+# revision id (e.g. 0002_core_tables), not a number.
+#
+# Nightly pg_dump at 04:30 ET (PADR ADR-017): after miWorkbench 03:30, miServer 03:50 and
+# miDataworks 04:10, so none contend for the backup disk. Pinned to the node whose backup disk
+# holds the archives.
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: miassist-db-backup
+  namespace: miassist
+spec:
+  schedule: "30 4 * * *"
+  timeZone: "America/New_York"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 5
+  startingDeadlineSeconds: 3600
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      activeDeadlineSeconds: 14400
+      template:
+        spec:
+          restartPolicy: OnFailure
+          automountServiceAccountToken: false
+          nodeSelector:
+            kubernetes.io/hostname: mcs-lnxhost02
+          containers:
+            - name: dump
+              image: postgres:15
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: PGHOST
+                  value: postgres
+                - name: PGUSER
+                  value: miassist
+                - name: PGDATABASE
+                  value: miassist
+                - name: PGPASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: miassist-secrets
+                      key: POSTGRES_PASSWORD
+                - name: KEEP
+                  value: "30"
+                - name: BACKUP_DIR
+                  value: /backups
+                - name: REQUIRED_TABLES
+                  value: ma_alembic_version
+                - name: NVIDIA_VISIBLE_DEVICES
+                  value: void
+              command:
+                - /bin/bash
+                - -c
+                - |
+                  set -euo pipefail
+                  stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+                  mkdir -p "$BACKUP_DIR"
+                  target="$BACKUP_DIR/miassist-$stamp.dump"
+                  partial="$target.partial"
+                  log="$BACKUP_DIR/backups.log"
+                  say() { echo "[$(date -u +%H:%M:%SZ)] $*"; }
+                  refuse() {
+                    say "REFUSING: $*"
+                    mv "$partial" "$target.refused"
+                    printf '%s\tREFUSED\t%s\t%s\n' "$stamp" "$(basename "$target.refused")" "$*" >> "$log"
+                    exit 1
+                  }
+                  avail_mb=$(df -Pm "$BACKUP_DIR" | awk 'NR==2 {print $4}')
+                  if [ "$avail_mb" -lt 1024 ]; then
+                    say "REFUSING: under 1 GB free (${avail_mb} MB); nothing written"
+                    printf '%s\tREFUSED\t-\tunder 1 GB free\n' "$stamp" >> "$log" || true
+                    exit 1
+                  fi
+                  pg_dump -Fc -Z6 --file="$partial"
+                  bytes=$(stat -c %s "$partial")
+                  toc="$(pg_restore -l "$partial")" \
+                    || refuse "pg_restore could not read the archive's table of contents"
+                  for required_table in $REQUIRED_TABLES; do
+                    grep -q "TABLE DATA public $required_table " <<<"$toc" || \
+                      refuse "no TABLE DATA entry for '$required_table'"
+                  done
+                  copy="$(pg_restore --data-only --table=ma_alembic_version --file=- "$partial")" \
+                    || refuse "pg_restore could not read the schema version"
+                  version="$(awk 'f && $0 == "\\." {exit} f {print} /^COPY public.ma_alembic_version /{f=1}' <<<"$copy")"
+                  case "$version" in
+                    ''|*[!a-z0-9_]*) refuse "cannot read one schema version from the dump" ;;
+                  esac
+                  sha="$(sha256sum "$partial" | cut -d' ' -f1)"
+                  mv "$partial" "$target"
+                  say "published $(basename "$target") (schema $version)"
+                  printf '%s\t%s\t%s bytes\tschema=%s\tsha256=%s\n' \
+                    "$stamp" "$(basename "$target")" "$bytes" "$version" "$sha" >> "$log"
+                  keep=$(( KEEP > 1 ? KEEP : 1 ))
+                  ls -1t "$BACKUP_DIR"/miassist-*.dump | tail -n +$(( keep + 1 )) | while read -r old; do
+                    say "pruning $(basename "$old")"
+                    rm -f -- "$old"
+                  done
+                  cat > "$BACKUP_DIR/RESTORE.md" <<'DOC'
+                  Written by miAssist's nightly backup job (gitops/pilot/db-backup.yaml) on every run.
+                  pg_dump -Fc archives: restore with pg_restore, never psql. Recovery is to the
+                  last nightly dump. The store holds only remembered settings (guidance level and
+                  playbook progress, keyed by a hash of each person's key).
+
+                  Restore beside the live database and compare before trusting it:
+                      kubectl -n miassist exec deploy/miassist-postgres -- createdb -U miassist miassist_restore
+                      kubectl -n miassist exec -i deploy/miassist-postgres -- \
+                        pg_restore -U miassist --no-owner -d miassist_restore < miassist-<stamp>.dump
+                      kubectl -n miassist exec deploy/miassist-postgres -- psql -U miassist -d miassist_restore -Atc 'select version_num from ma_alembic_version'
+
+                  A manual run: strip the CronJob owner first, or Forbid kills the Job.
+                      kubectl -n miassist create job manual-dump-$(date +%s) \
+                        --from=cronjob/miassist-db-backup --dry-run=client -o json \
+                        | python3 -c "import json,sys; j=json.load(sys.stdin); j['metadata'].pop('ownerReferences',None); print(json.dumps(j))" \
+                        | kubectl -n miassist create -f -
+                  DOC
+                  sed -i 's/^                  //' "$BACKUP_DIR/RESTORE.md"
+                  say "done"
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 64Mi
+                limits:
+                  memory: 256Mi
+              volumeMounts:
+                - name: backups
+                  mountPath: /backups
+          volumes:
+            - name: backups
+              hostPath:
+                path: /mnt/hdd2/pv/miassist
+                type: DirectoryOrCreate

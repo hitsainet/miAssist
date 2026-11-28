@@ -1,0 +1,89 @@
+{
+ "$id": "miassist.eval-manual/v1",
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "additionalProperties": false,
+ "properties": {
+  "client": {
+   "enum": [
+    "desktop",
+    "claude-ai"
+   ]
+  },
+  "items": {
+   "items": {
+    "additionalProperties": false,
+    "properties": {
+     "id": {
+      "minLength": 1,
+      "type": "string"
+     },
+     "reason": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "result": {
+      "enum": [
+       "pass",
+       "fail",
+       "not_run"
+      ]
+     },
+     "waiver": {
+      "oneOf": [
+       {
+        "type": "null"
+       },
+       {
+        "additionalProperties": false,
+        "properties": {
+         "by": {
+          "const": "operator"
+         },
+         "on": {
+          "minLength": 1,
+          "type": "string"
+         },
+         "words": {
+          "minLength": 1,
+          "type": "string"
+         }
+        },
+        "required": [
+         "by",
+         "on",
+         "words"
+        ],
+        "type": "object"
+       }
+      ]
+     }
+    },
+    "required": [
+     "id",
+     "result",
+     "reason",
+     "waiver"
+    ],
+    "type": "object"
+   },
+   "minItems": 1,
+   "type": "array"
+  },
+  "release": {
+   "minLength": 1,
+   "type": "string"
+  },
+  "schema": {
+   "const": "miassist.eval-manual/v1"
+  }
+ },
+ "required": [
+  "schema",
+  "release",
+  "client",
+  "items"
+ ],
+ "type": "object"
+}

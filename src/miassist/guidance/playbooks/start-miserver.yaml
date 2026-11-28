@@ -1,0 +1,18 @@
+# The words of the start-here playbook for miServer (001 FR-5, A25), by the keys its
+# definition (playbooks/definitions/start-miserver.json) names.
+version: 1
+texts:
+  playbook.title: "Start here: miServer"
+  playbook.goal: "Take a first look at what you have in miServer, learn one of its key words, and find what to do next."
+  look-around.title: "Look around miServer"
+  look-around.beginner: "Ask miAssist for an overview of miServer: the models it can serve, the [[probe]] counts and the [[cluster]]s it holds, with a count and the newest names of each. It only reads; nothing changes."
+  look-around.expert: "Overview of miServer: counts and newest names of its models, probe counts and clusters."
+  look-around.done: "The overview of miServer came back."
+  learn-a-word.title: "Learn a word: served model"
+  learn-a-word.beginner: "Ask the glossary what a [[served-model]] is. It is a word you will meet often in miServer, and results link it whenever they use it."
+  learn-a-word.expert: "Glossary entry for \"served model\"."
+  learn-a-word.done: "The glossary returned the entry."
+  what-next.title: "Find what to do next"
+  what-next.beginner: "Ask the guide which playbooks this installation offers. Each one is a short guided path through a task, one step at a time."
+  what-next.expert: "The playbooks on offer."
+  what-next.done: "The guide listed the playbooks on offer."

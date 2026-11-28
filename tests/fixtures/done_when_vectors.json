@@ -1,0 +1,951 @@
+{
+  "_comment": [
+    "001 FPRD \u00a75.2.2 evaluate_done_when vectors (AC-13.4). A pointer that does not resolve, or a type mismatch, is false, never an exception. Booleans are not numbers and not equal to 1."
+  ],
+  "vectors": [
+    {
+      "id": "exists-top",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/app",
+        "op": "exists"
+      },
+      "expected": true
+    },
+    {
+      "id": "exists-nested",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/items/0/id",
+        "op": "exists"
+      },
+      "expected": true
+    },
+    {
+      "id": "exists-null-value",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/none",
+        "op": "exists"
+      },
+      "expected": true
+    },
+    {
+      "id": "exists-missing",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/missing",
+        "op": "exists"
+      },
+      "expected": false
+    },
+    {
+      "id": "exists-index-out-of-range",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/items/5",
+        "op": "exists"
+      },
+      "expected": false
+    },
+    {
+      "id": "exists-escaped",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/a~1b/~0c",
+        "op": "exists"
+      },
+      "expected": true
+    },
+    {
+      "id": "exists-root",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "",
+        "op": "exists"
+      },
+      "expected": true
+    },
+    {
+      "id": "truthy-true",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/flag",
+        "op": "truthy"
+      },
+      "expected": true
+    },
+    {
+      "id": "truthy-zero",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/zero",
+        "op": "truthy"
+      },
+      "expected": false
+    },
+    {
+      "id": "truthy-empty-string",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/empty",
+        "op": "truthy"
+      },
+      "expected": false
+    },
+    {
+      "id": "truthy-null",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/none",
+        "op": "truthy"
+      },
+      "expected": false
+    },
+    {
+      "id": "truthy-list",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/items",
+        "op": "truthy"
+      },
+      "expected": true
+    },
+    {
+      "id": "truthy-missing",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/missing",
+        "op": "truthy"
+      },
+      "expected": false
+    },
+    {
+      "id": "equals-match",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/app",
+        "op": "equals",
+        "value": "miforge"
+      },
+      "expected": true
+    },
+    {
+      "id": "equals-mismatch",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/app",
+        "op": "equals",
+        "value": "miserver"
+      },
+      "expected": false
+    },
+    {
+      "id": "equals-type-mismatch",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/count",
+        "op": "equals",
+        "value": "3"
+      },
+      "expected": false
+    },
+    {
+      "id": "equals-object",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/items/0",
+        "op": "equals",
+        "value": {
+          "id": "x"
+        }
+      },
+      "expected": true
+    },
+    {
+      "id": "equals-bool-not-int",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/flag",
+        "op": "equals",
+        "value": 1
+      },
+      "expected": false
+    },
+    {
+      "id": "equals-missing",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/missing",
+        "op": "equals",
+        "value": "x"
+      },
+      "expected": false
+    },
+    {
+      "id": "in-member",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/label",
+        "op": "in",
+        "value": [
+          "probe",
+          "pack"
+        ]
+      },
+      "expected": true
+    },
+    {
+      "id": "in-not-member",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/label",
+        "op": "in",
+        "value": [
+          "pack"
+        ]
+      },
+      "expected": false
+    },
+    {
+      "id": "in-value-not-array",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/label",
+        "op": "in",
+        "value": "probe"
+      },
+      "expected": false
+    },
+    {
+      "id": "in-missing",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/missing",
+        "op": "in",
+        "value": [
+          "x"
+        ]
+      },
+      "expected": false
+    },
+    {
+      "id": "gte-equal",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/count",
+        "op": "gte",
+        "value": 3
+      },
+      "expected": true
+    },
+    {
+      "id": "gte-greater",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/count",
+        "op": "gte",
+        "value": 2
+      },
+      "expected": true
+    },
+    {
+      "id": "gte-less",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/ratio",
+        "op": "gte",
+        "value": 0.8
+      },
+      "expected": false
+    },
+    {
+      "id": "gte-float",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/ratio",
+        "op": "gte",
+        "value": 0.5
+      },
+      "expected": true
+    },
+    {
+      "id": "gte-string",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/label",
+        "op": "gte",
+        "value": 1
+      },
+      "expected": false
+    },
+    {
+      "id": "gte-bool",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/flag",
+        "op": "gte",
+        "value": 0
+      },
+      "expected": false
+    },
+    {
+      "id": "gte-missing",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/missing",
+        "op": "gte",
+        "value": 0
+      },
+      "expected": false
+    },
+    {
+      "id": "bad-pointer",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "app",
+        "op": "exists"
+      },
+      "expected": false
+    },
+    {
+      "id": "pointer-through-scalar",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/app/x",
+        "op": "exists"
+      },
+      "expected": false
+    },
+    {
+      "id": "pointer-non-numeric-index",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/items/first",
+        "op": "exists"
+      },
+      "expected": false
+    },
+    {
+      "id": "pointer-leading-zero-index",
+      "data": {
+        "app": "miforge",
+        "count": 3,
+        "zero": 0,
+        "empty": "",
+        "items": [
+          {
+            "id": "x"
+          }
+        ],
+        "flag": true,
+        "ratio": 0.75,
+        "label": "probe",
+        "none": null,
+        "a/b": {
+          "~c": 1
+        }
+      },
+      "predicate": {
+        "description": "x.done",
+        "pointer": "/items/00",
+        "op": "exists"
+      },
+      "expected": false
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+# Fix lines for app errors and miAssist's own codes (001 FR-16, FR-17).
+version: 1
+errors:
+  miworkbench.unknown_body_field: {fix: "this route does not take that field; remove it"}
+  miworkbench.unknown_query_field: {fix: "this route does not take that query value; remove it"}
+  miworkbench.approval_not_applicable: {fix: "this route takes no approval id; call it without one"}
+  miworkbench.invalid_body: {fix: "the app could not read this request; check the arguments"}
+  miworkbench.key_not_for_this_host: {fix: "that stored key belongs to another host; the operator sets the key for this one"}
+  miworkbench.model_files_not_on_disk: {fix: "the model's files are not on disk; the operator downloads them in miWorkbench"}
+  approval_mismatch: {fix: "the approved request and this call differ; file it again with the same arguments"}
+  approval_spent: {fix: "that approval was already used; start again without an approval id"}
+  approval_not_found: {fix: "start again without an approval id"}
+  unknown_term: {fix: "call miassist_glossary with no term to see every entry"}
+  unknown_arguments: {fix: "use only the arguments the tool lists"}
+  app_error: {fix: "the app refused; its own message is below"}
+  run_will_not_fit: {fix: "choose a smaller model, or ask the operator for a host with more memory; nothing was filed"}
+  unknown_view: {fix: "name a view by its exact id or name, or leave it out and miAssist makes a new one"}
+  key_taken: {fix: "choose a key of your own and pass it as key"}

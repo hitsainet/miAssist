@@ -1,0 +1,23 @@
+# FR-002.5 rule 2: the baseline jargon list, one term per line (whole words and simple plurals).
+rung
+AUROC
+probe
+pooling
+SAE
+sparse autoencoder
+feature
+steering
+steer
+strength
+calibration
+layer
+activation
+out-of-distribution
+recipe
+operator step
+adapter
+checkpoint
+cluster
+circuit
+extraction
+residual

@@ -1,0 +1,991 @@
+{
+ "app": "miforge",
+ "commit": "4bb6d56",
+ "paths": {
+  "/api/health": {
+   "get": {
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "additionalProperties": true,
+         "title": "Response Get Health Api Health Get",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     }
+    }
+   }
+  },
+  "/api/v1/approvals": {
+   "get": {
+    "parameters": [
+     {
+      "in": "query",
+      "name": "status",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "maxLength": 16,
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Status"
+      }
+     },
+     {
+      "in": "query",
+      "name": "limit",
+      "required": false,
+      "schema": {
+       "default": 200,
+       "maximum": 500,
+       "minimum": 1,
+       "title": "Limit",
+       "type": "integer"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "additionalProperties": true,
+         "description": "``GET /approvals``.",
+         "properties": {
+          "approvals": {
+           "items": {
+            "additionalProperties": true,
+            "description": "One approval on the wire: ``as_payload``'s keys, typed, plus ``approval``.",
+            "properties": {
+             "action": {
+              "anyOf": [
+               {
+                "type": "string"
+               },
+               {
+                "type": "null"
+               }
+              ],
+              "title": "Action"
+             },
+             "approval": {
+              "additionalProperties": true,
+              "description": "The suite's ``approval`` object (``mistudio.result-language/v1`` ``$defs.approval``).",
+              "properties": {
+               "action": {
+                "anyOf": [
+                 {
+                  "type": "string"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "title": "Action"
+               },
+               "decide_in": {
+                "title": "Decide In",
+                "type": "string"
+               },
+               "expires_at": {
+                "anyOf": [
+                 {
+                  "type": "string"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "title": "Expires At"
+               },
+               "id": {
+                "title": "Id",
+                "type": "string"
+               },
+               "reason": {
+                "anyOf": [
+                 {
+                  "type": "string"
+                 },
+                 {
+                  "type": "null"
+                 }
+                ],
+                "title": "Reason"
+               },
+               "status": {
+                "title": "Status",
+                "type": "string"
+               },
+               "summary": {
+                "title": "Summary",
+                "type": "string"
+               },
+               "then": {
+                "title": "Then",
+                "type": "string"
+               }
+              },
+              "required": [
+               "id",
+               "status",
+               "decide_in",
+               "then",
+               "summary"
+              ],
+              "title": "ApprovalObject",
+              "type": "object"
+             },
+             "approval_id": {
+              "title": "Approval Id",
+              "type": "string"
+             },
+             "batch_id": {
+              "anyOf": [
+               {
+                "type": "string"
+               },
+               {
+                "type": "null"
+               }
+              ],
+              "title": "Batch Id"
+             },
+             "created_at": {
+              "anyOf": [
+               {
+                "type": "string"
+               },
+               {
+                "type": "null"
+               }
+              ],
+              "title": "Created At"
+             },
+             "decided_at": {
+              "anyOf": [
+               {
+                "type": "string"
+               },
+               {
+                "type": "null"
+               }
+              ],
+              "title": "Decided At"
+             },
+             "decided_by": {
+              "anyOf": [
+               {
+                "type": "string"
+               },
+               {
+                "type": "null"
+               }
+              ],
+              "title": "Decided By"
+             },
+             "error": {
+              "title": "Error"
+             },
+             "expires_at": {
+              "anyOf": [
+               {
+                "type": "string"
+               },
+               {
+                "type": "null"
+               }
+              ],
+              "title": "Expires At"
+             },
+             "payload": {
+              "anyOf": [
+               {
+                "additionalProperties": true,
+                "type": "object"
+               },
+               {
+                "type": "null"
+               }
+              ],
+              "title": "Payload"
+             },
+             "reason": {
+              "anyOf": [
+               {
+                "type": "string"
+               },
+               {
+                "type": "null"
+               }
+              ],
+              "title": "Reason"
+             },
+             "request_digest": {
+              "anyOf": [
+               {
+                "type": "string"
+               },
+               {
+                "type": "null"
+               }
+              ],
+              "title": "Request Digest"
+             },
+             "requested_by": {
+              "anyOf": [
+               {
+                "type": "string"
+               },
+               {
+                "type": "null"
+               }
+              ],
+              "title": "Requested By"
+             },
+             "result": {
+              "title": "Result"
+             },
+             "status": {
+              "title": "Status",
+              "type": "string"
+             },
+             "summary": {
+              "anyOf": [
+               {
+                "additionalProperties": true,
+                "type": "object"
+               },
+               {
+                "type": "null"
+               }
+              ],
+              "title": "Summary"
+             }
+            },
+            "required": [
+             "approval_id",
+             "status",
+             "approval"
+            ],
+            "title": "ApprovalView",
+            "type": "object"
+           },
+           "title": "Approvals",
+           "type": "array"
+          },
+          "count": {
+           "title": "Count",
+           "type": "integer"
+          },
+          "limit": {
+           "title": "Limit",
+           "type": "integer"
+          },
+          "pending": {
+           "title": "Pending",
+           "type": "integer"
+          }
+         },
+         "required": [
+          "approvals",
+          "count",
+          "pending",
+          "limit"
+         ],
+         "title": "ApprovalList",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "properties": {
+          "detail": {
+           "items": {
+            "properties": {
+             "ctx": {
+              "title": "Context",
+              "type": "object"
+             },
+             "input": {
+              "title": "Input"
+             },
+             "loc": {
+              "items": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "integer"
+                }
+               ]
+              },
+              "title": "Location",
+              "type": "array"
+             },
+             "msg": {
+              "title": "Message",
+              "type": "string"
+             },
+             "type": {
+              "title": "Error Type",
+              "type": "string"
+             }
+            },
+            "required": [
+             "loc",
+             "msg",
+             "type"
+            ],
+            "title": "ValidationError",
+            "type": "object"
+           },
+           "title": "Detail",
+           "type": "array"
+          }
+         },
+         "title": "HTTPValidationError",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    }
+   }
+  },
+  "/api/v1/approvals/{approval_id}": {
+   "get": {
+    "parameters": [
+     {
+      "in": "path",
+      "name": "approval_id",
+      "required": true,
+      "schema": {
+       "title": "Approval Id",
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "additionalProperties": true,
+         "description": "One approval on the wire: ``as_payload``'s keys, typed, plus ``approval``.",
+         "properties": {
+          "action": {
+           "anyOf": [
+            {
+             "type": "string"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "title": "Action"
+          },
+          "approval": {
+           "additionalProperties": true,
+           "description": "The suite's ``approval`` object (``mistudio.result-language/v1`` ``$defs.approval``).",
+           "properties": {
+            "action": {
+             "anyOf": [
+              {
+               "type": "string"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "title": "Action"
+            },
+            "decide_in": {
+             "title": "Decide In",
+             "type": "string"
+            },
+            "expires_at": {
+             "anyOf": [
+              {
+               "type": "string"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "title": "Expires At"
+            },
+            "id": {
+             "title": "Id",
+             "type": "string"
+            },
+            "reason": {
+             "anyOf": [
+              {
+               "type": "string"
+              },
+              {
+               "type": "null"
+              }
+             ],
+             "title": "Reason"
+            },
+            "status": {
+             "title": "Status",
+             "type": "string"
+            },
+            "summary": {
+             "title": "Summary",
+             "type": "string"
+            },
+            "then": {
+             "title": "Then",
+             "type": "string"
+            }
+           },
+           "required": [
+            "id",
+            "status",
+            "decide_in",
+            "then",
+            "summary"
+           ],
+           "title": "ApprovalObject",
+           "type": "object"
+          },
+          "approval_id": {
+           "title": "Approval Id",
+           "type": "string"
+          },
+          "batch_id": {
+           "anyOf": [
+            {
+             "type": "string"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "title": "Batch Id"
+          },
+          "created_at": {
+           "anyOf": [
+            {
+             "type": "string"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "title": "Created At"
+          },
+          "decided_at": {
+           "anyOf": [
+            {
+             "type": "string"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "title": "Decided At"
+          },
+          "decided_by": {
+           "anyOf": [
+            {
+             "type": "string"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "title": "Decided By"
+          },
+          "error": {
+           "title": "Error"
+          },
+          "expires_at": {
+           "anyOf": [
+            {
+             "type": "string"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "title": "Expires At"
+          },
+          "payload": {
+           "anyOf": [
+            {
+             "additionalProperties": true,
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "title": "Payload"
+          },
+          "reason": {
+           "anyOf": [
+            {
+             "type": "string"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "title": "Reason"
+          },
+          "request_digest": {
+           "anyOf": [
+            {
+             "type": "string"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "title": "Request Digest"
+          },
+          "requested_by": {
+           "anyOf": [
+            {
+             "type": "string"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "title": "Requested By"
+          },
+          "result": {
+           "title": "Result"
+          },
+          "status": {
+           "title": "Status",
+           "type": "string"
+          },
+          "summary": {
+           "anyOf": [
+            {
+             "additionalProperties": true,
+             "type": "object"
+            },
+            {
+             "type": "null"
+            }
+           ],
+           "title": "Summary"
+          }
+         },
+         "required": [
+          "approval_id",
+          "status",
+          "approval"
+         ],
+         "title": "ApprovalView",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "properties": {
+          "detail": {
+           "items": {
+            "properties": {
+             "ctx": {
+              "title": "Context",
+              "type": "object"
+             },
+             "input": {
+              "title": "Input"
+             },
+             "loc": {
+              "items": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "integer"
+                }
+               ]
+              },
+              "title": "Location",
+              "type": "array"
+             },
+             "msg": {
+              "title": "Message",
+              "type": "string"
+             },
+             "type": {
+              "title": "Error Type",
+              "type": "string"
+             }
+            },
+            "required": [
+             "loc",
+             "msg",
+             "type"
+            ],
+            "title": "ValidationError",
+            "type": "object"
+           },
+           "title": "Detail",
+           "type": "array"
+          }
+         },
+         "title": "HTTPValidationError",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    }
+   }
+  },
+  "/api/v1/checkpoints": {
+   "get": {
+    "parameters": [
+     {
+      "in": "query",
+      "name": "run_id",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Run Id"
+      }
+     },
+     {
+      "in": "query",
+      "name": "domain",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Domain"
+      }
+     },
+     {
+      "in": "query",
+      "name": "base_model",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Base Model"
+      }
+     },
+     {
+      "in": "query",
+      "name": "limit",
+      "required": false,
+      "schema": {
+       "default": 200,
+       "maximum": 1000,
+       "minimum": 1,
+       "title": "Limit",
+       "type": "integer"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "additionalProperties": true,
+         "title": "Response List All Checkpoints Api V1 Checkpoints Get",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "properties": {
+          "detail": {
+           "items": {
+            "properties": {
+             "ctx": {
+              "title": "Context",
+              "type": "object"
+             },
+             "input": {
+              "title": "Input"
+             },
+             "loc": {
+              "items": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "integer"
+                }
+               ]
+              },
+              "title": "Location",
+              "type": "array"
+             },
+             "msg": {
+              "title": "Message",
+              "type": "string"
+             },
+             "type": {
+              "title": "Error Type",
+              "type": "string"
+             }
+            },
+            "required": [
+             "loc",
+             "msg",
+             "type"
+            ],
+            "title": "ValidationError",
+            "type": "object"
+           },
+           "title": "Detail",
+           "type": "array"
+          }
+         },
+         "title": "HTTPValidationError",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    }
+   }
+  },
+  "/api/v1/packs": {
+   "get": {
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "additionalProperties": false,
+         "description": "``GET /api/v1/packs``.\n\n``prompt_count`` is ``null`` when it cannot be resolved - **never 0** (ADR-018,\nFR-007.11) - and the UI renders null as \"unknown\". ``parts_filled`` travels with\n``parts_total`` so every number names its scale and sample (ADR-012).",
+         "properties": {
+          "packs": {
+           "items": {
+            "additionalProperties": true,
+            "type": "object"
+           },
+           "title": "Packs",
+           "type": "array"
+          }
+         },
+         "required": [
+          "packs"
+         ],
+         "title": "PackListing",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     }
+    }
+   }
+  },
+  "/api/v1/runs": {
+   "get": {
+    "parameters": [
+     {
+      "in": "query",
+      "name": "limit",
+      "required": false,
+      "schema": {
+       "default": 50,
+       "maximum": 200,
+       "minimum": 1,
+       "title": "Limit",
+       "type": "integer"
+      }
+     },
+     {
+      "in": "query",
+      "name": "offset",
+      "required": false,
+      "schema": {
+       "default": 0,
+       "minimum": 0,
+       "title": "Offset",
+       "type": "integer"
+      }
+     },
+     {
+      "description": "one of ['cancelled', 'completed', 'failed', 'pending', 'running']",
+      "in": "query",
+      "name": "status",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "one of ['cancelled', 'completed', 'failed', 'pending', 'running']",
+       "title": "Status"
+      }
+     },
+     {
+      "description": "a name from GET /api/v1/run-types",
+      "in": "query",
+      "name": "run_type",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "a name from GET /api/v1/run-types",
+       "title": "Run Type"
+      }
+     },
+     {
+      "description": "also list archived runs (hidden by default)",
+      "in": "query",
+      "name": "include_archived",
+      "required": false,
+      "schema": {
+       "default": false,
+       "description": "also list archived runs (hidden by default)",
+       "title": "Include Archived",
+       "type": "boolean"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "additionalProperties": true,
+         "title": "Response List Runs Api V1 Runs Get",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "properties": {
+          "detail": {
+           "items": {
+            "properties": {
+             "ctx": {
+              "title": "Context",
+              "type": "object"
+             },
+             "input": {
+              "title": "Input"
+             },
+             "loc": {
+              "items": {
+               "anyOf": [
+                {
+                 "type": "string"
+                },
+                {
+                 "type": "integer"
+                }
+               ]
+              },
+              "title": "Location",
+              "type": "array"
+             },
+             "msg": {
+              "title": "Message",
+              "type": "string"
+             },
+             "type": {
+              "title": "Error Type",
+              "type": "string"
+             }
+            },
+            "required": [
+             "loc",
+             "msg",
+             "type"
+            ],
+            "title": "ValidationError",
+            "type": "object"
+           },
+           "title": "Detail",
+           "type": "array"
+          }
+         },
+         "title": "HTTPValidationError",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    }
+   }
+  }
+ },
+ "ref": "4bb6d56",
+ "taken": "2026-11-26"
+}

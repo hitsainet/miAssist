@@ -1,0 +1,79 @@
+{
+  "_comment": [
+    "001 FTASKS 5.3 (A30): an app's code in line 1 is lower case [a-z0-9_]; <app>.app_error when empty or too long. The original spelling stays in the original text."
+  ],
+  "vectors": [
+    {
+      "id": "upper",
+      "app": "midataworks",
+      "app_code": "UNPROCESSABLE",
+      "line1_code": "midataworks.unprocessable"
+    },
+    {
+      "id": "agent-identity",
+      "app": "miforge",
+      "app_code": "INVALID_AGENT_IDENTITY",
+      "line1_code": "miforge.invalid_agent_identity"
+    },
+    {
+      "id": "hyphen",
+      "app": "miserver",
+      "app_code": "model-not-loaded",
+      "line1_code": "miserver.model_not_loaded"
+    },
+    {
+      "id": "empty",
+      "app": "miforge",
+      "app_code": "",
+      "line1_code": "miforge.app_error"
+    },
+    {
+      "id": "eighty",
+      "app": "midataworks",
+      "app_code": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "line1_code": "midataworks.app_error"
+    },
+    {
+      "id": "leading-digit",
+      "app": "miforge",
+      "app_code": "404_not_found",
+      "line1_code": "miforge.e_404_not_found"
+    },
+    {
+      "id": "dotted",
+      "app": "miserver",
+      "app_code": "rule.invalid",
+      "line1_code": "miserver.rule_invalid"
+    },
+    {
+      "id": "wb-mismatch",
+      "app": "miworkbench",
+      "app_code": "mismatch",
+      "line1_code": "miworkbench.mismatch"
+    },
+    {
+      "id": "wb-unknown-body-field",
+      "app": "miworkbench",
+      "app_code": "unknown_body_field",
+      "line1_code": "miworkbench.unknown_body_field"
+    },
+    {
+      "id": "wb-key-not-for-host",
+      "app": "miworkbench",
+      "app_code": "key_not_for_this_host",
+      "line1_code": "miworkbench.key_not_for_this_host"
+    },
+    {
+      "id": "wb-model-files",
+      "app": "miworkbench",
+      "app_code": "model_files_not_on_disk",
+      "line1_code": "miworkbench.model_files_not_on_disk"
+    },
+    {
+      "id": "wb-invalid-body",
+      "app": "miworkbench",
+      "app_code": "invalid_body",
+      "line1_code": "miworkbench.invalid_body"
+    }
+  ]
+}

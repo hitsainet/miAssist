@@ -1,0 +1,5 @@
+{"type":"system","subtype":"init","session_id":"sess-1","model":"model-x","claude_code_version":"0.0.0-hand-written","mcp_servers":[{"name":"under_test","status":"connected"}],"tools":["mcp__under_test__list_sets"]}
+{"type":"assistant","message":{"content":[{"type":"tool_use","name":"ToolSearch","input":{"query":"sets"}}]}}
+{"type":"assistant","message":{"content":[{"type":"tool_use","name":"mcp__under_test__list_sets","input":{}}]}}
+{"type":"assistant","message":{"content":[{"type":"text","text":"Here is what I found."}]}}
+{"type":"result","subtype":"success","is_error":false,"num_turns":3,"session_id":"sess-1","total_cost_usd":0.01,"usage":{"input_tokens":120,"output_tokens":40,"cache_read_input_tokens":0},"result":"Here is what I found."}

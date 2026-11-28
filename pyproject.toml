@@ -1,0 +1,108 @@
+[build-system]
+requires = ["setuptools==84.2.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "miassist"
+version = "0.1.0"
+description = "miAssist: one MCP server that guides a person through the miStudio suite, whatever apps are installed."
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+license = "MIT"
+# EVERY DEPENDENCY IS PINNED EXACTLY (PADR ADR-002), at the latest release on the day of pinning
+# (2026-11-16), except `mcp==2.3.0`: the version the four app MCP servers pin, so the suite speaks
+# one SDK's protocol behaviours. `tests/unit/test_dependencies_are_locked.py` refuses a range.
+dependencies = [
+  "mcp==2.3.0",
+  "fastapi==0.163.1",
+  "starlette==1.10.0",
+  "uvicorn[standard]==0.54.0",
+  "pydantic==2.14.3",
+  "pydantic-settings==2.16.3",
+  "httpx==0.28.1",
+  "sqlalchemy[asyncio]==2.1.8",
+  "asyncpg==0.32.0",
+  "alembic==1.20.1",
+  "jinja2==3.1.6",
+  "pyyaml==6.0.3",
+  "jsonschema==4.26.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest==9.2.0",
+  "pytest-xdist==3.8.0",
+  "pytest-asyncio==1.5.0",
+  "black==26.10.1",
+  "ruff==0.17.5",
+  "mypy==2.4.1",
+  "types-jsonschema==4.26.0.20261006",
+  "types-pyyaml==6.0.12.20261113",
+  # the build-system pin, so tests/unit/test_installed_package.py builds the wheel offline
+  "setuptools==84.2.1",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+miassist = [
+  "guidance/**/*",
+  "web/templates/*",
+  "playbooks/definitions/*.json",
+  "vendored/*.json",
+  "contracts/*.yaml",  # read by scripts/write_contracts.py; shipped with the models (OR3-001-9)
+  "py.typed",
+]
+
+# --------------------------------------------------------------------------------------
+# pytest (Foundation task 1.1)
+# --------------------------------------------------------------------------------------
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+# TWO MARKERS, BOTH DESELECTED BY DEFAULT (ADR-011):
+#   cross_repo - reads a sibling checkout; run with `pytest -m cross_repo` and the sibling paths.
+#   live       - needs a running app; never run by CI.
+# `tests/unit/test_markers_deselected.py` pins that the default run collects neither.
+markers = [
+  "cross_repo: reads a sibling repository checkout; deselected by default",
+  "live: needs a running application; deselected by default",
+]
+# `-rfEs` adds every skip's reason to the default failure summary, so a mirror run's SOURCE-ONLY skips are read in its log (001-M).
+addopts = "-m 'not cross_repo and not live' --strict-markers --strict-config -rfEs"
+
+# --------------------------------------------------------------------------------------
+# Black / Ruff / MyPy (ADR-013)
+# --------------------------------------------------------------------------------------
+[tool.black]
+line-length = 100
+target-version = ["py313"]
+extend-exclude = "\\.github/scripts/private_ci_gate\\.py"
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+src = ["src", "tests"]
+# The private CI gate is a byte-faithful copy of miForge's (docs/REUSE.md); linting it here would
+# fork it. miForge's own CI lints the original.
+extend-exclude = [".github/scripts/private_ci_gate.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "N", "C4", "SIM", "RUF"]
+# E501: Black holds code to 100 columns; long prose lines in docstrings and comments are
+# tolerated (OVN-miassist-core-7). N818: the FTID names its exceptions (UnknownGate).
+ignore = ["SIM300", "RUF001", "RUF002", "RUF003", "E501", "N818"]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+mypy_path = "src"
+packages = ["miassist"]
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = ["asyncpg.*"]
+ignore_missing_imports = true

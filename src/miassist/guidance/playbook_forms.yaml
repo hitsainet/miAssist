@@ -1,0 +1,40 @@
+# The three generated forms of a playbook (001 FR-5, BR-G-9): its guide entry, its MCP prompt and its
+# skill (SKILL.md). Core's generator fills these from the definition and its words
+# (guidance/playbooks/<id>.yaml); nothing else writes them, so the three cannot drift.
+version: 1
+guide_entry: |-
+  ## {title}
+  `{id}`, version {version}. {goal}
+
+  {steps}
+
+  To see where you are, call miassist_status with playbook "{id}".
+step_line: "{n}. {title}: call {tool}{args}. {explain}"
+step_skipped: "{n}. {title}: not in this installation."
+prompt: |-
+  Guide me through the miAssist playbook "{title}" ({id}). The goal: {goal}
+
+  Take the steps in order, one at a time, and explain each result to me in plain words:
+
+  {steps}
+
+  After each step, call miassist_status with playbook "{id}" to see where I am. If a result carries an approval, tell me where it is decided and wait: only the app's operator decides it.
+skill: |-
+  ---
+  name: {id}
+  description: {goal}
+  ---
+
+  # {title}
+
+  {goal}
+
+  ## Steps
+
+  {steps}
+
+  ## Where you are
+
+  Call miassist_status with playbook "{id}" after each step. A result that carries an approval is decided by the app's operator, in the app: wait for it and never decide it yourself.
+expected_finished: "Every step of this playbook is done."
+expected_next: "Next: {step}. {description}"

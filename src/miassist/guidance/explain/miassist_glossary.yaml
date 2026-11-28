@@ -1,0 +1,12 @@
+version: 1
+outcomes:
+  index:
+    what_happened: You asked for the glossary, and miAssist listed every term it explains.
+    why_it_matters: Each term links to a plain explanation you can open at any time.
+    what_good_looks_like: The term you were unsure about is in the list.
+    next_step: Ask for one term to read its explanation.
+  entry:
+    what_happened: You asked what {term} means, and miAssist explained it.
+    why_it_matters: Results use this word; knowing it makes them easier to read.
+    what_good_looks_like: An explanation you could repeat in your own words.
+    next_step: Go back to what you were doing; the term links from every result that uses it.

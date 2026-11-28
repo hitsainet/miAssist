@@ -1,0 +1,84 @@
+# Origin: miForge (Onegaishimas/miForge) gitops/pilot/postgres.yaml @ e4251e4 (adapted; docs/REUSE.md)
+# miAssist's Postgres 15 (PADR ADR-004; Foundation task 5.3). It holds only per-key guidance level
+# and playbook progress (BR-G-16); losing it loses only remembered settings (M7).
+#
+# - `strategy: Recreate` and `Prune=false,Delete=false`: a sync must never delete or double-mount
+#   the data-bearing pod.
+# - Pinned to the node that holds the local volume (storage.yaml, applied by hand).
+# - PGDATA in a subdirectory of the mount (postgres refuses a mount root holding lost+found).
+#
+# ONE-TIME PREREQUISITE, before the first sync: the Secret, generated IN PLACE (hex, so it is safe
+# inside a URL; never committed, never typed into a file):
+#
+#     kubectl -n miassist create secret generic miassist-secrets --from-literal=POSTGRES_PASSWORD="$(openssl rand -hex 24)"
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: miassist-postgres
+  namespace: miassist
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: miassist-postgres
+  template:
+    metadata:
+      labels:
+        app: miassist-postgres
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: mcs-lnxhost02
+      automountServiceAccountToken: false
+      containers:
+        - name: postgres
+          image: postgres:15
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: miassist
+            - name: POSTGRES_DB
+              value: miassist
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: miassist-secrets
+                  key: POSTGRES_PASSWORD
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+            - name: NVIDIA_VISIBLE_DEVICES
+              value: void
+          volumeMounts:
+            - name: pgdata
+              mountPath: /var/lib/postgresql/data
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-U", "miassist", "-d", "miassist"]
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+      volumes:
+        - name: pgdata
+          persistentVolumeClaim:
+            claimName: miassist-pgdata
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: miassist
+spec:
+  selector:
+    app: miassist-postgres
+  ports:
+    - port: 5432
+      targetPort: 5432

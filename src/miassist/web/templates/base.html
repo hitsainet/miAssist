@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>{{ title }}</title>
+<style>
+:root { color-scheme: light dark; --fg: #1d1d1f; --bg: #ffffff; --muted: #555; }
+@media (prefers-color-scheme: dark) { :root { --fg: #f2f2f2; --bg: #161616; --muted: #aaa; } }
+body { font: 16px/1.5 system-ui, sans-serif; color: var(--fg); background: var(--bg); max-width: 40rem; margin: 2rem auto; padding: 0 1rem; }
+code { word-break: break-all; }
+p.muted { color: var(--muted); }
+</style>
+</head>
+<body>
+<h1>{{ title }}</h1>
+{% block body %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,180 @@
+{
+ "$id": "miassist.eval-fixtures/v1",
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "additionalProperties": false,
+ "properties": {
+  "fixtures": {
+   "items": {
+    "additionalProperties": false,
+    "allOf": [
+     {
+      "if": {
+       "properties": {
+        "origin": {
+         "const": "synthetic"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "name": {
+         "pattern": "^evalfx-",
+         "type": "string"
+        }
+       },
+       "required": [
+        "made_from",
+        "name"
+       ]
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "origin": {
+         "const": "public"
+        }
+       }
+      },
+      "then": {
+       "required": [
+        "repo_id",
+        "revision",
+        "licence"
+       ]
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "kind": {
+         "not": {
+          "const": "model"
+         }
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "name": {
+         "pattern": "^evalfx-",
+         "type": "string"
+        }
+       },
+       "required": [
+        "name"
+       ]
+      }
+     }
+    ],
+    "properties": {
+     "app": {
+      "enum": [
+       "miworkbench",
+       "miserver",
+       "midataworks",
+       "miforge"
+      ]
+     },
+     "app_id": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "created_utc": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "key": {
+      "pattern": "^evalfx-[a-z0-9-]+$",
+      "type": "string"
+     },
+     "kind": {
+      "enum": [
+       "dataset",
+       "source",
+       "view",
+       "model",
+       "behaviour"
+      ]
+     },
+     "licence": {
+      "minLength": 1,
+      "type": "string"
+     },
+     "made_from": {
+      "minLength": 1,
+      "type": "string"
+     },
+     "name": {
+      "oneOf": [
+       {
+        "type": "null"
+       },
+       {
+        "pattern": "^evalfx-",
+        "type": "string"
+       }
+      ]
+     },
+     "origin": {
+      "enum": [
+       "synthetic",
+       "public"
+      ]
+     },
+     "repo_id": {
+      "minLength": 1,
+      "type": "string"
+     },
+     "revision": {
+      "minLength": 1,
+      "type": "string"
+     }
+    },
+    "required": [
+     "key",
+     "app",
+     "kind",
+     "app_id",
+     "origin",
+     "created_utc"
+    ],
+    "type": "object"
+   },
+   "minItems": 1,
+   "type": "array"
+  },
+  "ids": {
+   "items": {
+    "minLength": 1,
+    "type": "string"
+   },
+   "type": "array"
+  },
+  "prefix": {
+   "const": "evalfx-"
+  },
+  "public_repositories": {
+   "items": {
+    "minLength": 1,
+    "type": "string"
+   },
+   "type": "array"
+  },
+  "schema": {
+   "const": "miassist.eval-fixtures/v1"
+  }
+ },
+ "required": [
+  "schema",
+  "prefix",
+  "ids",
+  "public_repositories",
+  "fixtures"
+ ],
+ "type": "object"
+}

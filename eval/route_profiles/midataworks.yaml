@@ -1,0 +1,454 @@
+# Route profile for midataworks (FTDD §4.3), written by eval/scripts/write_route_profiles.py from
+# the reference OpenAPI; edit the script, not this file. No GPU route is listed here (R2M-14):
+# the guarded list is derived from the vendored payload vectors at suite start.
+schema: miassist.eval-route-profile/v1
+app: midataworks
+agent_header:
+  name: X-Dataworks-Agent
+  value: agent:miassist
+default_match:
+- query
+- body
+routes:
+- method: GET
+  route: /api/health
+  list:
+    items: legacy_names.also_set
+- method: GET
+  route: /api/v1/agent-access
+  list:
+    items: '*'
+- method: GET
+  route: /api/v1/approvals
+  list:
+    items: approvals
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/approvals/actions
+  list:
+    items: '*'
+- method: GET
+  route: /api/v1/approvals/{approval_id}
+  poll_of: approval
+  state_field: status
+  open_states:
+  - pending
+  closed_states:
+  - rejected
+  - expired
+  run_states:
+  - executing
+  done_states:
+  - executed
+  - failed
+- method: GET
+  route: /api/v1/calibration-records
+  list:
+    items: items
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/calibration-records/{record_id}
+  list:
+    items: checks
+- method: GET
+  route: /api/v1/calibration-sets
+  list:
+    items: items
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/calibration-status
+  list:
+    items: '*'
+- method: GET
+  route: /api/v1/calibration-targets
+  list:
+    items: history
+    id: id
+- method: GET
+  route: /api/v1/code-rules
+  list:
+    items: '*'
+- method: GET
+  route: /api/v1/code-rules/approvals
+  list:
+    items: '*'
+- method: GET
+  route: /api/v1/config-versions
+  list:
+    items: items
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/curation/benchmarks
+  list:
+    items: '*'
+- method: GET
+  route: /api/v1/datasets
+  list:
+    items: items
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/datasets/meta
+  list:
+    items: '*'
+- method: GET
+  route: /api/v1/datasets/{dataset_id}
+  list:
+    items: version_list
+    id: id
+- method: GET
+  route: /api/v1/decision-templates
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/detector-sends
+  list:
+    items: '*'
+- method: GET
+  route: /api/v1/detector-sets
+  list:
+    items: '*'
+- method: GET
+  route: /api/v1/endpoint-roles
+  list:
+    items: '*'
+    id: role
+- method: GET
+  route: /api/v1/endpoint-roles/{role}
+  list:
+    items: stored_keys
+- method: GET
+  route: /api/v1/exports
+  list:
+    items: items
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/exports/{export_id}
+  list:
+    items: files
+- method: GET
+  route: /api/v1/generation-runs
+  list:
+    items: items
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/generation-runs/{run_id}
+  list:
+    items: behaviours
+- method: GET
+  route: /api/v1/generation-runs/{run_id}/pairs
+  list:
+    items: items
+    counts:
+    - total
+- method: GET
+  route: /api/v1/generation-runs/{run_id}/records
+  list:
+    items: items
+    counts:
+    - total
+- method: GET
+  route: /api/v1/generation-templates
+  list:
+    items: items
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/jobs
+  list:
+    items: jobs
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/jobs/{job_id}
+  poll_of: job
+  state_field: status
+  open_states:
+  - queued
+  - running
+  - cancelling
+  closed_states:
+  - cancelled
+  - completed
+  - failed
+- method: GET
+  route: /api/v1/label-runs
+  list:
+    items: items
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/label-runs/plan
+  list:
+    items: '*'
+- method: GET
+  route: /api/v1/label-runs/{run_id}/agreement
+  list:
+    items: columns
+- method: GET
+  route: /api/v1/label-runs/{run_id}/labels
+  list:
+    items: items
+    counts:
+    - total
+- method: GET
+  route: /api/v1/labeling/probes
+  list:
+    items: items
+    counts:
+    - total
+- method: GET
+  route: /api/v1/licence-table
+  list:
+    items: '*'
+- method: GET
+  route: /api/v1/minimal-pair-chains
+  list:
+    items: items
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/minimal-pair-chains/{chain_id}
+  list:
+    items: stages
+- method: GET
+  route: /api/v1/model-terms/{model_id}
+  list:
+    items: notes
+    id: id
+- method: GET
+  route: /api/v1/operators
+  list:
+    items: '*'
+- method: GET
+  route: /api/v1/operators/allowlist
+  list:
+    items: '*'
+- method: GET
+  route: /api/v1/operators/schema-subset
+  list:
+    items: '*'
+- method: GET
+  route: /api/v1/publish-builds/{build_id}
+  list:
+    items: columns
+- method: GET
+  route: /api/v1/publish-check-runs/{check_run_id}
+  list:
+    items: results
+  poll_of: job
+  state_field: status
+  open_states:
+  - queued
+  closed_states:
+  - completed
+  - failed
+  - cancelled
+- method: GET
+  route: /api/v1/publishes
+  list:
+    items: items
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/publishes/{publish_id}
+  list:
+    items: check_snapshot
+- method: GET
+  route: /api/v1/recipe-drafts
+  list:
+    items: items
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/recipe-drafts/{draft_id}
+  list:
+    items: inputs
+- method: GET
+  route: /api/v1/recipes
+  list:
+    items: items
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/recipes/{recipe_id}
+  list:
+    items: revisions
+    id: id
+- method: GET
+  route: /api/v1/reproduction-links
+  list:
+    items: '*'
+- method: GET
+  route: /api/v1/review-items/{item_id}/decisions
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/review-queues
+  list:
+    items: items
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/review-queues/{queue_id}/decisions
+  list:
+    items: items
+- method: GET
+  route: /api/v1/review-queues/{queue_id}/items
+  list:
+    items: items
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/reward-marks
+  list:
+    items: '*'
+- method: GET
+  route: /api/v1/rubrics
+  list:
+    items: '*'
+    id: id
+- method: GET
+  route: /api/v1/rubrics/{rubric_id}/export
+  list:
+    items: body.messages
+- method: GET
+  route: /api/v1/rule-sets
+  list:
+    items: '*'
+- method: GET
+  route: /api/v1/rule-sets/difference
+  list:
+    items: '*'
+- method: GET
+  route: /api/v1/runner/contract
+  list:
+    items: '*'
+- method: GET
+  route: /api/v1/settings
+  list:
+    items: '*'
+    id: key
+- method: GET
+  route: /api/v1/settings/environment
+  list:
+    items: history
+- method: GET
+  route: /api/v1/settings/pin
+  list:
+    items: '*'
+- method: GET
+  route: /api/v1/settings/shortcut-level
+  list:
+    items: '*'
+- method: GET
+  route: /api/v1/sources
+  list:
+    items: items
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/sources/meta
+  list:
+    items: '*'
+- method: GET
+  route: /api/v1/sources/{source_id}
+  list:
+    items: files
+- method: GET
+  route: /api/v1/sources/{source_id}/rows
+  list:
+    items: rows
+    counts:
+    - total
+- method: GET
+  route: /api/v1/validators
+  list:
+    items: '*'
+- method: GET
+  route: /api/v1/versions
+  list:
+    items: items
+    id: id
+    counts:
+    - total
+- method: GET
+  route: /api/v1/versions/{version_id}
+  list:
+    items: bindings
+- method: GET
+  route: /api/v1/versions/{version_id}/diversity
+  list:
+    items: checks
+- method: GET
+  route: /api/v1/versions/{version_id}/rows
+  list:
+    items: items
+    counts:
+    - total
+- method: GET
+  route: /api/v1/versions/{version_id}/wsp-partitions
+  list:
+    items: partitions
+- method: POST
+  route: /api/v1/code-rules
+  creates: true
+- method: POST
+  route: /api/v1/config-versions
+  creates: true
+- method: POST
+  route: /api/v1/datasets
+  creates: true
+- method: POST
+  route: /api/v1/decision-templates
+  creates: true
+- method: POST
+  route: /api/v1/detector-sets
+  creates: true
+- method: POST
+  route: /api/v1/generation-templates
+  creates: true
+- method: POST
+  route: /api/v1/recipe-drafts
+  creates: true
+- method: POST
+  route: /api/v1/recipes
+  creates: true
+- method: POST
+  route: /api/v1/rubrics
+  creates: true
+- method: POST
+  route: /api/v1/sources/hf/search
+  list:
+    items: items
+    id: repo_id
+    counts:
+    - total
+    keep_if:
+      private: false
+      gated: false

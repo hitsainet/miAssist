@@ -1,0 +1,29 @@
+# miAssist's GitOps base, deployed by the `miassist` Argo CD Application
+# (`gitops/pilot/argocd/miassist-app.yaml`) from the `gitops/pilot` BRANCH; its `path` is the
+# DIRECTORY gitops/pilot on that branch (miForge's layout).
+#
+# UNLISTED MEANS NEVER APPLIED (miForge's lesson, gitops/pilot/kustomization.yaml): a manifest file
+# not named here is not deployed, however correct it is. `tests/unit/test_manifests.py` requires
+# every manifest file here to be listed except the two applied BY HAND:
+#
+# - `storage.yaml`: the PGDATA volume. Argo CD selfHeal reconciling a data-bearing volume is how a
+#   database gets deleted by a sync.
+# - `argocd/miassist-app.yaml`: the Application itself.
+#
+# Image tags below are defaults. Argo CD Image Updater pins digests through
+# `.argocd-source-miassist.yaml`, which it commits to gitops/pilot; never hand-edit it, never
+# create it on main (`sync-main-to-gitops-pilot.yml` excludes it from its converge step).
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - namespace.yaml
+  - config.yaml
+  - postgres.yaml
+  - server.yaml
+  - ingress.yaml
+  - db-backup.yaml
+
+images:
+  - name: hitsai/miassist-server
+    newTag: latest

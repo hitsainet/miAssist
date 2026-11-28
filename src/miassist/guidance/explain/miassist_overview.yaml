@@ -1,0 +1,32 @@
+version: 1
+outcomes:
+  ok:
+    what_happened: miAssist read what is in {app_name} and counted it.
+    why_it_matters: It shows what you have to work with before you change anything.
+    what_good_looks_like: Counts and the newest names in each list.
+    next_step: Choose a playbook for {app_name}, or look at one item in the app.
+  empty:
+    what_happened: miAssist looked in {app_name} and found nothing there yet.
+    why_it_matters: An empty app is a fresh start; nothing is wrong.
+    what_good_looks_like: The lists fill as you work.
+    next_step: Start the playbook for {app_name}.
+  unavailable:
+    what_happened: miAssist could not reach {app_name}, so it read nothing.
+    why_it_matters: An app that does not answer cannot show what it holds.
+    what_good_looks_like: The app answering on a later try.
+    next_step: Check miassist_status later; do not retry in a loop.
+  partial:
+    what_happened: miAssist read some of {app_name}'s lists; {app_name} refused the others, or answered them in a shape miAssist could not read.
+    why_it_matters: The counts cover only the lists that were read; a refused or unreadable list is unknown, not empty.
+    what_good_looks_like: Every list read and counted on a later try.
+    next_step: Choose a playbook for {app_name}, knowing some lists could not be read.
+  refused:
+    what_happened: "{app_name} answered, but refused every list miAssist asked for (or answered some in a shape miAssist could not read), so miAssist could not see what it holds."
+    why_it_matters: This is not an empty app. A refusal usually means a version difference or a problem in {app_name}, and what it holds is unknown.
+    what_good_looks_like: Each list read and counted on a later try.
+    next_step: Check {app_name} itself, or ask its operator; each refusal's code is in the result's data.
+  unreadable:
+    what_happened: "{app_name} answered every list miAssist asked for, but in a shape miAssist could not read, so miAssist does not know what it holds."
+    why_it_matters: This is not an empty app. An answer miAssist cannot read usually means {app_name} is a different version from the one miAssist was built for.
+    what_good_looks_like: Each list read and counted once miAssist and {app_name} match.
+    next_step: Check which version of {app_name} is running, or ask its operator; each unreadable list is marked overview_unreadable in the result's data.

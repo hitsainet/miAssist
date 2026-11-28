@@ -1,0 +1,17 @@
+version: 1
+outcomes:
+  ok:
+    what_happened: You asked where to start, and miAssist listed what this installation can do.
+    why_it_matters: Knowing what is installed saves you asking for things that are not here.
+    what_good_looks_like: A list of apps that are reachable, and at least one playbook on offer.
+    next_step: Pick a playbook from the list, or call miassist_status to see your own progress.
+  playbook:
+    what_happened: You asked about one playbook, and miAssist showed its goal and its steps.
+    why_it_matters: A playbook takes you through a task one step at a time, so you always know what comes next.
+    what_good_looks_like: A goal you want and a first step you can take now.
+    next_step: Take the first step, then ask miassist_status where you are.
+  not_offered:
+    what_happened: You asked for a playbook this installation does not offer.
+    why_it_matters: Each playbook works with particular apps; here is what you can do with the apps you have.
+    what_good_looks_like: A playbook from the list that fits what you want to do.
+    next_step: Pick one of the playbooks on offer.

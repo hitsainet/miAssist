@@ -1,0 +1,12 @@
+.git
+.venv
+**/__pycache__
+**/*.pyc
+0xcc
+tests
+manual
+gitops
+docs
+!docs/schemas
+.github
+eval

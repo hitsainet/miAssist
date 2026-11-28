@@ -1,0 +1,45 @@
+# Feature 002 (Evaluation), FTASKS 9.1: tier 1a on every push and pull request (FR-002.16).
+# NO `paths:` FILTER (Foundation 3.1): a filtered trigger makes "no run" read as "passed".
+# Named in sync-to-clean.yml's REQUIRED_WORKFLOWS (Foundation 3.4).
+# The repository guard keeps it off the mirror, where the cassette root is always stripped (R3M-9).
+# MIASSIST_REQUIRE_CASSETTES=1 is added only in push 002-P2, with the first approved take (R3M-9);
+# eval/tests/wiring/test_ci_workflows.py pins that rule against INDEX.json.
+# No model, no key, no paid client: tier 1b and tier 2 never run in CI (M13, FR-002.16a).
+name: eval-tier1a
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  tier1a:
+    if: github.repository == 'Onegaishimas/miAssist'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install the evaluation package (exact pins)
+        working-directory: eval
+        run: python -m pip install -e ".[dev]"
+
+      - name: Tier 1a (the harness's own tests; cassette tests skip loudly until 002-P2)
+        working-directory: eval
+        run: python -m pytest -n 4 --dist loadfile -m "not paid" -rs
+
+      - name: Upload the run artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-runs
+          path: eval/runs/
+          if-no-files-found: ignore

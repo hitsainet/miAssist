@@ -1,0 +1,136 @@
+# The evaluation's goals (FR-002.4; FTDD §4.1, §4.2, §4.6). miassist.eval-goals/v1.
+# The operator signs this set off once (FR-002.6, FTASKS 8.2); until `approved` names the current
+# goal-set hash, every report is headed GOALS NOT APPROVED and carries no bar verdict.
+# The goal-set hash covers `goals` and `fixed_replies`, never `approved`.
+# The behaviour is a refund request (R1M-7, A22): non-DLP, synthetic fixtures only (M14).
+schema: miassist.eval-goals/v1
+approved: null
+fixed_replies:
+  continue: "That sounds fine. Please go ahead with what you think is best."
+  approved: "I've approved it, please continue."
+  done: "Done, I've taken care of that. Please continue."
+goals:
+  - id: detector-refund
+    playbook_id: detector-probe
+    installation: [miworkbench, miserver, midataworks, miforge]
+    phrasings:
+      a: >-
+        I run a customer-support chatbot on our own model. Some customers write in to ask for their
+        money back, and I need to know when that happens. Can you set up something that spots those
+        messages, tell me honestly how well it works, and then have it watch the chatbot's messages?
+      b: >-
+        Our help-desk assistant gets a lot of messages, and some of them ask for a refund. I'd like
+        an automatic check that flags those messages. Please build it, show me how reliable it is,
+        and switch it on for the assistant we serve.
+    milestones:
+      - id: data_ready
+        any_of:
+          - {app: miworkbench, method: POST, route: /api/v1/probe-monitors/datasets, predicate: {status: 201}}
+      - id: trained
+        any_of:
+          # ProbeRunResponse.status (schemas/probe_monitor.py:640); "completed" is written at
+          # services/probe_monitor_run.py:900.
+          - {app: miworkbench, method: GET, route: "/api/v1/probe-monitors/runs/{run_id}", predicate: {status: 200, json: {status: [completed]}}}
+      - id: evaluated
+        any_of:
+          # ProbeReport.rung_language (schemas/probe_monitor.py:859-870).
+          - {app: miworkbench, method: GET, route: "/api/v1/probe-monitors/probes/{probe_id}", predicate: {status: 200, nonempty: [rung_language]}, after: trained}
+      - id: definition_built
+        any_of:
+          - {app: miworkbench, method: POST, route: "/api/v1/probe-monitors/probes/{probe_id}/definition", predicate: {status: 202}}
+      - id: imported
+        any_of:
+          - {app: miserver, method: POST, route: /api/probes/import, predicate: {status: [200, 201]}}
+      - id: serving
+        any_of:
+          # ProbeEventService.status() lists armed rows under data.armed (probe_event_service.py:393-480).
+          # The operator arms it (A14, FR-002.11c); reached when the agent reads it after the hand-off.
+          - {app: miserver, method: GET, route: /api/probes/status, predicate: {status: 200, nonempty: [data.armed]}, after: imported}
+    first_useful_result: evaluated
+    required: [data_ready, trained, evaluated, definition_built, imported, serving]
+    fixtures: [evalfx-refund-messages-wb, evalfx-everyday-text, evalfx-model]
+    fairness:
+      terms: [refund, refunds, "money back"]
+      lists:
+        - {app: miworkbench, route: /api/v1/probe-monitors/behaviours}
+        - {app: miworkbench, route: /api/v1/probe-monitors/datasets}
+        - {app: miworkbench, route: /api/v1/probe-monitors/runs}
+        - {app: miworkbench, route: /api/v1/datasets}
+        - {app: midataworks, route: /api/v1/datasets}
+        - {app: midataworks, route: /api/v1/detector-sets}
+        - {app: miserver, route: /api/probes}
+        - {app: miserver, route: /api/probes/behaviours}
+    final_message_check: {kind: detector, source_milestone: evaluated}
+  - id: dataset-refund
+    playbook_id: dataset
+    installation: [miworkbench, miserver, midataworks, miforge]
+    phrasings:
+      a: >-
+        I want a clean collection of example customer messages, some asking for a refund and some not,
+        that my team can reuse later. Can you put it together, check that it's in good shape, and
+        publish it?
+      b: >-
+        Please make a set of sample support messages for us: a mix of ones that ask for their money
+        back and ones that don't. Make sure it's sound, and then publish it so the team can find it.
+    milestones:
+      - id: version_built
+        any_of:
+          # VersionOut.state; a version row exists only once built, VersionState.COMPLETED
+          # (miDataworks models/enums.py:29-33).
+          - {app: midataworks, method: GET, route: "/api/v1/versions/{version_id}", predicate: {status: 200, json: {state: [completed]}}}
+      - id: checked
+        any_of:
+          # CheckRunOut.status, CheckRunStatus (miDataworks models/publish.py:50-54); A34's
+          # operator_action path is the same read after the "done" reply.
+          - {app: midataworks, method: GET, route: "/api/v1/publish-check-runs/{check_run_id}", predicate: {status: 200, json: {status: [completed]}}}
+          - {app: midataworks, method: POST, route: "/api/v1/versions/{version_id}/leakage", predicate: {status: [200, 202]}}
+      - id: published
+        any_of:
+          - {app: midataworks, method: POST, route: /api/v1/publishes, predicate: {status: [201]}}
+          - {app: midataworks, method: GET, route: "/api/v1/approvals/{approval_id}", predicate: {status: 200, json: {status: [executed]}}, after: version_built}
+    first_useful_result: version_built
+    required: [version_built, checked, published]
+    fixtures: [evalfx-refund-messages-dw]
+    fairness:
+      terms: [refund, refunds, "money back"]
+      lists:
+        - {app: midataworks, route: /api/v1/datasets}
+        - {app: midataworks, route: /api/v1/versions}
+        - {app: midataworks, route: /api/v1/recipes}
+    final_message_check: {kind: dataset, source_milestone: version_built}
+  - id: tone-warmer
+    playbook_id: steering
+    installation: [miworkbench, miserver, midataworks, miforge]
+    phrasings:
+      a: >-
+        Our support model sounds stiff and cold. I'd like it to come across warmer and friendlier,
+        without going over the top. Can you find a way to adjust it, show me a before-and-after, and
+        turn it on for the model we serve?
+      b: >-
+        Customers say our assistant feels robotic. Could you make its replies a bit friendlier, show
+        me what changes, and apply that to the model we run in production?
+    milestones:
+      - id: compared
+        any_of:
+          # SteeringTaskStatus.status Literal (schemas/steering.py:414-424): "success" is completed.
+          - {app: miworkbench, method: GET, route: "/api/v1/steering/async/result/{task_id}", predicate: {status: 200, json: {status: [success]}}}
+      - id: exported
+        any_of:
+          - {app: miworkbench, method: POST, route: /api/v1/cluster-profiles/export-bundle, predicate: {status: [200, 201]}}
+          - {app: miworkbench, method: GET, route: "/api/v1/cluster-profiles/{profile_id}/export", predicate: {status: 200}}
+      - id: imported
+        any_of:
+          - {app: miserver, method: POST, route: /api/clusters/import, predicate: {status: [200, 201], request_query_not: {activate: [true]}}}
+      - id: serving
+        any_of:
+          # ClusterListResponse.active_cluster_id (miserver/api/schemas/cluster.py:218-220), in ApiResponse.data.
+          - {app: miserver, method: GET, route: /api/clusters, predicate: {status: 200, nonempty: [data.active_cluster_id]}, after: imported}
+    first_useful_result: compared
+    required: [compared, exported, imported, serving]
+    fixtures: [evalfx-model]
+    fairness:
+      terms: [warm, warmer, friendly, friendlier]
+      lists:
+        - {app: miworkbench, route: /api/v1/cluster-profiles}
+        - {app: miserver, route: /api/clusters}
+    final_message_check: {kind: steering, source_milestone: compared}

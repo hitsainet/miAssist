@@ -1,0 +1,125 @@
+{
+ "$id": "miassist.eval-take/v1",
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "additionalProperties": false,
+ "properties": {
+  "allowed_ids": {
+   "items": {
+    "type": "string"
+   },
+   "type": "array"
+  },
+  "apps": {
+   "additionalProperties": {
+    "additionalProperties": false,
+    "properties": {
+     "base_path": {
+      "type": "string"
+     },
+     "openapi_sha256": {
+      "minLength": 1,
+      "type": "string"
+     },
+     "version": {
+      "minLength": 1,
+      "type": "string"
+     }
+    },
+    "required": [
+     "base_path",
+     "openapi_sha256",
+     "version"
+    ],
+    "type": "object"
+   },
+   "type": "object"
+  },
+  "cassette_id": {
+   "minLength": 1,
+   "type": "string"
+  },
+  "ended_utc": {
+   "minLength": 1,
+   "type": "string"
+  },
+  "fairness": {
+   "additionalProperties": false,
+   "properties": {
+    "checked_utc": {
+     "minLength": 1,
+     "type": "string"
+    },
+    "lists_read": {
+     "type": "array"
+    },
+    "matches": {
+     "maxItems": 0,
+     "type": "array"
+    },
+    "passed": {
+     "const": true
+    }
+   },
+   "required": [
+    "checked_utc",
+    "lists_read",
+    "matches",
+    "passed"
+   ],
+   "type": "object"
+  },
+  "files": {
+   "additionalProperties": {
+    "pattern": "^[0-9a-f]{64}$",
+    "type": "string"
+   },
+   "minProperties": 1,
+   "type": "object"
+  },
+  "goal_id": {
+   "minLength": 1,
+   "type": "string"
+  },
+  "recorder_version": {
+   "minLength": 1,
+   "type": "string"
+  },
+  "recording_run_id": {
+   "minLength": 1,
+   "type": "string"
+  },
+  "schema": {
+   "const": "miassist.eval-take/v1"
+  },
+  "started_utc": {
+   "minLength": 1,
+   "type": "string"
+  },
+  "surface": {
+   "enum": [
+    "miassist",
+    "baseline"
+   ]
+  },
+  "take": {
+   "minLength": 1,
+   "type": "string"
+  }
+ },
+ "required": [
+  "schema",
+  "cassette_id",
+  "goal_id",
+  "surface",
+  "take",
+  "recording_run_id",
+  "recorder_version",
+  "started_utc",
+  "ended_utc",
+  "apps",
+  "fairness",
+  "allowed_ids",
+  "files"
+ ],
+ "type": "object"
+}
